@@ -13,6 +13,8 @@ class ChatsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationItem.hidesBackButton = true
     }
 
 

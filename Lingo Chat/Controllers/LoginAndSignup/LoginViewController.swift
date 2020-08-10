@@ -28,6 +28,11 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+//        checks if user already logged in
+        if UserDefaults.standard.bool(forKey: "isSignedIn") {
+            loginButtonTapped(self)
+        }
     }
     
     private func setupViews() {
@@ -35,9 +40,29 @@ class LoginViewController: UIViewController {
         setupFieldIcons()
         setupButtonsShadow()
     }
-    
-    
+
 }
+
+//implements button handlers
+extension LoginViewController {
+    @IBAction func loginButtonTapped(_ sender: Any) {
+        self.performSegue(withIdentifier: "gotoLoggedInScreen", sender: self)
+    }
+    
+    @IBAction func forgotPasswordTapped(_ sender: Any) {
+    }
+    
+    @IBAction func facebookLoginTapped(_ sender: Any) {
+    }
+    
+    @IBAction func gmailLoginTapped(_ sender: Any) {
+    }
+    
+    @IBAction func signupButtonTapped(_ sender: Any) {
+        self.performSegue(withIdentifier: "gotoSignupScreen", sender: self)
+    }
+}
+
 
 //implements UI methods
 extension LoginViewController {
