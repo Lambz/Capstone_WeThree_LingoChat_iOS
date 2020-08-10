@@ -10,6 +10,7 @@ import UIKit
 
 class SignupViewController: UIViewController {
 
+    @IBOutlet weak var confirmPasswordField: UITextField!
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var emailField: UITextField!
@@ -43,6 +44,7 @@ extension SignupViewController {
         setFieldLines(field: lastNameField)
         setFieldLines(field: emailField)
         setFieldLines(field: passwordField)
+        setFieldLines(field: confirmPasswordField)
     }
     
     private func setFieldLines(field: UITextField) {

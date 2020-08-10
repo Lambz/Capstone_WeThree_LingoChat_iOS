@@ -45,13 +45,15 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="2d2-n2-iSP"/>
                                                         </constraints>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="sHe-DZ-Vgq">
                                                         <rect key="frame" x="8" y="79" width="354" height="50"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                                     </textField>
                                                 </subviews>
                                                 <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
@@ -175,7 +177,7 @@
                                 <edgeInsets key="layoutMargins" top="15" left="0.0" bottom="15" right="0.0"/>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="UET-zs-b6Z" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Hyh-xC-4Yh"/>
                             <constraint firstItem="UET-zs-b6Z" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="WlG-GH-zn3"/>
@@ -475,8 +477,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="334-Rt-I6F"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="userNotLoggedIn" id="QmR-qY-89x"/>
-                        <segue destination="5zr-Of-1xq" kind="show" identifier="userLoggedIn" id="ztz-6J-MqM"/>
+                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="userNotLoggedIn" animates="NO" id="QmR-qY-89x"/>
+                        <segue destination="5zr-Of-1xq" kind="show" identifier="userLoggedIn" animates="NO" id="ztz-6J-MqM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CEH-Yc-XdF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -507,47 +509,60 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="4F8-AE-sgC">
-                                        <rect key="frame" x="0.0" y="102" width="414" height="217"/>
+                                        <rect key="frame" x="0.0" y="102" width="414" height="282"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="mVe-Ng-mvg">
                                                 <rect key="frame" x="22" y="22" width="370" height="50"/>
                                                 <subviews>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0HL-bT-ob3">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="0HL-bT-ob3">
                                                         <rect key="frame" x="0.0" y="0.0" width="174" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="cya-yT-aan"/>
                                                         </constraints>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                     </textField>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="piS-CH-Mby">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="piS-CH-Mby">
                                                         <rect key="frame" x="196" y="0.0" width="174" height="50"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gNa-IK-hlg">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email address" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gNa-IK-hlg">
                                                 <rect key="frame" x="22" y="87" width="370" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="vXv-hf-UOe"/>
                                                 </constraints>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password (Min. 8 characters)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JD0-7g-XrC">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password (Min. 8 characters)" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="JD0-7g-XrC">
                                                 <rect key="frame" x="22" y="152" width="370" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="tPv-mN-MOM"/>
                                                 </constraints>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
+                                            </textField>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="J46-Hw-VFp">
+                                                <rect key="frame" x="22" y="217" width="370" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="i69-C2-nbp"/>
+                                                </constraints>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                             </textField>
                                         </subviews>
                                         <edgeInsets key="layoutMargins" top="22" left="22" bottom="15" right="22"/>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="a1q-aY-kmp">
-                                        <rect key="frame" x="0.0" y="329" width="414" height="152"/>
+                                        <rect key="frame" x="0.0" y="394" width="414" height="152"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing up, you agree to the terms and conditions for usage of our service" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R7t-s6-Aph">
                                                 <rect key="frame" x="50" y="8" width="314" height="36"/>
@@ -574,7 +589,7 @@
                                         <edgeInsets key="layoutMargins" top="8" left="50" bottom="8" right="50"/>
                                     </stackView>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="rRs-pn-fgV">
-                                        <rect key="frame" x="0.0" y="491" width="414" height="317"/>
+                                        <rect key="frame" x="0.0" y="556" width="414" height="252"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                 </subviews>
@@ -592,6 +607,7 @@
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="x7k-zb-dVl"/>
                     <connections>
+                        <outlet property="confirmPasswordField" destination="J46-Hw-VFp" id="wVa-B4-uhv"/>
                         <outlet property="emailField" destination="gNa-IK-hlg" id="VZB-wZ-mRT"/>
                         <outlet property="firstNameField" destination="0HL-bT-ob3" id="A7N-Mi-Pis"/>
                         <outlet property="lastNameField" destination="piS-CH-Mby" id="y6l-0o-pQ8"/>
