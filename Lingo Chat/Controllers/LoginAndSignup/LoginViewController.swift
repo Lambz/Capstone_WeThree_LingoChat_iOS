@@ -43,7 +43,12 @@ class LoginViewController: UIViewController {
 extension LoginViewController {
     private func setupFieldLines() {
         emailField.setBottomBorder()
+        emailField.addTarget(self, action: #selector(didbegin(_:)), for: .editingDidBegin)
+        emailField.addTarget(self, action: #selector(endediting(_:)), for: .editingDidEnd)
+        
         passwordField.setBottomBorder()
+        passwordField.addTarget(self, action: #selector(didbegin(_:)), for: .editingDidBegin)
+        passwordField.addTarget(self, action: #selector(endediting(_:)), for: .editingDidEnd)
     }
     
     private func setupFieldIcons() {
@@ -66,6 +71,30 @@ extension LoginViewController {
         button.layer.shadowRadius = 8
         button.layer.shadowOpacity = 0.2
     }
+    
+    @objc func didbegin(_ sender: UITextField) {
+        let border = CALayer()
+        let width = CGFloat(0.5)
+        border.borderColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        border.frame = CGRect(x: 0, y: sender.frame.size.height - width, width:  sender.frame.size.width, height: sender.frame.size.height)
+
+        border.borderWidth = width
+        sender.layer.addSublayer(border)
+        sender.layer.masksToBounds = true
+    }
+    
+    @objc func endediting(_ sender: AnyObject) {
+        let border = CALayer()
+        let width = CGFloat(0.5)
+        border.borderColor = UIColor.black.cgColor
+        border.frame = CGRect(x: 0, y: sender.frame.size.height - width, width:  sender.frame.size.width, height: sender.frame.size.height)
+
+        border.borderWidth = width
+        sender.layer.addSublayer(border)
+        sender.layer.masksToBounds = true
+
+    }
+    
 }
 
 //implements UI textfield image methods
@@ -94,6 +123,7 @@ extension UITextField {
         self.layer.shadowOpacity = 1.0
         self.layer.shadowRadius = 0.0
     }
+    
 }
 
 
