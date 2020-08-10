@@ -19,6 +19,7 @@
 		8473DE6A24E0C8E70039D437 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE6924E0C8E70039D437 /* VideoViewController.swift */; };
 		8473DE6C24E0C9090039D437 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE6B24E0C9090039D437 /* ContactsViewController.swift */; };
 		8473DE6E24E0C9250039D437 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE6D24E0C9250039D437 /* SettingsViewController.swift */; };
+		84D8BB0324E1E406009A78FA /* AnimatedLogoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8BB0224E1E406009A78FA /* AnimatedLogoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		8473DE6924E0C8E70039D437 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		8473DE6B24E0C9090039D437 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		8473DE6D24E0C9250039D437 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		84D8BB0224E1E406009A78FA /* AnimatedLogoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedLogoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 				8473DE6724E0C8C10039D437 /* PhotoViewController.swift */,
 				8473DE6B24E0C9090039D437 /* ContactsViewController.swift */,
 				8473DE6D24E0C9250039D437 /* SettingsViewController.swift */,
+				84D8BB0224E1E406009A78FA /* AnimatedLogoViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				8473DE6624E0C8460039D437 /* SignupViewController.swift in Sources */,
 				8473DE3C24E0C6930039D437 /* AppDelegate.swift in Sources */,
 				8473DE6C24E0C9090039D437 /* ContactsViewController.swift in Sources */,
+				84D8BB0324E1E406009A78FA /* AnimatedLogoViewController.swift in Sources */,
 				8473DE3E24E0C6930039D437 /* SceneDelegate.swift in Sources */,
 				8473DE6824E0C8C10039D437 /* PhotoViewController.swift in Sources */,
 				8473DE6E24E0C9250039D437 /* SettingsViewController.swift in Sources */,
