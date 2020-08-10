@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C765A5975621EB182BF8618 /* Pods_Lingo_Chat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C479774CD57B27FB6DFA0BB /* Pods_Lingo_Chat.framework */; };
 		8473DE3C24E0C6930039D437 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE3B24E0C6930039D437 /* AppDelegate.swift */; };
 		8473DE3E24E0C6930039D437 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE3D24E0C6930039D437 /* SceneDelegate.swift */; };
 		8473DE4024E0C6930039D437 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE3F24E0C6930039D437 /* ChatsViewController.swift */; };
@@ -23,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		08C3180B5485D5EF52EC87A8 /* Pods-Lingo Chat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lingo Chat.release.xcconfig"; path = "Target Support Files/Pods-Lingo Chat/Pods-Lingo Chat.release.xcconfig"; sourceTree = "<group>"; };
+		1C479774CD57B27FB6DFA0BB /* Pods_Lingo_Chat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lingo_Chat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		36B7FC92161552A3121063E2 /* Pods-Lingo Chat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lingo Chat.debug.xcconfig"; path = "Target Support Files/Pods-Lingo Chat/Pods-Lingo Chat.debug.xcconfig"; sourceTree = "<group>"; };
 		8473DE3824E0C6930039D437 /* Lingo Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lingo Chat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8473DE3B24E0C6930039D437 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8473DE3D24E0C6930039D437 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C765A5975621EB182BF8618 /* Pods_Lingo_Chat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +71,8 @@
 			children = (
 				8473DE3A24E0C6930039D437 /* Lingo Chat */,
 				8473DE3924E0C6930039D437 /* Products */,
+				9C564CB0CF118BC14BEFF886 /* Pods */,
+				A15AA014D82A4686A6AFAFC4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -154,6 +161,24 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
+		9C564CB0CF118BC14BEFF886 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				36B7FC92161552A3121063E2 /* Pods-Lingo Chat.debug.xcconfig */,
+				08C3180B5485D5EF52EC87A8 /* Pods-Lingo Chat.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A15AA014D82A4686A6AFAFC4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1C479774CD57B27FB6DFA0BB /* Pods_Lingo_Chat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -161,9 +186,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8473DE4C24E0C6950039D437 /* Build configuration list for PBXNativeTarget "Lingo Chat" */;
 			buildPhases = (
+				F61B8F4CC8A2C9C256D01DAE /* [CP] Check Pods Manifest.lock */,
 				8473DE3424E0C6930039D437 /* Sources */,
 				8473DE3524E0C6930039D437 /* Frameworks */,
 				8473DE3624E0C6930039D437 /* Resources */,
+				C6493AA5170E4230D4E554C9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -223,6 +250,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C6493AA5170E4230D4E554C9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Lingo Chat/Pods-Lingo Chat-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Lingo Chat/Pods-Lingo Chat-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Lingo Chat/Pods-Lingo Chat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F61B8F4CC8A2C9C256D01DAE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Lingo Chat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8473DE3424E0C6930039D437 /* Sources */ = {
@@ -392,6 +461,7 @@
 		};
 		8473DE4D24E0C6950039D437 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 36B7FC92161552A3121063E2 /* Pods-Lingo Chat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -409,6 +479,7 @@
 		};
 		8473DE4E24E0C6950039D437 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 08C3180B5485D5EF52EC87A8 /* Pods-Lingo Chat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
