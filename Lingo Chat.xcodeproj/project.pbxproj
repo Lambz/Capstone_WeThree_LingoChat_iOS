@@ -9,21 +9,43 @@
 /* Begin PBXBuildFile section */
 		8473DE3C24E0C6930039D437 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE3B24E0C6930039D437 /* AppDelegate.swift */; };
 		8473DE3E24E0C6930039D437 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE3D24E0C6930039D437 /* SceneDelegate.swift */; };
-		8473DE4024E0C6930039D437 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE3F24E0C6930039D437 /* ViewController.swift */; };
+		8473DE4024E0C6930039D437 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE3F24E0C6930039D437 /* ChatsViewController.swift */; };
 		8473DE4324E0C6930039D437 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8473DE4124E0C6930039D437 /* Main.storyboard */; };
 		8473DE4524E0C6950039D437 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8473DE4424E0C6950039D437 /* Assets.xcassets */; };
 		8473DE4824E0C6950039D437 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8473DE4624E0C6950039D437 /* LaunchScreen.storyboard */; };
+		8473DE6424E0C8340039D437 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE6324E0C8340039D437 /* LoginViewController.swift */; };
+		8473DE6624E0C8460039D437 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE6524E0C8460039D437 /* SignupViewController.swift */; };
+		8473DE6824E0C8C10039D437 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE6724E0C8C10039D437 /* PhotoViewController.swift */; };
+		8473DE6A24E0C8E70039D437 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE6924E0C8E70039D437 /* VideoViewController.swift */; };
+		8473DE6C24E0C9090039D437 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE6B24E0C9090039D437 /* ContactsViewController.swift */; };
+		8473DE6E24E0C9250039D437 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE6D24E0C9250039D437 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8473DE3824E0C6930039D437 /* Lingo Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lingo Chat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8473DE3B24E0C6930039D437 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8473DE3D24E0C6930039D437 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8473DE3F24E0C6930039D437 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8473DE3F24E0C6930039D437 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		8473DE4224E0C6930039D437 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8473DE4424E0C6950039D437 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8473DE4724E0C6950039D437 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8473DE4924E0C6950039D437 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8473DE4F24E0C6B80039D437 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		8473DE5024E0C6B80039D437 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		8473DE5124E0C6BE0039D437 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		8473DE5224E0C6BE0039D437 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		8473DE5324E0C6C60039D437 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		8473DE5424E0C6C60039D437 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		8473DE5524E0C6D40039D437 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Main.strings; sourceTree = "<group>"; };
+		8473DE5624E0C6D40039D437 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		8473DE5824E0C6EC0039D437 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		8473DE5C24E0C7190039D437 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		8473DE6324E0C8340039D437 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		8473DE6524E0C8460039D437 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		8473DE6724E0C8C10039D437 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		8473DE6924E0C8E70039D437 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		8473DE6B24E0C9090039D437 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
+		8473DE6D24E0C9250039D437 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +78,77 @@
 		8473DE3A24E0C6930039D437 /* Lingo Chat */ = {
 			isa = PBXGroup;
 			children = (
-				8473DE3B24E0C6930039D437 /* AppDelegate.swift */,
-				8473DE3D24E0C6930039D437 /* SceneDelegate.swift */,
-				8473DE3F24E0C6930039D437 /* ViewController.swift */,
-				8473DE4124E0C6930039D437 /* Main.storyboard */,
-				8473DE4424E0C6950039D437 /* Assets.xcassets */,
-				8473DE4624E0C6950039D437 /* LaunchScreen.storyboard */,
+				8473DE6124E0C7AE0039D437 /* Controllers */,
+				8473DE6024E0C7940039D437 /* ViewModels */,
+				8473DE5F24E0C78D0039D437 /* Models */,
+				8473DE5E24E0C7850039D437 /* Views */,
+				8473DE5D24E0C76F0039D437 /* Resources */,
 				8473DE4924E0C6950039D437 /* Info.plist */,
 			);
 			path = "Lingo Chat";
+			sourceTree = "<group>";
+		};
+		8473DE5D24E0C76F0039D437 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8473DE3B24E0C6930039D437 /* AppDelegate.swift */,
+				8473DE3D24E0C6930039D437 /* SceneDelegate.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		8473DE5E24E0C7850039D437 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8473DE6F24E0C9320039D437 /* Storyboards */,
+				8473DE4424E0C6950039D437 /* Assets.xcassets */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8473DE5F24E0C78D0039D437 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8473DE6024E0C7940039D437 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		8473DE6124E0C7AE0039D437 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8473DE6224E0C7F00039D437 /* LoginAndSignup */,
+				8473DE3F24E0C6930039D437 /* ChatsViewController.swift */,
+				8473DE6924E0C8E70039D437 /* VideoViewController.swift */,
+				8473DE6724E0C8C10039D437 /* PhotoViewController.swift */,
+				8473DE6B24E0C9090039D437 /* ContactsViewController.swift */,
+				8473DE6D24E0C9250039D437 /* SettingsViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		8473DE6224E0C7F00039D437 /* LoginAndSignup */ = {
+			isa = PBXGroup;
+			children = (
+				8473DE6324E0C8340039D437 /* LoginViewController.swift */,
+				8473DE6524E0C8460039D437 /* SignupViewController.swift */,
+			);
+			path = LoginAndSignup;
+			sourceTree = "<group>";
+		};
+		8473DE6F24E0C9320039D437 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				8473DE4124E0C6930039D437 /* Main.storyboard */,
+				8473DE4624E0C6950039D437 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -109,6 +193,10 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
+				fr,
+				de,
+				hi,
 			);
 			mainGroup = 8473DE2F24E0C6930039D437;
 			productRefGroup = 8473DE3924E0C6930039D437 /* Products */;
@@ -138,9 +226,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8473DE4024E0C6930039D437 /* ViewController.swift in Sources */,
+				8473DE6424E0C8340039D437 /* LoginViewController.swift in Sources */,
+				8473DE6A24E0C8E70039D437 /* VideoViewController.swift in Sources */,
+				8473DE4024E0C6930039D437 /* ChatsViewController.swift in Sources */,
+				8473DE6624E0C8460039D437 /* SignupViewController.swift in Sources */,
 				8473DE3C24E0C6930039D437 /* AppDelegate.swift in Sources */,
+				8473DE6C24E0C9090039D437 /* ContactsViewController.swift in Sources */,
 				8473DE3E24E0C6930039D437 /* SceneDelegate.swift in Sources */,
+				8473DE6824E0C8C10039D437 /* PhotoViewController.swift in Sources */,
+				8473DE6E24E0C9250039D437 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +245,11 @@
 			isa = PBXVariantGroup;
 			children = (
 				8473DE4224E0C6930039D437 /* Base */,
+				8473DE4F24E0C6B80039D437 /* es */,
+				8473DE5124E0C6BE0039D437 /* fr */,
+				8473DE5324E0C6C60039D437 /* de */,
+				8473DE5524E0C6D40039D437 /* hi */,
+				8473DE5824E0C6EC0039D437 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -159,6 +258,11 @@
 			isa = PBXVariantGroup;
 			children = (
 				8473DE4724E0C6950039D437 /* Base */,
+				8473DE5024E0C6B80039D437 /* es */,
+				8473DE5224E0C6BE0039D437 /* fr */,
+				8473DE5424E0C6C60039D437 /* de */,
+				8473DE5624E0C6D40039D437 /* hi */,
+				8473DE5C24E0C7190039D437 /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -170,6 +274,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -216,7 +321,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -230,6 +335,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -270,7 +376,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
