@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class AnimatedLogoViewController: UIViewController {
 
@@ -47,7 +48,7 @@ class AnimatedLogoViewController: UIViewController {
             self.logoView.alpha = 0
         }) { done in
             //        checks if user already logged in
-            if UserDefaults.standard.bool(forKey: "isSignedIn") {
+            if FirebaseAuth.Auth.auth().currentUser != nil {
                 self.performSegue(withIdentifier: "userLoggedIn", sender: self)
             }
             else {

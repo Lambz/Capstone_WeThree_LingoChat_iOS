@@ -7,14 +7,20 @@
 //
 
 import UIKit
+import CryptoKit
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
 
+    @IBOutlet weak var passwordLengthError: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var gmailButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var emailField: UITextField!
+    
+    private var encryptedPassword = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -35,6 +41,7 @@ class LoginViewController: UIViewController {
         setupFieldLines()
         setupFieldIcons()
         setupButtonsShadow()
+        passwordLengthError.isHidden = true
     }
 
 }
@@ -42,7 +49,9 @@ class LoginViewController: UIViewController {
 //implements button handlers
 extension LoginViewController {
     @IBAction func loginButtonTapped(_ sender: Any) {
-        self.performSegue(withIdentifier: "gotoLoggedInScreen", sender: self)
+        if checkCredentialsAndLogin() {
+            self.performSegue(withIdentifier: "gotoLoggedInScreen", sender: self)
+        }
     }
     
     @IBAction func forgotPasswordTapped(_ sender: Any) {
@@ -60,7 +69,69 @@ extension LoginViewController {
 }
 
 
-//implements UI methods
+//MARK: implements login methods
+extension LoginViewController {
+    private func checkCredentialsAndLogin() -> Bool {
+        var returnVal = false
+        if checkFieldsNotEmpty(){
+            returnVal = loginUsingFirebase()
+        }
+        return returnVal
+    }
+    
+    private func checkFieldsNotEmpty() -> Bool {
+        var returnVal = false
+        
+        guard let email = emailField.text, !email.isEmpty, let password = passwordField.text, !password.isEmpty else {
+            showFieldAlert()
+            return returnVal
+        }
+        if password.count > 7 {
+            encryptPassword()
+            returnVal = true
+        }
+        return returnVal
+    }
+    
+    private func showFieldAlert() {
+        let alert = UIAlertController(title: "Error!", message: "Fields can't be empty", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    private func encryptPassword() {
+        let password = passwordField.text!
+        let hash = SHA256.hash(data: password.data(using: .utf8)!)
+        encryptedPassword = hash.map { String(format: "%02hhx", $0) }.joined()
+    }
+    
+    private func loginUsingFirebase() -> Bool {
+        var returnVal = false
+        FirebaseAuth.Auth.auth().signIn(withEmail: emailField.text!, password: encryptedPassword) { [weak self] (authResult, error) in
+            guard let strongSelf = self else {
+                return
+            }
+            guard let result = authResult, error == nil else {
+                strongSelf.showLoginErrorAlert()
+                return
+            }
+            returnVal = true
+            let user = result.user
+            
+        }
+        return returnVal
+    }
+    
+    private func showLoginErrorAlert() {
+        let alert = UIAlertController(title: "Oops!", message: "Error loggin in user. Please try again later.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+}
+
+
+//MARK: implements UI methods
 extension LoginViewController {
     private func setupFieldLines() {
         emailField.setBottomBorder()
@@ -113,12 +184,11 @@ extension LoginViewController {
         border.borderWidth = width
         sender.layer.addSublayer(border)
         sender.layer.masksToBounds = true
-
     }
     
 }
 
-//implements UI textfield image methods
+//MARK: implements UI textfield image methods
 extension UITextField {
 
     func setLeftIcon(_ icon: UIImage) {

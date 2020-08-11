@@ -7,15 +7,22 @@
 //
 
 import UIKit
+import CryptoKit
+import FirebaseAuth
 
 class SignupViewController: UIViewController {
 
+    @IBOutlet weak var passwordMismatchError: UILabel!
+    @IBOutlet weak var passwordLengthError: UILabel!
     @IBOutlet weak var confirmPasswordField: UITextField!
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
     @IBOutlet weak var firstNameField: UITextField!
+    
+    private var encryptedPassword: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -34,10 +41,86 @@ class SignupViewController: UIViewController {
         setupFieldLines()
         setButtonShadow(button: signupButton)
         signupButton.addTarget(self, action: #selector(signupButtonPressed), for: .touchUpInside)
+        hideLabels()
     }
 
 }
 
+//MARK: implements the signup methods
+extension SignupViewController {
+//    called on button press
+    @objc func signupButtonPressed() {
+    //        check fields
+            validateFieldsForNonEmptyAndPasswordMatch()
+        
+    //        signup after email verification
+        if !encryptedPassword.isEmpty {
+            DatabaseManager.shared.userAccountExists(with: emailField.text!, completion: { [weak self] (exists) in
+                guard let strongSelf = self else {
+                    return
+                }
+                guard !exists else {
+                    strongSelf.showErrorAlert(message: "User with same email address already exists.")
+                    return
+                }
+                strongSelf.doLoginUsingFirebase()
+            })
+        }
+    }
+    
+    private func validateFieldsForNonEmptyAndPasswordMatch() {
+        guard let firstName = firstNameField.text, !firstName.isEmpty,
+            let lastName = lastNameField.text, !lastName.isEmpty,
+            let email = emailField.text, !email.isEmpty,
+            let password = passwordField.text, !password.isEmpty,
+            let confirmedPassword = confirmPasswordField.text, !confirmedPassword.isEmpty
+        else {
+            showErrorAlert(message: "Fields can't be empty.")
+            return
+        }
+        if password == confirmedPassword {
+            encryptPassword()
+        }
+    }
+    
+//    encrypts password using SHA256 hash
+    private func encryptPassword(){
+        let password = passwordField.text!
+        let hash = SHA256.hash(data: password.data(using: .utf8)!)
+        encryptedPassword = hash.map { String(format: "%02hhx", $0) }.joined()
+    }
+    
+    private func doLoginUsingFirebase() {
+        FirebaseAuth.Auth.auth().createUser(withEmail: emailField.text!, password: encryptedPassword) { [weak self](authResult, error) in
+            guard let strongSelf = self else {
+                return
+            }
+            guard let _ = authResult, error == nil else {
+                strongSelf.showErrorAlert(message: "Error creating user. Please try again later.")
+                return
+            }
+            strongSelf.insertDatatoDatabase()
+        }
+    }
+    
+    private func insertDatatoDatabase() {
+        DatabaseManager.shared.insertUser(with: UserAccount(
+            firstName: firstNameField.text!,
+            lastName: lastNameField.text!,
+            email: emailField.text!))
+        performSegue(withIdentifier: "gotoOnboardingScreen", sender: self)
+    }
+    
+//    alert method implemented
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Oops!", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+}
+
+//MARK: implements UI methods
 extension SignupViewController {
     private func setupFieldLines() {
         setFieldLines(field: firstNameField)
@@ -51,6 +134,7 @@ extension SignupViewController {
         field.setBottomBorder()
         field.addTarget(self, action: #selector(didbegin(_:)), for: .editingDidBegin)
         field.addTarget(self, action: #selector(endediting(_:)), for: .editingDidEnd)
+        field.addTarget(self, action: #selector(didEditText(_:)), for: .editingChanged)
     }
     
     private func setButtonShadow(button: UIButton) {
@@ -64,17 +148,38 @@ extension SignupViewController {
         let border = CALayer()
         let width = CGFloat(0.5)
         border.borderColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        
         border.frame = CGRect(x: 0, y: sender.frame.size.height - width, width:  sender.frame.size.width, height: sender.frame.size.height)
 
         border.borderWidth = width
         sender.layer.addSublayer(border)
         sender.layer.masksToBounds = true
+    }
+    
+    @objc func didEditText(_ sender: UITextField) {
+        if sender == passwordField {
+            if sender.text!.count < 8 && !sender.text!.isEmpty {
+                passwordLengthError.isHidden = false
+            }
+            else {
+                passwordLengthError.isHidden = true
+            }
+        }
+        if sender == confirmPasswordField {
+            if sender.text != passwordField.text && !sender.text!.isEmpty {
+                passwordMismatchError.isHidden = false
+            }
+            else {
+                passwordMismatchError.isHidden = true
+            }
+        }
     }
     
     @objc func endediting(_ sender: AnyObject) {
         let border = CALayer()
         let width = CGFloat(0.5)
         border.borderColor = UIColor.black.cgColor
+        
         border.frame = CGRect(x: 0, y: sender.frame.size.height - width, width:  sender.frame.size.width, height: sender.frame.size.height)
 
         border.borderWidth = width
@@ -82,11 +187,8 @@ extension SignupViewController {
         sender.layer.masksToBounds = true
     }
     
-    @objc func signupButtonPressed() {
-//        check fields
-        
-//        sha 256
-        
-//        signup after verification
+    private func hideLabels() {
+        passwordLengthError.isHidden = true
+        passwordMismatchError.isHidden = true
     }
 }
