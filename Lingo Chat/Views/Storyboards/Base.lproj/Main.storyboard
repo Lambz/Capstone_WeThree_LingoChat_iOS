@@ -101,13 +101,13 @@
                                         <edgeInsets key="layoutMargins" top="8" left="22" bottom="8" right="22"/>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uTt-3a-r7I">
-                                        <rect key="frame" x="0.0" y="596.5" width="414" height="98.5"/>
+                                        <rect key="frame" x="0.0" y="596.5" width="414" height="110.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="ZGr-OH-UEr">
-                                                <rect key="frame" x="132" y="15" width="150" height="68.5"/>
+                                                <rect key="frame" x="132" y="15" width="150" height="80.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oP0-LC-rVh">
-                                                        <rect key="frame" x="0.0" y="9.5" width="50" height="50"/>
+                                                        <rect key="frame" x="0.0" y="15.5" width="50" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="50" id="CkY-ac-9e1"/>
                                                             <constraint firstAttribute="height" constant="50" id="QEH-Fx-FMz"/>
@@ -127,7 +127,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8i-l0-OEF">
-                                                        <rect key="frame" x="100" y="9.5" width="50" height="50"/>
+                                                        <rect key="frame" x="100" y="15.5" width="50" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="9d3-jd-gI6"/>
                                                             <constraint firstAttribute="width" constant="50" id="RpC-z4-VvD"/>
@@ -151,7 +151,7 @@
                                         <edgeInsets key="layoutMargins" top="15" left="8" bottom="15" right="8"/>
                                     </stackView>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="a98-Vw-hPc">
-                                        <rect key="frame" x="0.0" y="703" width="414" height="62"/>
+                                        <rect key="frame" x="0.0" y="715" width="414" height="50"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="lEb-Zd-P0O">
@@ -230,7 +230,7 @@
         <!--Settings-->
         <scene sceneID="87v-xm-jIV">
             <objects>
-                <navigationController hidesBarsWhenKeyboardAppears="YES" id="Ola-Wa-sJB" sceneMemberID="viewController">
+                <navigationController modalPresentationStyle="fullScreen" hidesBarsWhenKeyboardAppears="YES" id="Ola-Wa-sJB" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="gear" catalog="system" id="xyY-XY-dhu"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="V1o-Hh-MNz">
                         <rect key="frame" x="0.0" y="44" width="414" height="102"/>
@@ -251,7 +251,7 @@
         <!--Settings-->
         <scene sceneID="ja2-Mx-vMN">
             <objects>
-                <viewController id="qNO-UG-9SJ" customClass="SettingsViewController" customModule="Lingo_Chat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="qNO-UG-9SJ" customClass="SettingsViewController" customModule="Lingo_Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xi9-fT-JJh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -342,18 +342,17 @@
                     <navigationItem key="navigationItem" title="Settings" largeTitleDisplayMode="always" id="186-Ug-MkN"/>
                     <connections>
                         <outlet property="tableView" destination="TAy-ah-Yzo" id="uGl-8x-xuo"/>
-                        <segue destination="ldR-5B-g9b" kind="unwind" identifier="logoutUser" unwindAction="unwindFromSettingsWithSegue:" id="frt-ne-N9B"/>
+                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="logoutUser" id="dqE-a0-BD0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cjh-KL-Ntj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="ldR-5B-g9b" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3518.840579710145" y="598.66071428571422"/>
         </scene>
         <!--Chats-->
         <scene sceneID="heP-X7-lUH">
             <objects>
-                <navigationController hidesBarsWhenKeyboardAppears="YES" id="lua-dN-6v5" sceneMemberID="viewController">
+                <navigationController modalPresentationStyle="fullScreen" hidesBarsWhenKeyboardAppears="YES" id="lua-dN-6v5" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="wgz-o6-ZPJ"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="b7b-JX-PdA">
                         <rect key="frame" x="0.0" y="44" width="414" height="102"/>
@@ -377,13 +376,13 @@
         <!--Chats-->
         <scene sceneID="3Yn-SS-Ep8">
             <objects>
-                <viewController id="ook-is-CVB" customClass="ChatsViewController" customModule="Lingo_Chat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="ook-is-CVB" customClass="ChatsViewController" customModule="Lingo_Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="z3J-3S-Rp4">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="s6w-Oc-MBq">
-                                <rect key="frame" x="0.0" y="146" width="414" height="667"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatsCell" id="W2v-X2-XFV">
@@ -411,13 +410,13 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="6ck-Bp-mMn">
                                                             <rect key="frame" x="80" y="8.5" width="326" height="57"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZC-67-TRK">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZC-67-TRK">
                                                                     <rect key="frame" x="0.0" y="0.0" width="326" height="26.5"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5cU-Nh-Lif">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5cU-Nh-Lif">
                                                                     <rect key="frame" x="0.0" y="36.5" width="326" height="20.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
@@ -646,10 +645,10 @@
             </objects>
             <point key="canvasLocation" x="613" y="840"/>
         </scene>
-        <!--View Controller-->
+        <!--Onboarding View Controller-->
         <scene sceneID="4kd-6a-mRZ">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="mig-jC-89y" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="mig-jC-89y" customClass="OnboardingViewController" customModule="Lingo_Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kE1-8u-rIq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -775,6 +774,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="cb2-r1-0xP"/>
+        <segue reference="QmR-qY-89x"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="fb" width="128" height="128"/>

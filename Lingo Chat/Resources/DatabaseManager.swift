@@ -8,6 +8,7 @@
 
 import Foundation
 import FirebaseDatabase
+import FirebaseAuth
 
 final class DatabaseManager {
     static let shared = DatabaseManager()
@@ -22,9 +23,8 @@ extension DatabaseManager {
     
 ///   verifies weather user account with same email exists
     public func userAccountExists(with email: String, completion: @escaping ((Bool) -> Void)) {
-        let safeEmail = email.replacingOccurrences(of: ".", with: "-").replacingOccurrences(of: "@", with: "-")
-        
-        database.child(safeEmail).observeSingleEvent(of: .value) { (snapshot) in
+
+        database.child("Users").queryOrdered(byChild: "email").queryEqual(toValue: email).observeSingleEvent(of: .childAdded) { (snapshot) in
             guard snapshot.value as? String != nil else {
                 completion(false)
                 return
@@ -38,10 +38,11 @@ extension DatabaseManager {
     
 /// insert new user account user
     public func insertUser(with user: UserAccount) {
-        database.child(user.safeEmail).setValue([
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
+        database.child("Users").child(userID).setValue([
             "first-name": user.firstName,
             "last-name": user.lastName,
-//            "email": user.email
+            "email": user.email
         ])
     }
     
@@ -57,10 +58,6 @@ struct UserAccount {
     let firstName: String
     let lastName: String
     let email: String
-    var safeEmail: String {
-        let safeEmail = email.replacingOccurrences(of: ".", with: "-").replacingOccurrences(of: "@", with: "-")
-        return safeEmail
-    }
 //    let profilePicUrl: URL
 //    let userLanguage: String
 }

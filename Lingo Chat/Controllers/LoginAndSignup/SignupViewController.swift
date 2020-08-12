@@ -40,7 +40,6 @@ class SignupViewController: UIViewController {
         signupButton.addTarget(self, action: #selector(signupButtonPressed), for: .touchUpInside)
         hideLabels()
     }
-
 }
 
 //MARK: implements the signup methods
@@ -75,6 +74,7 @@ extension SignupViewController {
             showErrorAlert(message: "Fields can't be empty.")
             return
         }
+        doLoginUsingFirebase()
     }
     
     private func doLoginUsingFirebase() {

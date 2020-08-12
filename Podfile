@@ -4,8 +4,15 @@
 target 'Lingo Chat' do
     use_frameworks!
 
+#Firebase
 	pod 'Firebase/Core'
 	pod 'Firebase/Auth'
 	pod 'Firebase/Database'
+
+#Facebook Sign In
+	pod 'FBSDKLoginKit'
+
+#Google Sign In    
+	pod 'GoogleSignIn'
 
 end
