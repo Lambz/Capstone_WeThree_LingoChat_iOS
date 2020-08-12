@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CryptoKit
 import FirebaseAuth
 
 class SignupViewController: UIViewController {
@@ -20,8 +19,6 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
     @IBOutlet weak var firstNameField: UITextField!
-    
-    private var encryptedPassword: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +51,7 @@ extension SignupViewController {
             validateFieldsForNonEmptyAndPasswordMatch()
         
     //        signup after email verification
-        if !encryptedPassword.isEmpty {
+        if passwordField.text! == confirmPasswordField.text! {
             DatabaseManager.shared.userAccountExists(with: emailField.text!, completion: { [weak self] (exists) in
                 guard let strongSelf = self else {
                     return
@@ -78,20 +75,10 @@ extension SignupViewController {
             showErrorAlert(message: "Fields can't be empty.")
             return
         }
-        if password == confirmedPassword {
-            encryptPassword()
-        }
-    }
-    
-//    encrypts password using SHA256 hash
-    private func encryptPassword(){
-        let password = passwordField.text!
-        let hash = SHA256.hash(data: password.data(using: .utf8)!)
-        encryptedPassword = hash.map { String(format: "%02hhx", $0) }.joined()
     }
     
     private func doLoginUsingFirebase() {
-        FirebaseAuth.Auth.auth().createUser(withEmail: emailField.text!, password: encryptedPassword) { [weak self](authResult, error) in
+        FirebaseAuth.Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { [weak self](authResult, error) in
             guard let strongSelf = self else {
                 return
             }

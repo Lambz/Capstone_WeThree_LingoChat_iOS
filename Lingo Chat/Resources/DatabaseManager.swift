@@ -11,8 +11,7 @@ import FirebaseDatabase
 
 final class DatabaseManager {
     static let shared = DatabaseManager()
-    private let database = Database.database().reference()
-    
+    private let database = Database.database().reference()    
 }
 
 //MARK: Transcation menthods implemented
@@ -23,7 +22,7 @@ extension DatabaseManager {
     
 ///   verifies weather user account with same email exists
     public func userAccountExists(with email: String, completion: @escaping ((Bool) -> Void)) {
-        let safeEmail = email.replacingOccurrences(of: ".", with: "-")
+        let safeEmail = email.replacingOccurrences(of: ".", with: "-").replacingOccurrences(of: "@", with: "-")
         
         database.child(safeEmail).observeSingleEvent(of: .value) { (snapshot) in
             guard snapshot.value as? String != nil else {
@@ -59,7 +58,7 @@ struct UserAccount {
     let lastName: String
     let email: String
     var safeEmail: String {
-        let safeEmail = email.replacingOccurrences(of: ".", with: "-")
+        let safeEmail = email.replacingOccurrences(of: ".", with: "-").replacingOccurrences(of: "@", with: "-")
         return safeEmail
     }
 //    let profilePicUrl: URL

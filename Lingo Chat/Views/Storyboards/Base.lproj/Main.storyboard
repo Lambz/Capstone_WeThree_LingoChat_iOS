@@ -340,8 +340,13 @@
                         <viewLayoutGuide key="safeArea" id="Vyn-Uc-1hQ"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" largeTitleDisplayMode="always" id="186-Ug-MkN"/>
+                    <connections>
+                        <outlet property="tableView" destination="TAy-ah-Yzo" id="uGl-8x-xuo"/>
+                        <segue destination="ldR-5B-g9b" kind="unwind" identifier="logoutUser" unwindAction="unwindFromSettingsWithSegue:" id="frt-ne-N9B"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cjh-KL-Ntj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="ldR-5B-g9b" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3518.840579710145" y="598.66071428571422"/>
         </scene>
@@ -378,7 +383,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="s6w-Oc-MBq">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="146" width="414" height="667"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatsCell" id="W2v-X2-XFV">
@@ -760,7 +765,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="pll-WH-GyJ"/>
                     <connections>
-                        <segue destination="5zr-Of-1xq" kind="showDetail" id="oMO-eC-OVd"/>
+                        <segue destination="5zr-Of-1xq" kind="showDetail" identifier="gotoLoggedInScreen" id="oMO-eC-OVd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dlx-zs-DIl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -769,7 +774,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oMO-eC-OVd"/>
+        <segue reference="cb2-r1-0xP"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="fb" width="128" height="128"/>
