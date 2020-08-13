@@ -1,18 +1,22 @@
-# Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
-
 target 'Lingo Chat' do
-    use_frameworks!
+use_frameworks!
 
 #Firebase
-	pod 'Firebase/Core'
-	pod 'Firebase/Auth'
-	pod 'Firebase/Database'
+pod 'Firebase/Core'
+pod 'Firebase/Auth'
+pod 'Firebase/Database'
 
 #Facebook Sign In
-	pod 'FBSDKLoginKit'
+pod 'FBSDKLoginKit'
 
 #Google Sign In    
-	pod 'GoogleSignIn'
+pod 'GoogleSignIn'
+
+#Messaging dependencies
+pod 'MessageKit'
+pod 'JGProgressHUD'
+pod 'RealmSwift'
+pod 'SDWebImage'
+
 
 end

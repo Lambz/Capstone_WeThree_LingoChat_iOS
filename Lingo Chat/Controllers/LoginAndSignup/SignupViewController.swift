@@ -50,18 +50,18 @@ extension SignupViewController {
             validateFieldsForNonEmptyAndPasswordMatch()
         
     //        signup after email verification
-        if passwordField.text! == confirmPasswordField.text! {
-            DatabaseManager.shared.userAccountExists(with: emailField.text!, completion: { [weak self] (exists) in
-                guard let strongSelf = self else {
-                    return
-                }
-                guard !exists else {
-                    strongSelf.showErrorAlert(message: "User with same email address already exists.")
-                    return
-                }
-                strongSelf.doLoginUsingFirebase()
-            })
-        }
+//        if passwordField.text! == confirmPasswordField.text! {
+//            DatabaseManager.shared.userAccountExists(with: emailField.text!, completion: { [weak self] (exists) in
+//                guard let strongSelf = self else {
+//                    return
+//                }
+//                guard !exists else {
+//                    strongSelf.showErrorAlert(message: "User with same email address already exists.")
+//                    return
+//                }
+//                strongSelf.doLoginUsingFirebase()
+//            })
+//        }
     }
     
     private func validateFieldsForNonEmptyAndPasswordMatch() {
@@ -83,7 +83,9 @@ extension SignupViewController {
                 return
             }
             guard let _ = authResult, error == nil else {
-                strongSelf.showErrorAlert(message: "Error creating user. Please try again later.")
+                DispatchQueue.main.async {
+                    strongSelf.showErrorAlert(message: "Error creating user. Please try again later.")
+                }
                 return
             }
             strongSelf.insertDatatoDatabase()

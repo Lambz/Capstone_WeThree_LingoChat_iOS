@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FBSDKLoginKit
 import GoogleSignIn
+import JGProgressHUD
 
 class LoginViewController: UIViewController {
 
@@ -28,6 +29,8 @@ class LoginViewController: UIViewController {
     
     private var googleSignInButton = GIDSignInButton()
     private var googleSignInObserver: NSObjectProtocol?
+    
+    private var spinner = JGProgressHUD(style: .dark)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,14 +109,20 @@ extension LoginViewController {
             return
         }
         
+        spinner.show(in: view)
 //        checks password atleast 8 characters
         if password.count > 7 {
             FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) { [weak self] (authResult, error) in
                 guard let strongSelf = self else {
                     return
                 }
+                DispatchQueue.main.async {
+                    strongSelf.spinner.dismiss()
+                }
                 guard authResult != nil, error == nil else {
-                    strongSelf.showErrorAlert(message: "Error signing in user. Please try again later.")
+                    DispatchQueue.main.async {
+                        strongSelf.showErrorAlert(message: "Error signing in user. Please try again later.")
+                    }
                     return
                 }
                 strongSelf.performSegue(withIdentifier: "gotoLoggedInScreen", sender: strongSelf)
@@ -160,7 +169,9 @@ extension LoginViewController: LoginButtonDelegate {
             
             guard let userName = result["name"] as? String,
                 let email = result["email"] as? String else {
-                    strongSelf.showErrorAlert(message: "Failed to fetch facebook credentials.")
+                    DispatchQueue.main.async {
+                        strongSelf.showErrorAlert(message: "Failed to fetch facebook credentials.")
+                    }
                     return
             }
 //            divide the name into components
@@ -185,7 +196,9 @@ extension LoginViewController: LoginButtonDelegate {
                         return
                     }
                     guard let _ = authResult, error == nil else {
-                        strongSelf.showErrorAlert(message: "Facebook login error. MFA may be required.")
+                        DispatchQueue.main.async {
+                            strongSelf.showErrorAlert(message: "Facebook login error. MFA may be required.")
+                        }
                         return
                     }
                     strongSelf.performSegue(withIdentifier: "gotoLoggedInScreen", sender: strongSelf)

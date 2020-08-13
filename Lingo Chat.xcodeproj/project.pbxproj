@@ -11,6 +11,8 @@
 		843B570524E3151D0035F4E6 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843B570424E3151D0035F4E6 /* DatabaseManager.swift */; };
 		844382E424E46DA6001CFAC5 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844382E324E46DA6001CFAC5 /* OnboardingViewController.swift */; };
 		84498BBF24E48D6500CC9985 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84498BBE24E48D6500CC9985 /* Extensions.swift */; };
+		84498BC124E49E9700CC9985 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84498BC024E49E9700CC9985 /* ConversationViewController.swift */; };
+		84498BC324E4DD0900CC9985 /* ChatsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84498BC224E4DD0900CC9985 /* ChatsTableViewCell.swift */; };
 		8473DE3C24E0C6930039D437 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE3B24E0C6930039D437 /* AppDelegate.swift */; };
 		8473DE3E24E0C6930039D437 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE3D24E0C6930039D437 /* SceneDelegate.swift */; };
 		8473DE4024E0C6930039D437 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE3F24E0C6930039D437 /* ChatsViewController.swift */; };
@@ -35,6 +37,8 @@
 		844382E224E45C31001CFAC5 /* Lingo Chat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Lingo Chat.entitlements"; sourceTree = "<group>"; };
 		844382E324E46DA6001CFAC5 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		84498BBE24E48D6500CC9985 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		84498BC024E49E9700CC9985 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		84498BC224E4DD0900CC9985 /* ChatsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsTableViewCell.swift; sourceTree = "<group>"; };
 		8473DE3824E0C6930039D437 /* Lingo Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lingo Chat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8473DE3B24E0C6930039D437 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8473DE3D24E0C6930039D437 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -131,6 +135,7 @@
 		8473DE5F24E0C78D0039D437 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				84498BC224E4DD0900CC9985 /* ChatsTableViewCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -153,6 +158,7 @@
 				8473DE6D24E0C9250039D437 /* SettingsViewController.swift */,
 				84D8BB0224E1E406009A78FA /* AnimatedLogoViewController.swift */,
 				844382E324E46DA6001CFAC5 /* OnboardingViewController.swift */,
+				84498BC024E49E9700CC9985 /* ConversationViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -330,6 +336,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84498BC124E49E9700CC9985 /* ConversationViewController.swift in Sources */,
+				84498BC324E4DD0900CC9985 /* ChatsTableViewCell.swift in Sources */,
 				8473DE6424E0C8340039D437 /* LoginViewController.swift in Sources */,
 				843B570524E3151D0035F4E6 /* DatabaseManager.swift in Sources */,
 				8473DE6A24E0C8E70039D437 /* VideoViewController.swift in Sources */,
