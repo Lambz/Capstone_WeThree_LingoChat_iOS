@@ -42,7 +42,14 @@ class ChatsViewController: UIViewController {
     }
 
     @IBAction func addChatButtonTapped(_ sender: Any) {
+        performSegue(withIdentifier: "showContactsScreen", sender: self)
     }
+    
+    @IBAction func unwindFromSettings(segue: UIStoryboardSegue) {
+        
+    }
+    
+    
 }
 
 extension ChatsViewController {

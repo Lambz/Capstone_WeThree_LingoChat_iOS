@@ -55,7 +55,6 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
     }
     
     private func setupViews() {
@@ -63,10 +62,6 @@ class LoginViewController: UIViewController {
         setupFieldIcons()
         setupButtonsShadow()
         passwordLengthError.isHidden = true
-    }
-    
-    @IBAction func unwindFromSettings(segue: UIStoryboardSegue) {
-        clearFields()
     }
     
     deinit {
@@ -267,11 +262,6 @@ extension LoginViewController {
         border.borderWidth = width
         sender.layer.addSublayer(border)
         sender.layer.masksToBounds = true
-    }
-    
-    private func clearFields() {
-        emailField.text = ""
-        passwordField.text = ""
     }
     
 }
