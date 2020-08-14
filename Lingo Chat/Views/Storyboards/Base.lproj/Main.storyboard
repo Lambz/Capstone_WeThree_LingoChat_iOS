@@ -795,7 +795,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="s7b-gf-XJN">
-                                        <rect key="frame" x="8" y="8" width="398" height="68"/>
+                                        <rect key="frame" x="8" y="22" width="398" height="68"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hi, There!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CP9-1f-85Z">
                                                 <rect key="frame" x="0.0" y="0.0" width="398" height="39.5"/>
@@ -812,7 +812,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="pO6-M5-3zy">
-                                        <rect key="frame" x="8" y="76" width="398" height="282"/>
+                                        <rect key="frame" x="8" y="90" width="398" height="282"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select your profile pic" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tL3-eJ-iKn">
                                                 <rect key="frame" x="112" y="22" width="174" height="20.5"/>
@@ -820,18 +820,22 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user" translatesAutoresizingMaskIntoConstraints="NO" id="AV1-cQ-umn">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RQI-Xx-xqa">
                                                 <rect key="frame" x="149" y="64.5" width="100" height="100"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="100" id="NPJ-F0-ARr"/>
-                                                    <constraint firstAttribute="height" constant="100" id="nak-ES-Zan"/>
+                                                    <constraint firstAttribute="width" constant="100" id="RYY-vQ-hat"/>
+                                                    <constraint firstAttribute="height" constant="100" id="bYr-Uv-ewQ"/>
                                                 </constraints>
+                                                <state key="normal" image="user"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                         <integer key="value" value="50"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
-                                            </imageView>
+                                                <connections>
+                                                    <action selector="profilePhotoButtonTapped:" destination="mig-jC-89y" eventType="touchUpInside" id="8j6-I5-XbJ"/>
+                                                </connections>
+                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose your chat language" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yJU-XS-a1W">
                                                 <rect key="frame" x="90" y="186.5" width="218" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
@@ -852,14 +856,14 @@
                                         <edgeInsets key="layoutMargins" top="22" left="0.0" bottom="22" right="0.0"/>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qDc-uG-olW">
-                                        <rect key="frame" x="8" y="358" width="398" height="61"/>
+                                        <rect key="frame" x="8" y="372" width="398" height="61"/>
                                         <string key="text">You can also choose to skip this step. The default langusge for chat will be English. You can change your preferences in settings later.</string>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jgS-iP-xUM">
-                                        <rect key="frame" x="8" y="419" width="398" height="391"/>
+                                        <rect key="frame" x="8" y="433" width="398" height="377"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="osL-6e-TYe">
                                                 <rect key="frame" x="50" y="15" width="298" height="50"/>
@@ -877,18 +881,18 @@
                                                 </userDefinedRuntimeAttributes>
                                             </button>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="pfh-MZ-m6E">
-                                                <rect key="frame" x="50" y="75" width="298" height="261"/>
+                                                <rect key="frame" x="50" y="75" width="298" height="247"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TOY-yo-NWj">
-                                                <rect key="frame" x="50" y="346" width="298" height="30"/>
+                                                <rect key="frame" x="50" y="332" width="298" height="30"/>
                                                 <state key="normal" title="Skip this step"/>
                                             </button>
                                         </subviews>
                                         <edgeInsets key="layoutMargins" top="15" left="50" bottom="15" right="50"/>
                                     </stackView>
                                 </subviews>
-                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                                <edgeInsets key="layoutMargins" top="22" left="8" bottom="8" right="8"/>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -902,6 +906,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="pll-WH-GyJ"/>
                     <connections>
+                        <outlet property="profilePhotoButton" destination="RQI-Xx-xqa" id="3cA-oo-uky"/>
                         <segue destination="5zr-Of-1xq" kind="showDetail" identifier="gotoLoggedInScreen" id="oMO-eC-OVd"/>
                     </connections>
                 </viewController>
@@ -911,7 +916,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="cb2-r1-0xP"/>
+        <segue reference="oMO-eC-OVd"/>
         <segue reference="QmR-qY-89x"/>
     </inferredMetricsTieBreakers>
     <resources>
