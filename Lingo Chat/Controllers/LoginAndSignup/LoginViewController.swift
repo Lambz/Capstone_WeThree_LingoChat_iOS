@@ -8,7 +8,6 @@
 
 import UIKit
 import FirebaseAuth
-import FBSDKLoginKit
 import GoogleSignIn
 import JGProgressHUD
 
@@ -21,11 +20,6 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     
-    private var facebookLoginButton: FBLoginButton {
-            let button = FBLoginButton()
-            button.permissions = ["email,public_profile"]
-            return button
-    }
     
     private var googleSignInButton = GIDSignInButton()
     private var googleSignInObserver: NSObjectProtocol?
@@ -40,10 +34,15 @@ class LoginViewController: UIViewController {
             guard let strongSelf = self else {
                 return
             }
-            strongSelf.performSegue(withIdentifier: "gotoLoggedInScreen", sender: strongSelf)
+            if UserDefaults.standard.object(forKey: "new_user") != nil {
+                UserDefaults.standard.removeObject(forKey: "new_user")
+                strongSelf.performSegue(withIdentifier: "gotoOnboardingScreen", sender: strongSelf)
+            }
+            else {
+               strongSelf.performSegue(withIdentifier: "gotoLoggedInScreen", sender: strongSelf)
+            }
+            
         }
-        
-        facebookLoginButton.delegate = self
         
         GIDSignIn.sharedInstance()?.presentingViewController = self
     }
@@ -82,7 +81,7 @@ extension LoginViewController {
     }
     
     @IBAction func facebookLoginTapped(_ sender: Any) {
-        facebookLoginButton.sendActions(for: .touchUpInside)
+        
     }
     
     @IBAction func gmailLoginTapped(_ sender: Any) {
@@ -129,80 +128,6 @@ extension LoginViewController {
         let alert = UIAlertController(title: "Oops!", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
         self.present(alert, animated: true)
-    }
-    
-}
-
-
-//MARK: implemets facebook login methods
-extension LoginViewController: LoginButtonDelegate {
-    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
-        //        no code as no logout button in this screen
-    }
-    
-    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
-        guard let token = result?.token?.tokenString else {
-            showErrorAlert(message: "User failed to log in.")
-            return
-        }
-        
-        let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me",
-                                                         parameters: ["fields": "email, name"],
-                                                         tokenString: token,
-                                                         version: nil, httpMethod: .get)
-//        get user details
-        facebookRequest.start { [weak self] (_, result, error) in
-            guard let strongSelf = self else {
-                return
-            }
-            guard let result = result as? [String: Any], error == nil else {
-                print("GraphRequest Fetch Error!")
-                return
-            }
-            
-//            check if user with same email already registered
-            
-            guard let userName = result["name"] as? String,
-                let email = result["email"] as? String else {
-                    DispatchQueue.main.async {
-                        strongSelf.showErrorAlert(message: "Failed to fetch facebook credentials.")
-                    }
-                    return
-            }
-//            divide the name into components
-            let nameComponents = userName.components(separatedBy: " ")
-            guard nameComponents.count == 2 else {
-                return
-            }
-            
-            let firstName = nameComponents[0]
-            let lastname = nameComponents[1]
-            
-            DatabaseManager.shared.userAccountExists(with: email) { (exists) in
-//                if does not exists then create user
-                if !exists {
-                    DatabaseManager.shared.insertUser(with: UserAccount(firstName: firstName, lastName: lastname, email: email))
-                }
-//                continue with login
-                let credential = FacebookAuthProvider.credential(withAccessToken: token)
-                
-                FirebaseAuth.Auth.auth().signIn(with: credential) { [weak self] (authResult, error) in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    guard let _ = authResult, error == nil else {
-                        DispatchQueue.main.async {
-                            strongSelf.showErrorAlert(message: "Facebook login error. MFA may be required.")
-                        }
-                        return
-                    }
-                    strongSelf.performSegue(withIdentifier: "gotoLoggedInScreen", sender: strongSelf)
-                    
-                }
-            }
-            
-        }
-        
     }
     
 }

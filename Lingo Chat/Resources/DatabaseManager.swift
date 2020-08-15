@@ -23,8 +23,8 @@ extension DatabaseManager {
     
 ///   verifies weather user account with same email exists
     public func userAccountExists(with email: String, completion: @escaping ((Bool) -> Void)) {
-
-        database.child("Users").queryOrdered(byChild: "email").queryEqual(toValue: email).observeSingleEvent(of: .childAdded) { (snapshot) in
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
+        database.child("Users").child(userID).queryOrdered(byChild: "email").observeSingleEvent(of: .value) { (snapshot) in
             guard snapshot.value as? String != nil else {
                 completion(false)
                 return
@@ -46,6 +46,15 @@ extension DatabaseManager {
         ])
     }
     
+    public func insertPreferences(image: String, language: Int) {
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
+        let imgChild = database.child("Users").child(userID).child("image")
+        imgChild.setValue(image)
+        let langChild = database.child("Users").child(userID).child("lang")
+        langChild.setValue(language)
+    }
+    
+
     
 //    update methods
     
@@ -58,6 +67,6 @@ struct UserAccount {
     let firstName: String
     let lastName: String
     let email: String
-//    let profilePicUrl: URL
-//    let userLanguage: String
+//    let profilePicUrl: String
+//    let userLanguage: Int
 }

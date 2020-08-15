@@ -63,12 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 return
         }
         
-//        DatabaseManager.shared.userAccountExists(with: email) { (exists) in
-//            if !exists {
-//                DatabaseManager.shared.insertUser(with: UserAccount(firstName: firstName, lastName: lastName, email: email))
-//            }
-//        }
-        
         guard let authentication = user.authentication else {
             print("Missing sign in auth object for google.")
             return }
@@ -80,7 +74,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 return
             }
             
-            DatabaseManager.shared.insertUser(with: UserAccount(firstName: firstName, lastName: lastName, email: email))
+            DatabaseManager.shared.userAccountExists(with: email) { (exists) in
+                if !exists {
+                    DatabaseManager.shared.insertUser(with: UserAccount(firstName: firstName, lastName: lastName, email: email))
+                    UserDefaults.standard.set(true, forKey: "new_user")
+                }
+            }
+            
+            if user.profile.hasImage {
+                guard let url = user.profile.imageURL(withDimension: 200) else {
+                    return
+                }
+                UserDefaults.standard.set(url, forKey: "profile_image")
+            }
             
             NotificationCenter.default.post(name: .didGoogleSigninNotification, object: nil)
         }

@@ -23,11 +23,9 @@ final class StorageManager {
 /// uploads picture to firebase storage and returns url to download
     public func uploadProfilePicture(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
         
-        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
-            return
-        }
         
-        storage.child("Profile Images").child(userID).putData(data, metadata: nil) { [weak self] (metadata, error) in
+        
+        storage.child("Profile Images").child(fileName).putData(data, metadata: nil) { [weak self] (metadata, error) in
             guard let strongSelf = self else {
                 return
             }
@@ -37,7 +35,7 @@ final class StorageManager {
                 return
             }
             
-            strongSelf.storage.child("Profile Images").child(userID).downloadURL { (url, error) in
+            strongSelf.storage.child("Profile Images").child(fileName).downloadURL { (url, error) in
                 guard let url = url else {
                     print("Failed to fetch profile picture URL")
                     completion(.failure(StorageErrors.failedToFetchProfilePictureURL))
