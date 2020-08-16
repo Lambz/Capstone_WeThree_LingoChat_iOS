@@ -35,10 +35,12 @@ class LoginViewController: UIViewController {
                 return
             }
             if UserDefaults.standard.object(forKey: "new_user") != nil {
+                print("new user")
                 UserDefaults.standard.removeObject(forKey: "new_user")
                 strongSelf.performSegue(withIdentifier: "gotoOnboardingScreen", sender: strongSelf)
             }
             else {
+                print("old user")
                strongSelf.performSegue(withIdentifier: "gotoLoggedInScreen", sender: strongSelf)
             }
             

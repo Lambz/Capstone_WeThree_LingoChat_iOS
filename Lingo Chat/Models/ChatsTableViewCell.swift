@@ -17,7 +17,9 @@ class ChatsTableViewCell: UITableViewCell {
     @IBOutlet weak var lastConversationLabel: UILabel!
     
     func createChatCell(image: UIImage, senderName: String, lastMsg: String) {
-        
+        cellImage.image = image
+        senderNameLabel.text = senderName
+        lastConversationLabel.text = lastMsg
     }
     
 }

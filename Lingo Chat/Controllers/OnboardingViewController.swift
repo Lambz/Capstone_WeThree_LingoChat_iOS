@@ -77,17 +77,18 @@ class OnboardingViewController: UIViewController {
         guard let data = selectedImage?.jpegData(compressionQuality: 1.0) else {
             return
         }
+        print("data converted")
         let fileName = "\(userID).jpeg"
-        StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { (result) in
+        StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { [weak self](result) in
             switch result {
             case .failure(let error):
                 print("Storage manager insertion error: \(error)")
             case .success(let url):
-                DatabaseManager.shared.insertPreferences(image: url, language: self.languageSelector.selectedSegmentIndex)
-                
+                DatabaseManager.shared.insertPreferences(image: url, language: (self?.languageSelector.selectedSegmentIndex)!)
+                self?.performSegue(withIdentifier: "gotoLoggedInScreen", sender: self)
             }
         }
-        self.performSegue(withIdentifier: "gotoLoggedInScreen", sender: self)
+        
     }
 }
 

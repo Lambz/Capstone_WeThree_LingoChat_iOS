@@ -10,6 +10,8 @@ import UIKit
 import Firebase 
 import FBSDKCoreKit
 import GoogleSignIn
+import FirebaseAuth
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
@@ -75,20 +77,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             }
             
             DatabaseManager.shared.userAccountExists(with: email) { (exists) in
+                
                 if !exists {
-                    DatabaseManager.shared.insertUser(with: UserAccount(firstName: firstName, lastName: lastName, email: email))
-                    UserDefaults.standard.set(true, forKey: "new_user")
+                    guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
+                        print("uid not found")
+                        return
+                    }
+                    
+                    guard let data = UIImage(named: "user")!.jpegData(compressionQuality: 1.0) else {
+                        print("image data not found")
+                        return
+                    }
+                    print("data converted")
+                    let fileName = "\(userID).jpeg"
+                    StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { (result) in
+                        
+                        switch result {
+                        case .failure(let error):
+                            print("Storage manager insertion error: \(error)")
+                        case .success(let url):
+                            if user.profile.hasImage {
+                                guard let profileUrl = user.profile.imageURL(withDimension: 200) else {
+                                    return
+                                }
+                                DatabaseManager.shared.insertUser(with: UserAccount(
+                                firstName: firstName,
+                                lastName: lastName,
+                                email: email,
+                                image: profileUrl.absoluteString,
+                                language: 0))
+                                UserDefaults.standard.set(profileUrl, forKey: "profile_image")
+                            }
+                            else {
+                               DatabaseManager.shared.insertUser(with: UserAccount(
+                                firstName: firstName,
+                                lastName: lastName,
+                                email: email,
+                                image: url,
+                                language: 0))
+                            }
+                            
+                            UserDefaults.standard.set(true, forKey: "new_user")
+                        }
+                    }
                 }
+                
+                NotificationCenter.default.post(name: .didGoogleSigninNotification, object: nil)
             }
             
-            if user.profile.hasImage {
-                guard let url = user.profile.imageURL(withDimension: 200) else {
-                    return
-                }
-                UserDefaults.standard.set(url, forKey: "profile_image")
-            }
             
-            NotificationCenter.default.post(name: .didGoogleSigninNotification, object: nil)
         }
         
     }

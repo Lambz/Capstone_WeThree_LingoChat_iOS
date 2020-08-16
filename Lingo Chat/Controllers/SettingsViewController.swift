@@ -13,14 +13,47 @@ import GoogleSignIn
 class SettingsViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var userNameLabel: UILabel!
     
+    @IBOutlet weak var userImageButton: UIButton!
     private final let settings = ["Profile Settings", "Change Language", "About LingoChat", "Sign out"]
+    private final let images = [UIImage(systemName: "person.fill"), UIImage(systemName: "textformat.abc"), UIImage(systemName: "info.circle"), UIImage(systemName: "arrowshape.turn.up.left.fill")]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        setupViews()
     }
     
+    private func setupViews() {
+        guard let url = UserDefaults.standard.object(forKey: "image") as? String else {
+            print("data fetch error in settings")
+            return
+        }
+        DispatchQueue.global(qos: .background).async {
+            do
+            {
+                let data = try Data.init(contentsOf: URL(fileURLWithPath: url))
+                DispatchQueue.main.async {
+                    print("data converted")
+                    self.userImageButton.setImage(UIImage(data: data), for: .normal)
+                }
+            }
+            catch {
+                print("image data could not be downloaded in settings")
+            }
+        }
+       
+        let name = (UserDefaults.standard.object(forKey: "first_name") as! String) + " " + (UserDefaults.standard.object(forKey: "last_name") as! String)
+        userNameLabel.text = name
+        
+    }
+    
+    
+    @IBAction func imageButtonTapped(_ sender: Any) {
+        
+    }
 }
 
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -29,9 +62,8 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
-        cell.textLabel?.text = settings[indexPath.row]
-        cell.imageView?.image = UIImage(systemName: "message.fill")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath) as! SettingsTableViewCell
+        cell.createSettingsCell(cell: SettingsTableCell(image: images[indexPath.row]!, text: settings[indexPath.row]))
         return cell
     }
     

@@ -93,11 +93,30 @@ extension SignupViewController {
     }
     
     private func insertDatatoDatabase() {
-        DatabaseManager.shared.insertUser(with: UserAccount(
-            firstName: firstNameField.text!,
-            lastName: lastNameField.text!,
-            email: emailField.text!))
-        performSegue(withIdentifier: "gotoOnboardingScreen", sender: self)
+        let userID = FirebaseAuth.Auth.auth().currentUser?.uid
+        guard let data = UIImage(named: "user")!.jpegData(compressionQuality: 1.0) else {
+            return
+        }
+        print("data converted")
+        let fileName = "\(userID).jpeg"
+        StorageManager.shared.uploadProfilePicture(with: data, fileName: fileName) { [weak self](result) in
+            guard let strongSelf = self else {
+                return
+            }
+            switch result {
+            case .failure(let error):
+                print("Storage manager insertion error: \(error)")
+            case .success(let url):
+                DatabaseManager.shared.insertUser(with: UserAccount(
+                    firstName: strongSelf.firstNameField.text!,
+                    lastName: strongSelf.lastNameField.text!,
+                    email: strongSelf.emailField.text!,
+                    image: url,
+                    language: 0))
+                strongSelf.performSegue(withIdentifier: "gotoOnboardingScreen", sender: self)
+            }
+        }
+        
     }
     
 //    alert method implemented

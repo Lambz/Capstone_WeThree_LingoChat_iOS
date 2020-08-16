@@ -260,34 +260,51 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="JAY-km-29O">
                                 <rect key="frame" x="0.0" y="114" width="414" height="645"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ats-kq-zMu">
-                                        <rect key="frame" x="0.0" y="22" width="414" height="136.5"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dVS-MN-QHc">
+                                        <rect key="frame" x="0.0" y="22" width="414" height="200"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user" translatesAutoresizingMaskIntoConstraints="NO" id="jO1-fK-cca">
-                                                <rect key="frame" x="157" y="0.0" width="100" height="100"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="100" id="1wj-iz-XmI"/>
-                                                    <constraint firstAttribute="height" constant="100" id="U6S-X6-ILF"/>
-                                                </constraints>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <integer key="value" value="50"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V9F-Ij-lIH">
-                                                <rect key="frame" x="155" y="110" width="104.5" height="26.5"/>
-                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ats-kq-zMu">
+                                                <rect key="frame" x="0.0" y="22" width="414" height="178"/>
+                                                <subviews>
+                                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eqf-uC-MN3">
+                                                        <rect key="frame" x="157" y="0.0" width="100" height="100"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="100" id="kV0-LH-kVy"/>
+                                                            <constraint firstAttribute="height" constant="100" id="qMs-5z-c61"/>
+                                                        </constraints>
+                                                        <state key="normal" image="user"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <integer key="value" value="50"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="imageButtonTapped:" destination="qNO-UG-9SJ" eventType="touchUpInside" id="4iB-Jh-0zf"/>
+                                                        </connections>
+                                                    </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V9F-Ij-lIH">
+                                                        <rect key="frame" x="154" y="110" width="106.5" height="68"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
-                                    </stackView>
+                                        <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="ats-kq-zMu" firstAttribute="top" secondItem="dVS-MN-QHc" secondAttribute="top" constant="22" id="APj-5Z-AM1"/>
+                                            <constraint firstAttribute="trailing" secondItem="ats-kq-zMu" secondAttribute="trailing" id="YME-5g-OSW"/>
+                                            <constraint firstAttribute="height" constant="200" id="YyC-aN-m8E"/>
+                                            <constraint firstItem="ats-kq-zMu" firstAttribute="leading" secondItem="dVS-MN-QHc" secondAttribute="leading" id="dSh-ba-izN"/>
+                                            <constraint firstAttribute="bottom" secondItem="ats-kq-zMu" secondAttribute="bottom" id="lav-em-oh9"/>
+                                        </constraints>
+                                    </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TAy-ah-Yzo">
-                                        <rect key="frame" x="0.0" y="170.5" width="414" height="466.5"/>
+                                        <rect key="frame" x="0.0" y="234" width="414" height="403"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsCell" id="2bx-r4-aFx">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsCell" id="2bx-r4-aFx" customClass="SettingsTableViewCell" customModule="Lingo_Chat" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="414" height="42.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2bx-r4-aFx" id="MGe-7d-NSn">
@@ -297,8 +314,8 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1Sb-Rg-ETb">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="42.5"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0jN-XI-mVI">
-                                                                    <rect key="frame" x="8" y="8.5" width="25" height="25.5"/>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowshape.turn.up.left.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="0jN-XI-mVI">
+                                                                    <rect key="frame" x="8" y="9.5" width="25" height="23"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="25" id="Cc6-2h-84u"/>
                                                                         <constraint firstAttribute="height" constant="25" id="Vc2-hS-Ak1"/>
@@ -324,6 +341,10 @@
                                                         <constraint firstAttribute="bottom" secondItem="1Sb-Rg-ETb" secondAttribute="bottom" id="dZH-5h-HLv"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="settingsIconView" destination="0jN-XI-mVI" id="dYp-RZ-cxG"/>
+                                                    <outlet property="settingsTextLabel" destination="v9M-u9-ABO" id="qGG-SF-fR2"/>
+                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
@@ -343,6 +364,8 @@
                     <navigationItem key="navigationItem" title="Settings" largeTitleDisplayMode="always" id="186-Ug-MkN"/>
                     <connections>
                         <outlet property="tableView" destination="TAy-ah-Yzo" id="uGl-8x-xuo"/>
+                        <outlet property="userImageButton" destination="eqf-uC-MN3" id="MUh-Ml-jo6"/>
+                        <outlet property="userNameLabel" destination="V9F-Ij-lIH" id="Ors-Uz-Gzg"/>
                         <segue destination="BYZ-38-t0r" kind="showDetail" identifier="logoutUser" id="dqE-a0-BD0"/>
                     </connections>
                 </viewController>
@@ -930,6 +953,7 @@
         <segue reference="dqE-a0-BD0"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="arrowshape.turn.up.left.fill" catalog="system" width="128" height="106"/>
         <image name="fb" width="128" height="128"/>
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="gmail" width="128" height="128"/>
