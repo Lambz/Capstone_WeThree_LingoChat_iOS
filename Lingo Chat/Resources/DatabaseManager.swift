@@ -73,6 +73,16 @@ extension DatabaseManager {
         database.child("Users").child(userID).updateChildValues(["last_name": lastName])
     }
     
+    public func updateLanguage(language: String) {
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
+        database.child("Users").child(userID).updateChildValues(["lang": language])
+    }
+    
+    public func updateImageUrl(image: String) {
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
+        database.child("Users").child(userID).updateChildValues(["image": image])
+    }
+    
 //    deletion methods
     
     

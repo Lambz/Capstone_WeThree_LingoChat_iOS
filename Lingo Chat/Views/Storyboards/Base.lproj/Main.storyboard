@@ -883,8 +883,8 @@
                                                 <segments>
                                                     <segment title="English"/>
                                                     <segment title="French"/>
-                                                    <segment title="Spanish"/>
                                                     <segment title="German"/>
+                                                    <segment title="Spanish"/>
                                                     <segment title="Hindi"/>
                                                 </segments>
                                             </segmentedControl>

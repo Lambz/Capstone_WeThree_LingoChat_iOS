@@ -15,8 +15,6 @@ class OnboardingViewController: UIViewController {
     @IBOutlet weak var profilePhotoButton: UIButton!
     private var imagePickerController: UIImagePickerController?
     
-    private var defaultImageUrl: String?
-    
     internal var selectedImage: UIImage? {
         get {
             return self.profilePhotoButton.image(for: .normal)

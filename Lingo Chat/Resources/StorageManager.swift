@@ -23,8 +23,6 @@ final class StorageManager {
 /// uploads picture to firebase storage and returns url to download
     public func uploadProfilePicture(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
         
-        
-        
         storage.child("Profile Images").child(fileName).putData(data, metadata: nil) { [weak self] (metadata, error) in
             guard let strongSelf = self else {
                 return
@@ -51,9 +49,32 @@ final class StorageManager {
         
     }
     
+    public func updateProfilePicture(with data: Data, fileName: String, oldUrl: String, completion: @escaping UploadPictureCompletion) {
+        
+        let oldRef = Storage.storage().reference(forURL: oldUrl)
+        oldRef.delete { (error) in
+            guard error == nil else {
+                print("File deletion error")
+                completion(.failure(StorageErrors.failedToDeleteOldPicture))
+                return
+            }
+            
+            self.uploadProfilePicture(with: data, fileName: fileName) { (result) in
+                switch result {
+                case .success(let url):
+                    completion(.success(url))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+            
+        }
+    }
+    
     
     public enum StorageErrors: Error {
         case failedToUploadProfilePicture
         case failedToFetchProfilePictureURL
+        case failedToDeleteOldPicture
     }
 }
