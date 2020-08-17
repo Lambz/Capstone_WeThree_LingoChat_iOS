@@ -51,6 +51,13 @@ extension DatabaseManager {
             ])
      }
     
+    
+    
+
+    
+//    update methods
+    
+    
     public func insertPreferences(image: String, language: String) {
         guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
         database.child("Users").child(userID).updateChildValues(["image": image])
@@ -58,10 +65,13 @@ extension DatabaseManager {
         database.child("Users").child(userID).updateChildValues(["lang": language])
     }
     
-
     
-//    update methods
-    
+    public func updateProfile(firstName: String, lastName: String) {
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
+        database.child("Users").child(userID).updateChildValues(["first_name": firstName])
+        
+        database.child("Users").child(userID).updateChildValues(["last_name": lastName])
+    }
     
 //    deletion methods
     

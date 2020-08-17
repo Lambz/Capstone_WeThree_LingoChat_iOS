@@ -35,7 +35,7 @@ class SettingsViewController: UIViewController {
         DispatchQueue.global(qos: .background).async {
             do
             {
-                let data = try Data.init(contentsOf: URL(fileURLWithPath: url))
+                let data = try Data.init(contentsOf: URL(string: url)!)
                 DispatchQueue.main.async {
                     print("data converted")
                     self.userImageButton.setImage(UIImage(data: data), for: .normal)
@@ -46,9 +46,13 @@ class SettingsViewController: UIViewController {
             }
         }
        
+        updateUserName()
+        
+    }
+    
+    private func updateUserName() {
         let name = (UserDefaults.standard.object(forKey: "first_name") as! String) + " " + (UserDefaults.standard.object(forKey: "last_name") as! String)
         userNameLabel.text = name
-        
     }
     
     
@@ -70,8 +74,12 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row == 3 {
-            showConfirmationAlert()
+        switch indexPath.row {
+        case 0: showProfileSettingsAlert()
+        case 1: showLanguageSettingAlert()
+        case 2: showAboutInfoAlert()
+        case 3: showConfirmationAlert()
+        default: break
         }
     }
     
@@ -102,6 +110,43 @@ extension SettingsViewController {
             
         })
         self.present(alert, animated: true)
+    }
+    
+    private func showProfileSettingsAlert() {
+        let alert = UIAlertController(title: "Some Title", message: "Enter a text", preferredStyle: .alert)
+        
+        alert.addTextField { (textField) in
+            textField.text = UserDefaults.standard.object(forKey: "first_name") as? String
+        }
+        alert.addTextField { (textField) in
+            textField.text = UserDefaults.standard.object(forKey: "last_name") as? String
+        }
+
+        alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
+            let firstName = alert?.textFields![0].text
+            let lastName = alert?.textFields![1].text
+            if !firstName!.isEmpty && !lastName!.isEmpty {
+                DatabaseManager.shared.updateProfile(firstName: firstName!, lastName: lastName!)
+                UserDefaults.standard.set(firstName!, forKey: "first_name")
+                UserDefaults.standard.set(lastName!, forKey: "last_name")
+                self.updateUserName()
+            }
+            else {
+                self.showErrorAlert(message: "Fields can't be empty")
+            }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func showLanguageSettingAlert() {
+        
+    }
+    
+    private func showAboutInfoAlert() {
+        
     }
     
 }
