@@ -48,29 +48,10 @@ extension DatabaseManager {
             "email": user.email,
             "image": user.image,
             "lang": user.language
-            ], withCompletionBlock: { error,_ in
-                guard error == nil else {
-                    return
-                }
-                
-//                fetch users list
-                
-                self.database.child("Users").observeSingleEvent(of: .value) { (snapshot) in
-                    if var usersCollection = snapshot.value as? [[String: String]] {
-                        
-                    }
-                    else {
-                        let newCollection: [[String: String]] = [
-                        ]
-                    }
-                }
-        })
-        
-        
-        
-    }
+            ])
+     }
     
-    public func insertPreferences(image: String, language: Int) {
+    public func insertPreferences(image: String, language: String) {
         guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
         database.child("Users").child(userID).updateChildValues(["image": image])
         
@@ -89,23 +70,46 @@ extension DatabaseManager {
     
 //    query methods
     
-    public func getUserDetails(completion: @escaping (Result<[Any], Error>) -> Void) {
+    public func getUserDetails(completion: @escaping (Result<[String], Error>) -> Void) {
         guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
         database.child("Users").child(userID).observeSingleEvent(of: .value) { (snapshot) in
-            guard let value = snapshot.value as? [String: Any] else {
+            guard let value = snapshot.value as? [String: String] else {
                 completion(.failure(DatabaseErrors.failedToFetchData))
                 return
             }
-            print("Sanapshot", value)
-            var returnArray: [Any] = []
-            returnArray.append(value["first_name"])
-            returnArray.append(value["last_name"])
-            returnArray.append(value["image"])
-            returnArray.append(value["lang"])
+//            print("Snapshot", value)
+            var returnArray: [String] = []
+            returnArray.append(value["first_name"] ?? "")
+            returnArray.append(value["last_name"] ?? "")
+            returnArray.append(value["image"] ?? "")
+            returnArray.append(value["lang"] ?? "")
             completion(.success(returnArray))
         }
     }
+    
+    public func fetchAllUsers(completion: @escaping (Result<[UserAccount], Error>) -> Void) {
+        let userEmail = FirebaseAuth.Auth.auth().currentUser?.email?.lowercased()
+        database.child("Users").observeSingleEvent(of: .value) { (snapshot) in
+            var users = [UserAccount]()
+            for case let child as DataSnapshot in snapshot.children {
+                guard let item = child.value as? [String:String] else {
+                    print("Error")
+                    completion(.failure(DatabaseErrors.failedToFetchData))
+                    return
+                }
+                if item["email"]!.lowercased() == userEmail {
+                    continue
+                }
+                let user = UserAccount(firstName: item["first_name"]!, lastName: item["last_name"]!, email: item["email"]!, image: item["image"]!, language: item["lang"]!)
+//                print(user)
+                users.append(user)
+            }
+            completion(.success(users))
+        }
+    }
+    
 }
+
 
 public enum DatabaseErrors: Error {
     case failedToFetchData
@@ -117,5 +121,5 @@ struct UserAccount {
     let lastName: String
     let email: String
     let image: String
-    let language: Int
+    let language: String
 }

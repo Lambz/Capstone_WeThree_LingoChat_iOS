@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                                 lastName: lastName,
                                 email: email,
                                 image: profileUrl.absoluteString,
-                                language: 0))
+                                language: "0"))
                                 UserDefaults.standard.set(profileUrl, forKey: "profile_image")
                             }
                             else {
@@ -114,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                                 lastName: lastName,
                                 email: email,
                                 image: url,
-                                language: 0))
+                                language: "0"))
                             }
                             
                             UserDefaults.standard.set(true, forKey: "new_user")

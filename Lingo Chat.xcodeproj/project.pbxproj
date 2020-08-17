@@ -30,6 +30,7 @@
 		8473DE6E24E0C9250039D437 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8473DE6D24E0C9250039D437 /* SettingsViewController.swift */; };
 		84D8BB0324E1E406009A78FA /* AnimatedLogoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8BB0224E1E406009A78FA /* AnimatedLogoViewController.swift */; };
 		84D8BB0524E20552009A78FA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84D8BB0424E20552009A78FA /* GoogleService-Info.plist */; };
+		84F1673124EA2E6F004F5365 /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F1673024EA2E6F004F5365 /* ContactsTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +72,7 @@
 		8473DE6D24E0C9250039D437 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		84D8BB0224E1E406009A78FA /* AnimatedLogoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedLogoViewController.swift; sourceTree = "<group>"; };
 		84D8BB0424E20552009A78FA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		84F1673024EA2E6F004F5365 /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 			children = (
 				84498BC224E4DD0900CC9985 /* ChatsTableViewCell.swift */,
 				845141A124E8610E0077213B /* SettingsTableViewCell.swift */,
+				84F1673024EA2E6F004F5365 /* ContactsTableViewCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				8473DE6624E0C8460039D437 /* SignupViewController.swift in Sources */,
 				8473DE3C24E0C6930039D437 /* AppDelegate.swift in Sources */,
 				8473DE6C24E0C9090039D437 /* ContactsViewController.swift in Sources */,
+				84F1673124EA2E6F004F5365 /* ContactsTableViewCell.swift in Sources */,
 				844382E424E46DA6001CFAC5 /* OnboardingViewController.swift in Sources */,
 				84498BBF24E48D6500CC9985 /* Extensions.swift in Sources */,
 				845141A224E8610E0077213B /* SettingsTableViewCell.swift in Sources */,

@@ -68,10 +68,10 @@ extension ChatsViewController {
         DatabaseManager.shared.getUserDetails { (result) in
             switch result {
             case .success(let values):
-                UserDefaults.standard.set(values[0] as! String, forKey: "first_name")
-                UserDefaults.standard.set(values[1] as! String, forKey: "last_name")
-                UserDefaults.standard.set(values[2] as! String, forKey: "image")
-                UserDefaults.standard.set(values[3] as! Int, forKey: "language")
+                UserDefaults.standard.set(values[0] , forKey: "first_name")
+                UserDefaults.standard.set(values[1] , forKey: "last_name")
+                UserDefaults.standard.set(values[2] , forKey: "image")
+                UserDefaults.standard.set(values[3], forKey: "language")
             case .failure(let error):
                 print("Data fetch error: \(error)")
             }

@@ -84,7 +84,7 @@ class OnboardingViewController: UIViewController {
             case .failure(let error):
                 print("Storage manager insertion error: \(error)")
             case .success(let url):
-                DatabaseManager.shared.insertPreferences(image: url, language: (self?.languageSelector.selectedSegmentIndex)!)
+                DatabaseManager.shared.insertPreferences(image: url, language: "\((self?.languageSelector.selectedSegmentIndex)!)")
                 self?.performSegue(withIdentifier: "gotoLoggedInScreen", sender: self)
             }
         }

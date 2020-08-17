@@ -388,11 +388,11 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                                         <subviews>
                                             <searchBar contentMode="redraw" placeholder="Search Contacts" translatesAutoresizingMaskIntoConstraints="NO" id="zWJ-Wc-7vS">
-                                                <rect key="frame" x="0.0" y="0.0" width="350" height="56"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="366" height="56"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </searchBar>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R65-9X-KKN">
-                                                <rect key="frame" x="350" y="0.0" width="64" height="56"/>
+                                                <rect key="frame" x="366" y="0.0" width="48" height="56"/>
                                                 <state key="normal" title="Cancel"/>
                                                 <connections>
                                                     <action selector="cancelButtonTapped:" destination="oLa-ME-gdX" eventType="touchUpInside" id="0vJ-rj-70g"/>
@@ -400,11 +400,17 @@
                                             </button>
                                         </subviews>
                                     </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No contacts to show yet.😀" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXC-6H-hip">
+                                        <rect key="frame" x="0.0" y="66" width="414" height="26.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
+                                        <color key="textColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ulh-nl-nee">
-                                        <rect key="frame" x="0.0" y="66" width="414" height="742"/>
+                                        <rect key="frame" x="0.0" y="102.5" width="414" height="705.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="IZZ-Sl-4gk">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="contactCell" id="IZZ-Sl-4gk" customClass="ContactsTableViewCell" customModule="Lingo_Chat" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="414" height="100.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IZZ-Sl-4gk" id="GBc-rU-dg5">
@@ -442,6 +448,10 @@
                                                         <constraint firstAttribute="bottom" secondItem="oGq-y3-aYp" secondAttribute="bottom" id="ygx-be-Ikf"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="contactImage" destination="EKD-ta-dbO" id="GRf-9Y-7iP"/>
+                                                    <outlet property="contactName" destination="Xxt-lZ-jz0" id="bAC-ej-fLg"/>
+                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
@@ -458,6 +468,7 @@
                         <viewLayoutGuide key="safeArea" id="KQo-9B-iFy"/>
                     </view>
                     <connections>
+                        <outlet property="noContactsLabel" destination="HXC-6H-hip" id="rxy-EE-e8b"/>
                         <outlet property="searchBar" destination="zWJ-Wc-7vS" id="CIr-K5-kBf"/>
                         <outlet property="tableView" destination="ulh-nl-nee" id="zq6-Nu-Qzl"/>
                         <segue destination="Hl8-bk-ZWB" kind="unwind" identifier="goBackToChats" unwindAction="unwindFromSettingsWithSegue:" id="ynU-vu-anb"/>
@@ -539,13 +550,13 @@
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="3CA-T1-9uL">
                                                                     <rect key="frame" x="80" y="8.5" width="52.5" height="57"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d6H-mp-mMg">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d6H-mp-mMg">
                                                                             <rect key="frame" x="0.0" y="0.0" width="52.5" height="26.5"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S4j-cn-sGj">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S4j-cn-sGj">
                                                                             <rect key="frame" x="0.0" y="36.5" width="52.5" height="20.5"/>
                                                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                                                             <nil key="textColor"/>

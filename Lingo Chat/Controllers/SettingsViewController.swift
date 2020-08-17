@@ -24,6 +24,7 @@ class SettingsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         setupViews()
+        
     }
     
     private func setupViews() {

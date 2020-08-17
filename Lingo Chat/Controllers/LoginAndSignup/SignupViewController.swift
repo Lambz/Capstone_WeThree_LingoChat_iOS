@@ -112,7 +112,7 @@ extension SignupViewController {
                     lastName: strongSelf.lastNameField.text!,
                     email: strongSelf.emailField.text!,
                     image: url,
-                    language: 0))
+                    language: "0"))
                 strongSelf.performSegue(withIdentifier: "gotoOnboardingScreen", sender: self)
             }
         }
