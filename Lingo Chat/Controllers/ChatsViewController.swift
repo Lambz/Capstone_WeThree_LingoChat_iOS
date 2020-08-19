@@ -16,6 +16,8 @@ class ChatsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyChatsLabel: UILabel!
     private let spinner = JGProgressHUD(style: .light)
+    private var selectedContactToStartConversation : UserAccount!
+    private var previousChats = [UserAccount]()
     
     
     override func viewDidLoad() {
@@ -32,13 +34,23 @@ class ChatsViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         self.navigationItem.hidesBackButton = true
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.resignFirstResponder()
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.destination is ConversationViewController else {
             return
         }
-        
-        segue.destination.title = "Person"
+    
+        if let destVC = segue.destination as? ConversationViewController {
+            let title = selectedContactToStartConversation.firstName + " " + selectedContactToStartConversation.lastName
+            destVC.isNewConversation = true
+            destVC.title = title
+            destVC.otherUser = selectedContactToStartConversation
+        }
         
     }
 
@@ -47,7 +59,16 @@ class ChatsViewController: UIViewController {
     }
     
     @IBAction func unwindFromSettings(segue: UIStoryboardSegue) {
-        
+        if segue.source is ContactsViewController {
+            if let senderVC = segue.source as? ContactsViewController {
+                selectedContactToStartConversation = senderVC.selectedContact
+                if let segue = segue as? UIStoryboardSegueWithCompletion {
+                    segue.completion = {
+                        self.performSegue(withIdentifier: "gotoConversationScreen", sender: self)
+                    }
+                }
+            }
+        }
     }
     
     
@@ -72,6 +93,7 @@ extension ChatsViewController {
                 UserDefaults.standard.set(values[1] , forKey: "last_name")
                 UserDefaults.standard.set(values[2] , forKey: "image")
                 UserDefaults.standard.set(values[3], forKey: "language")
+                UserDefaults.standard.set(values[4], forKey: "user_id")
             case .failure(let error):
                 print("Data fetch error: \(error)")
             }
@@ -98,6 +120,7 @@ extension ChatsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+//        selectedContactToStartConversation = previousChats[indexPath.row]
         self.performSegue(withIdentifier: "gotoConversationScreen", sender: self)
     }
 }

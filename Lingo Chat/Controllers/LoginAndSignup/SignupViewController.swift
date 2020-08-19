@@ -93,7 +93,9 @@ extension SignupViewController {
     }
     
     private func insertDatatoDatabase() {
-        let userID = FirebaseAuth.Auth.auth().currentUser?.uid
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
+            return
+        }
         guard let data = UIImage(named: "user")!.jpegData(compressionQuality: 1.0) else {
             return
         }

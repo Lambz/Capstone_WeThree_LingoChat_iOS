@@ -10,6 +10,7 @@ import UIKit
 import JGProgressHUD
 
 class ContactsViewController: UIViewController {
+    
     private let spinner = JGProgressHUD(style: .dark)
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -18,6 +19,7 @@ class ContactsViewController: UIViewController {
     @IBOutlet weak var noContactsLabel: UILabel!
     private var personalContacts = [String]()
     private var contactsToShow: [UserAccount] = []
+    public var selectedContact: UserAccount!
     private var hasFetched = false
     private var images: [UIImage] = []
     
@@ -40,7 +42,6 @@ class ContactsViewController: UIViewController {
         personalContacts = ContactsHelper.fetchContacts()
                 if !personalContacts.isEmpty {
                     print("Phone contacts fetched")
-                    self.tableView.isHidden = false
                     spinner.show(in: view)
                     personalContacts = personalContacts.map{$0.lowercased()}
                     fetchContacts { (result) in
@@ -51,6 +52,7 @@ class ContactsViewController: UIViewController {
                         case .success(let isNotEmpty):
                             if isNotEmpty {
         //                        refresh view
+                                self.tableView.isHidden = false
                                 self.spinner.show(in: self.view)
                                 self.downloadImages { (_) in
                                     print("images downloaded")
@@ -168,5 +170,9 @@ extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        set variable for contact head and id
+        selectedContact = contactsToShow[indexPath.row]
+        performSegue(withIdentifier: "goBackToChatsScreen", sender: self)
+    }
 }

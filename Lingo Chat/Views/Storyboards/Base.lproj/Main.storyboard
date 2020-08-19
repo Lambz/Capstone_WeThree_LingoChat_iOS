@@ -400,7 +400,7 @@
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No contacts to show yet.😀" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXC-6H-hip">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No contacts to show yet 😀" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXC-6H-hip">
                                         <rect key="frame" x="0.0" y="66" width="414" height="26.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
                                         <color key="textColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -471,11 +471,11 @@
                         <outlet property="noContactsLabel" destination="HXC-6H-hip" id="rxy-EE-e8b"/>
                         <outlet property="searchBar" destination="zWJ-Wc-7vS" id="CIr-K5-kBf"/>
                         <outlet property="tableView" destination="ulh-nl-nee" id="zq6-Nu-Qzl"/>
-                        <segue destination="Hl8-bk-ZWB" kind="unwind" identifier="goBackToChats" unwindAction="unwindFromSettingsWithSegue:" id="ynU-vu-anb"/>
+                        <segue destination="SyW-k7-PoM" kind="unwind" identifier="goBackToChatsScreen" customClass="UIStoryboardSegueWithCompletion" customModule="Lingo_Chat" customModuleProvider="target" unwindAction="unwindFromSettingsWithSegue:" id="MvO-Hq-1Nn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nE6-Wv-3vK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="Hl8-bk-ZWB" userLabel="Exit" sceneMemberID="exit"/>
+                <exit id="SyW-k7-PoM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4398.5507246376819" y="354.91071428571428"/>
         </scene>

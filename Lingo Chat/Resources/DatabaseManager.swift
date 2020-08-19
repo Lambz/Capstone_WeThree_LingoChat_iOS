@@ -15,7 +15,7 @@ final class DatabaseManager {
     private let database = Database.database().reference()    
 }
 
-//MARK: Transcation menthods implemented
+//MARK: Transcation menthods for user details (login/logut/user data) implemented
 
 extension DatabaseManager {
     
@@ -103,6 +103,7 @@ extension DatabaseManager {
             returnArray.append(value["last_name"] ?? "")
             returnArray.append(value["image"] ?? "")
             returnArray.append(value["lang"] ?? "")
+            returnArray.append(userID)
             completion(.success(returnArray))
         }
     }
@@ -126,6 +127,41 @@ extension DatabaseManager {
             }
             completion(.success(users))
         }
+    }
+    
+}
+
+//MARK: Message methods implemeted
+extension DatabaseManager {
+    
+//    insertion methods
+    
+    public func createNewConversation(with otherUserEmail: String, firstMessage: String, completion: @escaping(Bool) -> Void) {
+        
+    }
+    
+    public func sendTextMesage(coversation: String, message: Message, completion: @escaping (Bool) -> Void) {
+        
+    }
+    
+    
+//    query methods
+    public func getUserIdFromEmail(email: String, completion: @escaping (Result<String, Error>) -> Void) {
+        database.child("Users").queryOrdered(byChild: "email").queryEqual(toValue: email).observeSingleEvent(of: .childAdded) { (snapshot) in
+            guard snapshot != nil else {
+                completion(.failure(DatabaseErrors.failedToFetchData))
+                return
+            }
+            completion(.success(snapshot.key))
+        }
+    }
+    
+    public func getAllConversations(completion: @escaping(Result<[Message], Error>) -> Void) {
+        
+    }
+    
+    public func getAllMessagesForConversation() {
+        
     }
     
 }
