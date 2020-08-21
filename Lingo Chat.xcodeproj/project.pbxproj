@@ -13,7 +13,6 @@
 		8447F76E24E5C43F00F39213 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8447F76D24E5C43F00F39213 /* StorageManager.swift */; };
 		84490E1924EB7F390012D259 /* UIStoryboardSegueWithCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84490E1824EB7F390012D259 /* UIStoryboardSegueWithCompletion.swift */; };
 		84498BBF24E48D6500CC9985 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84498BBE24E48D6500CC9985 /* Extensions.swift */; };
-		84498BC124E49E9700CC9985 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84498BC024E49E9700CC9985 /* ConversationViewController.swift */; };
 		84498BC324E4DD0900CC9985 /* ChatsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84498BC224E4DD0900CC9985 /* ChatsTableViewCell.swift */; };
 		845141A224E8610E0077213B /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845141A124E8610E0077213B /* SettingsTableViewCell.swift */; };
 		845141A624E8D5C60077213B /* ContactsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845141A524E8D5C60077213B /* ContactsHelper.swift */; };
@@ -32,6 +31,7 @@
 		84D8BB0324E1E406009A78FA /* AnimatedLogoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8BB0224E1E406009A78FA /* AnimatedLogoViewController.swift */; };
 		84D8BB0524E20552009A78FA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84D8BB0424E20552009A78FA /* GoogleService-Info.plist */; };
 		84F1673124EA2E6F004F5365 /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F1673024EA2E6F004F5365 /* ContactsTableViewCell.swift */; };
+		84F6D9F324EF174E00B7BC16 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84498BC024E49E9700CC9985 /* ConversationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -352,8 +352,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				845141A624E8D5C60077213B /* ContactsHelper.swift in Sources */,
-				84498BC124E49E9700CC9985 /* ConversationViewController.swift in Sources */,
 				84490E1924EB7F390012D259 /* UIStoryboardSegueWithCompletion.swift in Sources */,
+				84F6D9F324EF174E00B7BC16 /* ConversationViewController.swift in Sources */,
 				84498BC324E4DD0900CC9985 /* ChatsTableViewCell.swift in Sources */,
 				8473DE6424E0C8340039D437 /* LoginViewController.swift in Sources */,
 				843B570524E3151D0035F4E6 /* DatabaseManager.swift in Sources */,

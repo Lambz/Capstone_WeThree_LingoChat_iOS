@@ -17,6 +17,24 @@ struct Message: MessageType {
     var kind: MessageKind
 }
 
+extension MessageKind {
+    var messageKindString: String {
+        switch self {
+        case .text(_):
+            return "text"
+        case .photo(_):
+            return "image"
+        case .video(_):
+            return "video"
+        case .location(_):
+            return "location"
+        case .audio(_):
+            return "audio"
+        default: return "other"
+        }
+    }
+}
+
 struct Sender: SenderType {
     var photoURL: URL
     var senderId: String
@@ -25,7 +43,7 @@ struct Sender: SenderType {
 }
 
 class ConversationViewController: MessagesViewController {
-
+    
     private var messages = [Message]()
     private var selfSender: Sender? {
         guard let image = UserDefaults.standard.object(forKey: "image") as? String, let id = UserDefaults.standard.object(forKey: "user_id") as? String, let firstName = UserDefaults.standard.object(forKey: "first_name") as? String, let lastName = UserDefaults.standard.object(forKey: "last_name") as? String, let language = UserDefaults.standard.object(forKey: "language") as? String else {
@@ -44,7 +62,11 @@ class ConversationViewController: MessagesViewController {
         super.viewDidLoad()
 
         setupDelegates()
-        fetchOtherUserIdAndSetupSender()
+        fetchOtherUserIdAndSetupSender { (success) in
+            if success {
+                setupChatsListener()
+            }
+        }
         
         
     }
@@ -65,15 +87,26 @@ class ConversationViewController: MessagesViewController {
         messageInputBar.delegate = self
     }
     
-    private func fetchOtherUserIdAndSetupSender() {
-        DatabaseManager.shared.getUserIdFromEmail(email: otherUser.email) { (result) in
+    private func fetchOtherUserIdAndSetupSender(completion: @escaping(Bool) -> Void) {
+        DatabaseManager.shared.getUserIdFromEmail(email: otherUser.email) { [weak self] (result) in
+            guard let strongSelf = self else {
+                completion(false)
+                return
+            }
             switch result {
             case .success(let id):
-                self.talkingToSender = Sender(photoURL: URL(string: self.otherUser.image)!, senderId: id, displayName: "\(self.otherUser.firstName) \(self.otherUser.lastName)", language: self.otherUser.language)
+                strongSelf.talkingToSender = Sender(photoURL: URL(string: "image")!, senderId: id, displayName: "\(strongSelf.otherUser.firstName) \(strongSelf.otherUser.lastName)", language: (strongSelf.otherUser.language))
+                completion(true)
             case .failure(let error):
                 print("User ID can't be fetched: \(error)")
+                completion(false)
             }
         }
+    }
+    
+    
+    private func setupChatsListener() {
+        DatabaseManager.shared.getAllMessagesForConversation(with: talkingToSender.senderId)
     }
 
 }
@@ -83,12 +116,16 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
         guard !text.replacingOccurrences(of: " ", with: "").isEmpty else {
             return
         }
-        if isNewConversation {
-            
+        let message = Message(sender: selfSender!, messageId: "messageId", sentDate: Date(), kind: .text(text))
+        DatabaseManager.shared.sendMesage(to: talkingToSender.senderId, message: message) { (success) in
+            if success {
+                print("message sent")
+            }
+            else {
+                print("Error sending message! Try again")
+            }
         }
-        else {
-            
-        }
+        
     }
 }
 

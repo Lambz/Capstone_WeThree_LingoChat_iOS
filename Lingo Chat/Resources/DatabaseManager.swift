@@ -10,9 +10,25 @@ import Foundation
 import FirebaseDatabase
 import FirebaseAuth
 
+struct ChatListData {
+    let name: String
+    let id: String
+    let image: String
+    let email: String
+    let language: String
+}
+
+
 final class DatabaseManager {
     static let shared = DatabaseManager()
-    private let database = Database.database().reference()    
+    private let database = Database.database().reference()
+    public static let dateformatter: DateFormatter = {
+        let dateformatter = DateFormatter()
+        dateformatter.dateStyle = .medium
+        dateformatter.timeStyle = .long
+        dateformatter.locale = .current
+        return dateformatter
+    }()
 }
 
 //MARK: Transcation menthods for user details (login/logut/user data) implemented
@@ -97,7 +113,6 @@ extension DatabaseManager {
                 completion(.failure(DatabaseErrors.failedToFetchData))
                 return
             }
-//            print("Snapshot", value)
             var returnArray: [String] = []
             returnArray.append(value["first_name"] ?? "")
             returnArray.append(value["last_name"] ?? "")
@@ -122,7 +137,6 @@ extension DatabaseManager {
                     continue
                 }
                 let user = UserAccount(firstName: item["first_name"]!, lastName: item["last_name"]!, email: item["email"]!, image: item["image"]!, language: item["lang"]!)
-//                print(user)
                 users.append(user)
             }
             completion(.success(users))
@@ -134,33 +148,142 @@ extension DatabaseManager {
 //MARK: Message methods implemeted
 extension DatabaseManager {
     
-//    insertion methods
-    
-    public func createNewConversation(with otherUserEmail: String, firstMessage: String, completion: @escaping(Bool) -> Void) {
-        
-    }
-    
-    public func sendTextMesage(coversation: String, message: Message, completion: @escaping (Bool) -> Void) {
-        
+    public func sendMesage(to otherUser: String, message: Message, completion: @escaping (Bool) -> Void) {
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
+            completion(false)
+            return
+        }
+        var link = "", text = ""
+        switch message.kind {
+        case .text(let message):
+            text = message
+        case .photo(_):
+            break
+        case .video(_):
+            break
+        case .location(_):
+            break
+        case .audio(_):
+            break
+        default: break
+        }
+        let randomID = database.childByAutoId().key!
+        database.child("Messages").child(userID).child(otherUser).child(randomID).setValue([
+            "from": userID,
+            "id": randomID,
+            "lang": UserDefaults.standard.object(forKey: "language") as! String,
+            "link": link,
+            "text": text,
+            "to": otherUser,
+            "type": message.kind.messageKindString
+            ], withCompletionBlock: { [weak self] error, _ in
+                guard let strongSelf = self, error == nil else {
+                    completion(false)
+                    return
+                }
+                strongSelf.database.child("Messages").child(otherUser).child(userID).child(randomID).setValue([
+                    "from": userID,
+                    "id": randomID,
+                    "lang": UserDefaults.standard.object(forKey: "language") as! String,
+                    "link": link,
+                    "text": text,
+                    "to": otherUser,
+                    "type": message.kind.messageKindString
+                    ], withCompletionBlock: { error, _ in
+                        guard error == nil else {
+                            completion(false)
+                            return
+                        }
+                        completion(true)
+                })
+        })
     }
     
     
 //    query methods
     public func getUserIdFromEmail(email: String, completion: @escaping (Result<String, Error>) -> Void) {
         database.child("Users").queryOrdered(byChild: "email").queryEqual(toValue: email).observeSingleEvent(of: .childAdded) { (snapshot) in
-            guard snapshot != nil else {
-                completion(.failure(DatabaseErrors.failedToFetchData))
-                return
-            }
             completion(.success(snapshot.key))
         }
     }
     
-    public func getAllConversations(completion: @escaping(Result<[Message], Error>) -> Void) {
-        
+    public func getAllConversations(completion: @escaping(Result<[ChatListData], Error>) -> Void) {
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
+            completion(.failure(DatabaseErrors.failedToFetchData))
+            return
+        }
+        var users = [String]()
+        database.child("Messages").child(userID).observeSingleEvent(of: .value) { [weak self](snapshot) in
+            for case let otherUser as DataSnapshot in snapshot.children {
+                users.append(otherUser.key)
+            }
+            if !users.isEmpty {
+                self?.getUserDetailsFromId(users: users, completion: { (result) in
+                    switch result {
+                    case .success(let list):
+                        completion(.success(list))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                })
+            }
+            
+        }
+       
     }
     
-    public func getAllMessagesForConversation() {
+    private func getUserDetailsFromId(users: [String], completion: @escaping(Result<[ChatListData], Error>) -> Void) {
+        database.child("Users").observe(.value) { (snapshot) in
+            var returnArray = [ChatListData]()
+            for case let otherUser as DataSnapshot in snapshot.children {
+                if users.contains(otherUser.key) {
+                    guard let item = otherUser.value as? [String:String] else {
+                        print("Error")
+                        completion(.failure(DatabaseErrors.failedToFetchData))
+                        return
+                    }
+                    
+                    let name = item["first_name"]! + " " + item["last_name"]!
+                    let chat = ChatListData(name: name, id: otherUser.key, image: item["image"]!, email: item["email"]!, language: item["lang"]!)
+                    returnArray.append(chat)
+                }
+                
+            }
+            completion(.success(returnArray))
+        }
+    }
+    
+    public func getLastMessage(with user: String, completion: @escaping(Result<String, Error>) -> Void) {
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
+            completion(.failure(DatabaseErrors.failedToFetchData))
+            return
+        }
+        database.child("Messages").child(userID).child(user).queryLimited(toLast: 1).observe(.childAdded, with: { (msg) in
+            guard let message = msg.value as? [String: String] else {
+                completion(.failure(DatabaseErrors.failedToFetchData))
+                return
+            }
+            
+            switch(message["type"]) {
+            case "text":
+                completion(.success(message["text"]!))
+                return
+            case "image":
+                completion(.success("Image"))
+                return
+            case "video":
+                completion(.success("Video"))
+                return
+            case "location":
+                completion(.success("Location shared"))
+                return
+            default: completion(.failure(DatabaseErrors.failedToFetchData))
+            return
+            }
+        })
+    }
+    
+    public func getAllMessagesForConversation(with id: String, completion: @escaping(String) -> Void) {
         
     }
     
@@ -169,6 +292,7 @@ extension DatabaseManager {
 
 public enum DatabaseErrors: Error {
     case failedToFetchData
+    case referenceError
 }
 
 

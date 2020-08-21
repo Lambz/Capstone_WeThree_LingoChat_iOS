@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import GoogleSignIn
+import SDWebImage
 
 class SettingsViewController: UIViewController {
 
@@ -51,20 +52,24 @@ class SettingsViewController: UIViewController {
             print("data fetch error in settings")
             return
         }
-        DispatchQueue.global(qos: .background).async {
-            do
-            {
-                let data = try Data.init(contentsOf: URL(string: url)!)
-                DispatchQueue.main.async {
-                    print("data converted")
-                    self.userImageButton.setImage(UIImage(data: data), for: .normal)
-                }
-            }
-            catch {
-                print("image data could not be downloaded in settings")
-            }
+        DispatchQueue.main.async {
+            self.userImageButton.sd_setImage(with: URL(string: url)!, for: .normal, completed: nil)
         }
-       
+        
+//        DispatchQueue.global(qos: .background).async {
+//            do
+//            {
+//                let data = try Data.init(contentsOf: URL(string: url)!)
+//                DispatchQueue.main.async {
+//                    print("data converted")
+//                    self.userImageButton.setImage(UIImage(data: data), for: .normal)
+//                }
+//            }
+//            catch {
+//                print("image data could not be downloaded in settings")
+//            }
+//        }
+//
         updateUserName()
         
     }

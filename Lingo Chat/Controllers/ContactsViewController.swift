@@ -8,6 +8,7 @@
 
 import UIKit
 import JGProgressHUD
+import SDWebImage
 
 class ContactsViewController: UIViewController {
     
@@ -73,15 +74,22 @@ class ContactsViewController: UIViewController {
     
     private func downloadImages(completion: @escaping(Bool)->Void) {
         for contact in contactsToShow {
-            do
-            {
-                let data = try Data.init(contentsOf: URL(string: contact.image)!)
-                images.append(UIImage(data: data)!)
-            }
-            catch {
-                print("image data could not be downloaded for list")
+            let downloader = SDWebImageManager()
+           
+            if contact.image.isEmpty {
                 images.append(UIImage(named: "user")!)
             }
+            else {
+                downloader.loadImage(with: URL(string: contact.image)!, options: .highPriority, progress: nil) { [weak self] (image, _, error, _, _, _) in
+                    guard error == nil, image != nil else {
+                        self?.images.append(UIImage(named: "user")!)
+                        return
+                    }
+                    self?.images.append(image!)
+                }
+                
+            }
+            
         }
         completion(true)
     }
