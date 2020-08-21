@@ -62,9 +62,9 @@ class ConversationViewController: MessagesViewController {
         super.viewDidLoad()
 
         setupDelegates()
-        fetchOtherUserIdAndSetupSender { (success) in
+        fetchOtherUserIdAndSetupSender { [weak self] (success) in
             if success {
-                setupChatsListener()
+                self?.setupChatsListener()
             }
         }
         
@@ -106,7 +106,28 @@ class ConversationViewController: MessagesViewController {
     
     
     private func setupChatsListener() {
-        DatabaseManager.shared.getAllMessagesForConversation(with: talkingToSender.senderId)
+        guard let sender = selfSender else {
+            return
+        }
+        DatabaseManager.shared.getAllMessagesForConversation(user: sender, with: talkingToSender) { [weak self] (result) in
+            guard let strongSelf = self else {
+                return
+            }
+            switch result {
+            case .success(let messageList):
+                if messageList.isEmpty {
+                    return
+                }
+                DispatchQueue.main.async {
+                    strongSelf.messages = messageList
+                    strongSelf.messagesCollectionView.reloadDataAndKeepOffset()
+                    strongSelf.messagesCollectionView.scrollToBottom(animated: true)
+                }
+                
+            case .failure(let error):
+                print("Error while fetching messages: \(error)")
+            }
+        }
     }
 
 }
@@ -119,7 +140,7 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
         let message = Message(sender: selfSender!, messageId: "messageId", sentDate: Date(), kind: .text(text))
         DatabaseManager.shared.sendMesage(to: talkingToSender.senderId, message: message) { (success) in
             if success {
-                print("message sent")
+                inputBar.reloadInputViews()
             }
             else {
                 print("Error sending message! Try again")

@@ -233,7 +233,7 @@ extension DatabaseManager {
     }
     
     private func getUserDetailsFromId(users: [String], completion: @escaping(Result<[ChatListData], Error>) -> Void) {
-        database.child("Users").observe(.value) { (snapshot) in
+        database.child("Users").observeSingleEvent(of: .value) { (snapshot) in
             var returnArray = [ChatListData]()
             for case let otherUser as DataSnapshot in snapshot.children {
                 if users.contains(otherUser.key) {
@@ -283,8 +283,25 @@ extension DatabaseManager {
         })
     }
     
-    public func getAllMessagesForConversation(with id: String, completion: @escaping(String) -> Void) {
-        
+    public func getAllMessagesForConversation(user: Sender, with: Sender, completion: @escaping(Result<[Message], Error>) -> Void) {
+        var msgs = [Message]()
+        database.child("Messages").child(user.senderId).child(with.senderId).observe(.value) { (snapshot) in
+            for case let message as DataSnapshot in snapshot.children {
+                guard let item = message.value as? [String: String] else {
+                    completion(.failure(DatabaseErrors.failedToFetchData))
+                    return
+                }
+                var sender = with
+                if item["from"]! == user.senderId {
+                    sender = user
+                }
+                if item["type"]! == "text" {
+                    let message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .text(item["text"]!))
+                    msgs.append(message)
+                }
+            }
+          completion(.success(msgs))
+        }
     }
     
 }
