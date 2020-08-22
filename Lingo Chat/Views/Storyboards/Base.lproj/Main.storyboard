@@ -623,10 +623,43 @@
                         <viewLayoutGuide key="safeArea" id="m9c-8g-r4Y"/>
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="4Lv-b4-V27"/>
+                    <connections>
+                        <segue destination="KV8-9m-GXk" kind="show" identifier="gotoPhotoScreen" id="UIb-yx-Kjh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kqu-i8-qtc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4372" y="-331"/>
+        </scene>
+        <!--Photo View Controller-->
+        <scene sceneID="XRe-zb-hhf">
+            <objects>
+                <viewController id="KV8-9m-GXk" customClass="PhotoViewController" customModule="Lingo_Chat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MqV-Js-ro4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UOe-Hr-9ls">
+                                <rect key="frame" x="0.0" y="300" width="414" height="128"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="UOe-Hr-9ls" firstAttribute="centerX" secondItem="MqV-Js-ro4" secondAttribute="centerX" id="1II-IV-TtC"/>
+                            <constraint firstItem="UOe-Hr-9ls" firstAttribute="centerY" secondItem="MqV-Js-ro4" secondAttribute="centerY" id="TTD-cE-qyK"/>
+                            <constraint firstItem="UOe-Hr-9ls" firstAttribute="leading" secondItem="EKb-IF-lW4" secondAttribute="leading" id="lo4-ow-ivn"/>
+                            <constraint firstItem="EKb-IF-lW4" firstAttribute="trailing" secondItem="UOe-Hr-9ls" secondAttribute="trailing" id="zEc-ci-CqC"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="EKb-IF-lW4"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="JbG-xd-VqB"/>
+                    <connections>
+                        <outlet property="imageViewer" destination="UOe-Hr-9ls" id="Lry-v9-GRD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ksu-Jm-zhC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5325" y="-533"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="v3r-17-09e">

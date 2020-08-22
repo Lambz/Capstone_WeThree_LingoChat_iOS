@@ -148,7 +148,11 @@ extension DatabaseManager {
 //MARK: Message methods implemeted
 extension DatabaseManager {
     
-    public func sendMesage(to otherUser: String, message: Message, completion: @escaping (Bool) -> Void) {
+    public func generateRandomId() -> String {
+        return database.childByAutoId().key!
+    }
+    
+    public func sendMesage(to otherUser: String, message: Message, randomID: String, completion: @escaping (Bool) -> Void) {
         guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
             completion(false)
             return
@@ -157,8 +161,10 @@ extension DatabaseManager {
         switch message.kind {
         case .text(let message):
             text = message
-        case .photo(_):
-            break
+        case .photo(let media):
+            if let url = media.url?.absoluteString {
+                link = url
+            }
         case .video(_):
             break
         case .location(_):
@@ -167,7 +173,7 @@ extension DatabaseManager {
             break
         default: break
         }
-        let randomID = database.childByAutoId().key!
+//        let randomID = database.childByAutoId().key!
         database.child("Messages").child(userID).child(otherUser).child(randomID).setValue([
             "from": userID,
             "id": randomID,
@@ -299,6 +305,12 @@ extension DatabaseManager {
                     let message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .text(item["text"]!))
                     msgs.append(message)
                 }
+                if item["type"]! == "image" {
+                    let media = Media(url: URL(string: item["link"]!), image: nil, placeholderImage: UIImage(systemName: "info")!, size: CGSize(width: 300, height: 300))
+                    let message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .photo(media))
+                    msgs.append(message)
+                }
+                
             }
           completion(.success(msgs))
         }

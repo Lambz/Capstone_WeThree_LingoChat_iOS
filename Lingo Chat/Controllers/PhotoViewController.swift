@@ -7,14 +7,20 @@
 //
 
 import UIKit
+import SDWebImage
 
 class PhotoViewController: UIViewController {
 
+    
+    @IBOutlet weak var imageViewer: UIImageView!
+    public var imageUrl: URL!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        imageViewer.sd_setImage(with: imageUrl, completed: nil)
+        self.tabBarController?.tabBar.isHidden = true
     }
 
-
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
 }

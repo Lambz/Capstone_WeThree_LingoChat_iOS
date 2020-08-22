@@ -9,6 +9,7 @@
 import UIKit
 import MessageKit
 import InputBarAccessoryView
+import SDWebImage
 
 struct Message: MessageType {
     var sender: SenderType
@@ -42,6 +43,13 @@ struct Sender: SenderType {
     var language: String
 }
 
+struct Media: MediaItem {
+    var url: URL?
+    var image: UIImage?
+    var placeholderImage: UIImage
+    var size: CGSize
+}
+
 class ConversationViewController: MessagesViewController {
     
     private var messages = [Message]()
@@ -52,8 +60,10 @@ class ConversationViewController: MessagesViewController {
         return Sender(photoURL: URL(string: image)!, senderId: id, displayName: "\(firstName) \(lastName)", language: language)
     }
     
-    
     private var talkingToSender: Sender!
+    private var imagePickerController: UIImagePickerController?
+    private var imageUrl: URL!
+    
 //    values to be passed through segues
     public var isNewConversation = false
     public var otherUser: UserAccount!
@@ -62,6 +72,7 @@ class ConversationViewController: MessagesViewController {
         super.viewDidLoad()
 
         setupDelegates()
+        setupMessageBarView()
         fetchOtherUserIdAndSetupSender { [weak self] (success) in
             if success {
                 self?.setupChatsListener()
@@ -84,7 +95,31 @@ class ConversationViewController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+        messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
+    }
+    
+    private func setupMessageBarView() {
+        let button = InputBarButtonItem()
+        button.setSize(CGSize(width: 35, height: 35), animated: false)
+        button.setImage(UIImage(systemName: "photo"), for: .normal)
+        button.onTouchUpInside { [weak self] (_) in
+            self?.mediaButtonTapped()
+        }
+        messageInputBar.setLeftStackViewWidthConstant(to: 36, animated: false)
+        messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
+    }
+    
+    private func mediaButtonTapped() {
+        let actionSheet = UIAlertController(title: "Send media", message: "What would you like to send", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Photo", style: .default, handler: { [weak self] (action) in
+            self?.presentPhotoActionSheet()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Video", style: .default, handler: { (action) in
+            
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(actionSheet, animated: true)
     }
     
     private func fetchOtherUserIdAndSetupSender(completion: @escaping(Bool) -> Void) {
@@ -129,16 +164,125 @@ class ConversationViewController: MessagesViewController {
             }
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is PhotoViewController {
+            if let destVC = segue.destination as? PhotoViewController {
+                destVC.title = "Sent by \(talkingToSender.displayName)"
+                destVC.imageUrl = imageUrl
+            }
+        }
+        
+        
+        
+    }
 
 }
 
+
+extension ConversationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func presentPhotoActionSheet() {
+        if self.imagePickerController != nil {
+            self.imagePickerController?.delegate = nil
+            self.imagePickerController = nil
+        }
+        
+        self.imagePickerController = UIImagePickerController.init()
+        
+        let alert = UIAlertController.init(title: "Select Source Type", message: nil, preferredStyle: .actionSheet)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alert.addAction(UIAlertAction.init(title: "Camera", style: .default, handler: { (_) in
+                self.showCamera()
+            }))
+        }
+        
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            alert.addAction(UIAlertAction.init(title: "Photo Library", style: .default, handler: { (_) in
+                self.showGallery()
+            }))
+        }
+        
+        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel))
+        
+        self.present(alert, animated: true)
+    }
+    
+    func showCamera() {
+        imagePickerController = UIImagePickerController()
+        imagePickerController!.sourceType = .camera
+        imagePickerController!.delegate = self
+        imagePickerController!.allowsEditing = true
+        self.present(imagePickerController!, animated: true)
+    }
+    
+    func showGallery() {
+        imagePickerController = UIImagePickerController()
+        imagePickerController!.sourceType = .photoLibrary
+        imagePickerController!.delegate = self
+        imagePickerController!.allowsEditing = true
+        self.present(imagePickerController!, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+            return
+        }
+        guard let data = selectedImage.jpegData(compressionQuality: 1.0) else {
+            return
+        }
+        let randomId = DatabaseManager.shared.generateRandomId()
+        let fileName = "\(randomId).jpeg"
+        StorageManager.shared.uploadMessagePicture(with: data, fileName: fileName) { [weak self](result) in
+            switch result {
+            case .failure(let error):
+                print("Storage manager insertion error: \(error)")
+            case .success(let url):
+                self?.sendMessageWithImage(with: url, id: randomId)
+            }
+        }
+        
+        picker.dismiss(animated: true) {
+            picker.delegate = nil
+            self.imagePickerController = nil
+        }
+    }
+    
+    private func sendMessageWithImage(with: String, id: String) {
+        guard let sender = selfSender else {
+            return
+        }
+        let message = Message(sender: sender, messageId: id, sentDate: Date(), kind: .photo(Media(url: URL(string: with), image: nil, placeholderImage: UIImage(named: "user")!, size: .zero)))
+        
+        DatabaseManager.shared.sendMesage(to: talkingToSender.senderId, message: message, randomID: id) { (success) in
+            if success {
+                print("Image sent")
+            }
+            else {
+                print("Error sending image")
+            }
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true) {
+            picker.delegate = nil
+            self.imagePickerController = nil
+        }
+    }
+}
+
+
+//MARK: input bar methods implemented
 extension ConversationViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         guard !text.replacingOccurrences(of: " ", with: "").isEmpty else {
             return
         }
         let message = Message(sender: selfSender!, messageId: "messageId", sentDate: Date(), kind: .text(text))
-        DatabaseManager.shared.sendMesage(to: talkingToSender.senderId, message: message) { (success) in
+        let id = DatabaseManager.shared.generateRandomId()
+        DatabaseManager.shared.sendMesage(to: talkingToSender.senderId, message: message, randomID: id) { (success) in
             if success {
                 inputBar.reloadInputViews()
             }
@@ -151,8 +295,7 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
 }
 
 
-
-
+//MARK: message list view methods implemented
 extension ConversationViewController: MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate {
     func currentSender() -> SenderType {
         if let sender = selfSender {
@@ -169,5 +312,36 @@ extension ConversationViewController: MessagesDataSource, MessagesLayoutDelegate
         return messages.count
     }
     
+    func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        guard let message = message as? Message else {
+            return
+        }
+        switch message.kind {
+        case .photo(let media):
+            guard let url = media.url else {
+                return
+            }
+            imageView.sd_setImage(with: url, completed: nil)
+        default: break
+        }
+    }
+}
+
+extension ConversationViewController: MessageCellDelegate {
     
+    func didTapImage(in cell: MessageCollectionViewCell) {
+        guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
+            return
+        }
+        let message = messages[indexPath.section]
+        switch message.kind {
+        case .photo(let media):
+            guard media.url != nil else {
+                return
+            }
+            imageUrl = media.url
+            self.performSegue(withIdentifier: "gotoPhotoScreen", sender: self)
+        default: break
+        }
+    }
 }

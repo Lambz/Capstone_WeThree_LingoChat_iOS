@@ -20,7 +20,7 @@ final class StorageManager {
     
     public typealias UploadPictureCompletion = (Result<String, Error>) -> Void
     
-/// uploads picture to firebase storage and returns url to download
+/// uploads profile picture to firebase storage and returns url to download
     public func uploadProfilePicture(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
         
         storage.child("Profile Images").child(fileName).putData(data, metadata: nil) { [weak self] (metadata, error) in
@@ -70,6 +70,37 @@ final class StorageManager {
             
         }
     }
+    
+    /// uploads picture to firebase storage and returns url to download
+     public func uploadMessagePicture(with data: Data, fileName: String, completion: @escaping UploadPictureCompletion) {
+         
+         storage.child("Images").child(fileName).putData(data, metadata: nil) { [weak self] (metadata, error) in
+             guard let strongSelf = self else {
+                 return
+             }
+             guard error == nil else {
+                 print("Failed to upload profile picture")
+                 completion(.failure(StorageErrors.failedToUploadProfilePicture))
+                 return
+             }
+             
+             strongSelf.storage.child("Images").child(fileName).downloadURL { (url, error) in
+                 guard let url = url else {
+                     print("Failed to fetch profile picture URL")
+                     completion(.failure(StorageErrors.failedToFetchProfilePictureURL))
+                     return
+                 }
+                 
+                 let urlString = url.absoluteString
+                 print("Download string returned: \(urlString)")
+                 completion(.success(urlString))
+                 
+             }
+         }
+         
+     }
+    
+    
     
     
     public enum StorageErrors: Error {
