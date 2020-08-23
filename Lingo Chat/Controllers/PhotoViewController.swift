@@ -19,8 +19,4 @@ class PhotoViewController: UIViewController {
         imageViewer.sd_setImage(with: imageUrl, completed: nil)
         self.tabBarController?.tabBar.isHidden = true
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
 }

@@ -74,12 +74,22 @@ class ConversationViewController: MessagesViewController {
         setupDelegates()
         setupMessageBarView()
         fetchOtherUserIdAndSetupSender { [weak self] (success) in
+            guard let strongSelf = self else {
+                return
+            }
             if success {
-                self?.setupChatsListener()
+                DatabaseManager.shared.checkIfMessageExists(user: strongSelf.selfSender!.senderId, otherUser: strongSelf.talkingToSender.senderId) { (success) in
+                    if success {
+                        strongSelf.setupChatsListener()
+                    }
+                    else {
+                        strongSelf.messages.removeAll()
+                        strongSelf.messagesCollectionView.reloadDataAndKeepOffset()
+                    }
+                }
+                
             }
         }
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -148,15 +158,24 @@ class ConversationViewController: MessagesViewController {
             guard let strongSelf = self else {
                 return
             }
+            print("Chat listener called")
             switch result {
             case .success(let messageList):
                 if messageList.isEmpty {
+                    print("message list empty")
+                    strongSelf.messages.removeAll()
+                    strongSelf.messagesCollectionView.reloadDataAndKeepOffset()
+                    strongSelf.messagesCollectionView.scrollToBottom(animated: true)
                     return
                 }
+                else {
                 DispatchQueue.main.async {
+                    print("messagelist not empty")
                     strongSelf.messages = messageList
                     strongSelf.messagesCollectionView.reloadDataAndKeepOffset()
                     strongSelf.messagesCollectionView.scrollToBottom(animated: true)
+                }
+                
                 }
                 
             case .failure(let error):
@@ -173,10 +192,55 @@ class ConversationViewController: MessagesViewController {
             }
         }
         
-        
-        
     }
 
+    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+            
+            if action == NSSelectorFromString("delete:") {
+                return true
+            } else {
+                return super.collectionView(collectionView, canPerformAction: action, forItemAt: indexPath, withSender: sender)
+            }
+        }
+        
+    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+        
+        if action == NSSelectorFromString("delete:") {
+            let index = messages.count - indexPath.row - 1
+            showDeleteAlert(index: index)
+        } else {
+            super.collectionView(collectionView, performAction: action, forItemAt: indexPath, withSender: sender)
+        }
+    }
+    
+    private func showDeleteAlert(index: Int) {
+        let alert = UIAlertController(title: "Delete message", message: "Delete mesage for?", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Only me", style: .default, handler: { [weak self] (_) in
+            self?.deleteMessageForUser(index: index)
+        }))
+        alert.addAction(UIAlertAction(title: "Everyone", style: .default, handler: { [weak self] (_) in
+            self?.deleteMessageForEveryone(index: index)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true)
+    }
+    
+    private func deleteMessageForUser(index: Int) {
+        DatabaseManager.shared.deleteMessageForUser(messageId: messages[index].messageId, otherUserId: talkingToSender.senderId) { [weak self] (success) in
+            if success {
+                self?.messagesCollectionView.reloadDataAndKeepOffset()
+            }
+        }
+    }
+    
+    private func deleteMessageForEveryone(index: Int) {
+        DatabaseManager.shared.deleteMessageForEveryone(messageId: messages[index].messageId, otherUserId: talkingToSender.senderId) { [weak self] (success) in
+            if success {
+                self?.messagesCollectionView.reloadDataAndKeepOffset()
+            }
+        }
+    }
+    
 }
 
 
@@ -281,13 +345,11 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
             return
         }
         let message = Message(sender: selfSender!, messageId: "messageId", sentDate: Date(), kind: .text(text))
+        inputBar.inputTextView.text = ""
         let id = DatabaseManager.shared.generateRandomId()
         DatabaseManager.shared.sendMesage(to: talkingToSender.senderId, message: message, randomID: id) { (success) in
-            if success {
-                inputBar.reloadInputViews()
-            }
-            else {
-                print("Error sending message! Try again")
+            if !success {
+                inputBar.inputTextView.text = text
             }
         }
         
@@ -325,6 +387,7 @@ extension ConversationViewController: MessagesDataSource, MessagesLayoutDelegate
         default: break
         }
     }
+    
 }
 
 extension ConversationViewController: MessageCellDelegate {
@@ -342,6 +405,23 @@ extension ConversationViewController: MessageCellDelegate {
             imageUrl = media.url
             self.performSegue(withIdentifier: "gotoPhotoScreen", sender: self)
         default: break
+        }
+    }
+    
+    
+}
+
+extension MessageCollectionViewCell {
+
+    override open func delete(_ sender: Any?) {
+        
+        // Get the collectionView
+        if let collectionView = self.superview as? UICollectionView {
+            // Get indexPath
+            if let indexPath = collectionView.indexPath(for: self) {
+                // Trigger action
+                collectionView.delegate?.collectionView?(collectionView, performAction: NSSelectorFromString("delete:"), forItemAt: indexPath, withSender: sender)
+            }
         }
     }
 }

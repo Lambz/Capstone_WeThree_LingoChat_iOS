@@ -35,15 +35,24 @@ class ChatsViewController: UIViewController {
         setupInitialView()
         setupTableView()
         fetchUserDetails()
-        fetchChatsFromFirebase { [weak self] (_) in
+        DatabaseManager.shared.checkIfAnyConversation { [weak self] (exists) in
             guard let strongSelf = self else {
                 return
             }
-            strongSelf.tableView.reloadData()
-            strongSelf.fetchImages { (_) in
-                strongSelf.tableView.reloadData()
+            if exists {
+                strongSelf.fetchChatsFromFirebase { (_) in
+                    strongSelf.tableView.reloadData()
+                    strongSelf.fetchImages { (_) in
+                        strongSelf.tableView.reloadData()
+                    }
+                }
+            }
+            else {
+                strongSelf.emptyChatsLabel.isHidden = false
+                strongSelf.tableView.isHidden = true
             }
         }
+        
     }
     
     
@@ -96,35 +105,44 @@ class ChatsViewController: UIViewController {
 extension ChatsViewController {
     private func setupInitialView() {
         tableView.isHidden = true
-        emptyChatsLabel.isHidden = true
+        emptyChatsLabel.isHidden = false
     }
 
     private func fetchChatsFromFirebase(completion: @escaping(Bool) -> Void) {
         DatabaseManager.shared.getAllConversations { [weak self] (result) in
+            guard let strongSelf = self else {
+                completion(false)
+                return
+            }
+            print("fetching conversation")
             switch result {
             case .success(let list):
                 if list.isEmpty {
-                    self?.emptyChatsLabel.isHidden = false
-                    self?.tableView.isHidden = true
+                    strongSelf.emptyChatsLabel.isHidden = false
+                    strongSelf.tableView.isHidden = true
+                    strongSelf.previousChats.removeAll()
+                    strongSelf.images.removeAll()
                 }
-                self?.emptyChatsLabel.isHidden = true
-                self?.tableView.isHidden = false
-                self?.setupImages(count: list.count)
-                self?.previousChats.removeAll()
-                var i = 0
-                for item in list {
-                    let chat = Chat(otherPersonId: item.id, otherPersonName: item.name, otherPersonImage: item.image, otherPersonLastMessage: "Loading...", otherPersonEmail: item.email, otherPersonLanguage: item.language)
-                    self?.previousChats.insert(chat, at: i)
-                    self?.fetchLastMessages(index: i, completion: { (_) in
-                        self?.tableView.reloadData()
-                    })
-                    i += 1
+                else {
+                    strongSelf.emptyChatsLabel.isHidden = true
+                    strongSelf.tableView.isHidden = false
+                    strongSelf.setupImages(count: list.count)
+                    strongSelf.previousChats.removeAll()
+                    var i = 0
+                    for item in list {
+                        let chat = Chat(otherPersonId: item.id, otherPersonName: item.name, otherPersonImage: item.image, otherPersonLastMessage: "Loading...", otherPersonEmail: item.email, otherPersonLanguage: item.language)
+                        strongSelf.previousChats.insert(chat, at: i)
+                        strongSelf.fetchLastMessages(index: i, completion: { (_) in
+                            strongSelf.tableView.reloadData()
+                        })
+                        i += 1
+                    }
                 }
                 completion(true)
             case .failure(let error):
-                self?.emptyChatsLabel.isHidden = false
-                self?.emptyChatsLabel.text = "An error occured while fetching data!"
-                self?.tableView.isHidden = true
+                strongSelf.emptyChatsLabel.isHidden = false
+                strongSelf.emptyChatsLabel.text = "An error occured while fetching data!"
+                strongSelf.tableView.isHidden = true
                 print("Data fetch error: \(error)")
                 completion(false)
             }
@@ -140,16 +158,20 @@ extension ChatsViewController {
             }
             switch result {
             case .success(let message):
-                var chat = strongSelf.previousChats.remove(at: index)
-                chat.otherPersonLastMessage = message
-                strongSelf.previousChats.insert(chat, at: index)
-                completion(true)
+                if !strongSelf.previousChats.isEmpty {
+                    var chat = strongSelf.previousChats.remove(at: index)
+                    chat.otherPersonLastMessage = message
+                    strongSelf.previousChats.insert(chat, at: index)
+                    completion(true)
+                }
             case .failure(let error):
-                var chat = strongSelf.previousChats.remove(at: index)
-                chat.otherPersonLastMessage = "Failed to fetch data"
-                strongSelf.previousChats.insert(chat, at: index)
-                print("Error fetching message: \(error)")
-                completion(false)
+                if !strongSelf.previousChats.isEmpty {
+                    var chat = strongSelf.previousChats.remove(at: index)
+                    chat.otherPersonLastMessage = "Failed to fetch data"
+                    strongSelf.previousChats.insert(chat, at: index)
+                    print("Error fetching message: \(error)")
+                    completion(false)
+                }
             }
         }
         
@@ -221,6 +243,30 @@ extension ChatsViewController: UITableViewDelegate, UITableViewDataSource {
         let user = UserAccount(firstName: names[0], lastName: names[1], email: previousChats[indexPath.row].otherPersonEmail, image: previousChats[indexPath.row].otherPersonImage, language: previousChats[indexPath.row].otherPersonLanguage)
         selectedContactToStartConversation = user
         self.performSegue(withIdentifier: "gotoConversationScreen", sender: self)
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tableView.beginUpdates()
+            
+            DatabaseManager.shared.deleteChat(with: previousChats[indexPath.row].otherPersonId) { [weak self] (success) in
+                if success {
+                    self?.previousChats.remove(at: indexPath.row)
+                    self?.images.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .left)
+                    }
+                }
+            tableView.endUpdates()
+            if previousChats.isEmpty {
+                emptyChatsLabel.isHidden = false
+                tableView.isHidden = true
+            }
+        }
+        
     }
 }
 

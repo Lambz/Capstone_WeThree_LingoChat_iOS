@@ -27,7 +27,13 @@ class ContactsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDelegates()
-        setupContactsData()
+        setupContactsData { [weak self] (success) in
+            if success {
+                self?.downloadImages { (_) in
+                    self?.tableView.reloadData()
+                }
+            }
+        }
     }
     
     private func setupDelegates() {
@@ -39,57 +45,63 @@ class ContactsViewController: UIViewController {
         noContactsLabel.isHidden = true
     }
     
-    private func setupContactsData() {
+    private func setupContactsData(completion: @escaping(Bool) -> Void) {
         personalContacts = ContactsHelper.fetchContacts()
-                if !personalContacts.isEmpty {
-                    print("Phone contacts fetched")
-                    spinner.show(in: view)
-                    personalContacts = personalContacts.map{$0.lowercased()}
-                    fetchContacts { (result) in
-                        print("contacts fetched")
-                        self.spinner.dismiss()
-                        
-                        switch result {
-                        case .success(let isNotEmpty):
-                            if isNotEmpty {
-        //                        refresh view
-                                self.tableView.isHidden = false
-                                self.spinner.show(in: self.view)
-                                self.downloadImages { (_) in
-                                    print("images downloaded")
-                                    self.spinner.dismiss()
-                                    self.tableView.reloadData()
-                                }
-                            }
-                            else {
-                                self.noContactsLabel.isHidden = false
-                                
-                            }
-                        case .failure(let error):
-                            print("Failed to fetch contacts: \(error)")
-                        }
-                    }
+        if !personalContacts.isEmpty {
+            print("Phone contacts fetched")
+            spinner.show(in: view)
+            personalContacts = personalContacts.map{$0.lowercased()}
+            fetchContacts { [weak self] (result) in
+                guard let strongSelf = self else {
+                    completion(false)
+                    return
                 }
+                print("contacts fetched")
+                strongSelf.spinner.dismiss()
+                switch result {
+                case .success(let isNotEmpty):
+                    if isNotEmpty {
+//                        refresh view
+                        strongSelf.createInitialImages(count: strongSelf.contactsToShow.count)
+                        strongSelf.tableView.isHidden = false
+                        completion(true)
+                    }
+                    else {
+                        strongSelf.noContactsLabel.isHidden = false
+                        completion(false)
+                    }
+                case .failure(let error):
+                    print("Failed to fetch contacts: \(error)")
+                }
+            }
+        }
+    }
+    
+    private func createInitialImages(count: Int) {
+        images.removeAll()
+        for _ in 1...count {
+            images.append(UIImage(named: "user")!)
+        }
     }
     
     private func downloadImages(completion: @escaping(Bool)->Void) {
-        for contact in contactsToShow {
-            let downloader = SDWebImageManager()
+        var index = 0
+        let downloader = SDWebImageManager()
+        
+        for i in 0..<contactsToShow.count {
            
-            if contact.image.isEmpty {
-                images.append(UIImage(named: "user")!)
-            }
-            else {
-                downloader.loadImage(with: URL(string: contact.image)!, options: .highPriority, progress: nil) { [weak self] (image, _, error, _, _, _) in
+            if !contactsToShow[i].image.isEmpty {
+                downloader.loadImage(with: URL(string: contactsToShow[i].image)!, options: .highPriority, progress: nil) { [weak self] (image, _, error, _, _, _) in
                     guard error == nil, image != nil else {
-                        self?.images.append(UIImage(named: "user")!)
+                        print("image fetch failure")
                         return
                     }
-                    self?.images.append(image!)
+                    print("image fetched and appended")
+                    self?.images[i] = image!
+                    self?.tableView.reloadData()
                 }
-                
             }
-            
+            index += 1
         }
         completion(true)
     }
@@ -151,9 +163,7 @@ extension ContactsViewController: UISearchBarDelegate {
         }
 
         searchBar.resignFirstResponder()
-
         spinner.show(in: view)
-
         searchUsers(query: text)
     }
     
@@ -170,7 +180,7 @@ extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("called")
+        print(indexPath.row)
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ContactsTableViewCell
         let index = indexPath.row
         let name = contactsToShow[index].firstName + " " + contactsToShow[index].lastName

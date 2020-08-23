@@ -40,16 +40,25 @@ extension DatabaseManager {
 ///   verifies weather user account with same email exists
     public func userAccountExists(with email: String, completion: @escaping ((Bool) -> Void)) {
         guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
-        database.child("Users").queryOrdered(byChild: userID).observeSingleEvent(of: .childAdded) { (snapshot) in
-            guard snapshot.value as? String != nil else {
-                print("user does not exists")
-                completion(false)
-                return
+        let ref = database.child("Users").child(userID)
+        ref.observeSingleEvent(of: .value) { (snapshot) in
+            if snapshot.exists() {
+                completion(true)
             }
-            print(snapshot.value ?? "no value")
-            print("user exists")
-            completion(true)
+            else {
+                completion(false)
+            }
         }
+//        database.child("Users").queryOrdered(byChild: userID).observeSingleEvent(of: .childAdded) { (snapshot) in
+//            guard snapshot.value as? String != nil else {
+//                print("user does not exists")
+//                completion(false)
+//                return
+//            }
+//            print(snapshot.value ?? "no value")
+//            print("user exists")
+//            completion(true)
+//        }
     }
     
     
@@ -169,8 +178,6 @@ extension DatabaseManager {
             break
         case .location(_):
             break
-        case .audio(_):
-            break
         default: break
         }
 //        let randomID = database.childByAutoId().key!
@@ -213,13 +220,31 @@ extension DatabaseManager {
         }
     }
     
+    public func checkIfAnyConversation(completion: @escaping(Bool) -> Void) {
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
+            completion(false)
+            return
+        }
+        
+        let ref = database.child("Messages").child(userID)
+        ref.observe(.value) { (snapshot) in
+            if snapshot.exists() {
+                completion(true)
+            }
+            else {
+                completion(false)
+            }
+        }
+    }
+    
     public func getAllConversations(completion: @escaping(Result<[ChatListData], Error>) -> Void) {
         guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
             completion(.failure(DatabaseErrors.failedToFetchData))
             return
         }
         var users = [String]()
-        database.child("Messages").child(userID).observeSingleEvent(of: .value) { [weak self](snapshot) in
+        
+        database.child("Messages").child(userID).observeSingleEvent(of:.value) { [weak self](snapshot) in
             for case let otherUser as DataSnapshot in snapshot.children {
                 users.append(otherUser.key)
             }
@@ -233,9 +258,11 @@ extension DatabaseManager {
                     }
                 })
             }
-            
+            else {
+                print("still empty")
+                completion(.success([ChatListData]()))
+            }
         }
-       
     }
     
     private func getUserDetailsFromId(users: [String], completion: @escaping(Result<[ChatListData], Error>) -> Void) {
@@ -284,14 +311,26 @@ extension DatabaseManager {
                 completion(.success("Location shared"))
                 return
             default: completion(.failure(DatabaseErrors.failedToFetchData))
-            return
+                return
             }
         })
     }
     
+    public func checkIfMessageExists(user: String, otherUser: String, completion: @escaping(Bool) -> Void) {
+        let ref = database.child("Messages").child(user).child(otherUser)
+        ref.observe(.value) { (snapshot) in
+            if snapshot.exists() {
+                completion(true)
+            }
+            else {
+                completion(false)
+            }
+        }
+    }
+    
     public func getAllMessagesForConversation(user: Sender, with: Sender, completion: @escaping(Result<[Message], Error>) -> Void) {
         var msgs = [Message]()
-        database.child("Messages").child(user.senderId).child(with.senderId).observe(.value) { (snapshot) in
+        database.child("Messages").child(user.senderId).child(with.senderId).observeSingleEvent(of: .value) { (snapshot) in
             for case let message as DataSnapshot in snapshot.children {
                 guard let item = message.value as? [String: String] else {
                     completion(.failure(DatabaseErrors.failedToFetchData))
@@ -312,8 +351,69 @@ extension DatabaseManager {
                 }
                 
             }
-          completion(.success(msgs))
+            completion(.success(msgs))
         }
+    }
+    
+    public func deleteChat(with id: String, completion: @escaping(Bool) -> Void) {
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
+            completion(false)
+            return
+        }
+        let ref = database.child("Messages").child(userID).child(id)
+        ref.removeValue { (error, _) in
+            guard error == nil else {
+                completion(false)
+                return
+            }
+            completion(true)
+        }
+    }
+    
+    public func deleteMessageForUser(messageId: String, otherUserId: String, completion: @escaping(Bool) -> Void) {
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
+            completion(false)
+            return
+        }
+        let ref = database.child("Messages").child(userID).child(otherUserId).child(messageId)
+        ref.removeValue { (error, _) in
+            guard error == nil else {
+                completion(false)
+                return
+            }
+            completion(true)
+        }
+    }
+    
+    public func deleteMessageForEveryone(messageId: String, otherUserId: String, completion: @escaping(Bool) -> Void) {
+        guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
+            completion(false)
+            return
+        }
+        deleteMessageForUser(messageId: messageId, otherUserId: otherUserId) { [weak self] (success) in
+            guard let strongSelf = self else {
+                completion(false)
+                return
+            }
+            if success {
+                let ref = strongSelf.database.child("Messages").child(otherUserId).child(userID).child(messageId)
+                ref.observeSingleEvent(of: .value) { (snapshot) in
+                    if snapshot.exists() {
+                        ref.removeValue { (error, _) in
+                            guard error == nil else {
+                                completion(false)
+                                return
+                            }
+                            completion(true)
+                        }
+                    }
+                }
+            }
+            else {
+                completion(false)
+            }
+        }
+        
     }
     
 }
