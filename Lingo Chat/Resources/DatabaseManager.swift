@@ -9,6 +9,7 @@
 import Foundation
 import FirebaseDatabase
 import FirebaseAuth
+import SwiftGoogleTranslate
 
 struct ChatListData {
     let name: String
@@ -20,6 +21,11 @@ struct ChatListData {
 
 
 final class DatabaseManager {
+    let langCodes = ["0":"en",
+                     "1":"fr",
+                     "2":"de",
+                     "3":"es",
+                     "4":"hi"]
     static let shared = DatabaseManager()
     private let database = Database.database().reference()
     public static let dateformatter: DateFormatter = {
@@ -35,9 +41,9 @@ final class DatabaseManager {
 
 extension DatabaseManager {
     
-//    verification methods for account creation
+    //    verification methods for account creation
     
-///   verifies weather user account with same email exists
+    ///   verifies weather user account with same email exists
     public func userAccountExists(with email: String, completion: @escaping ((Bool) -> Void)) {
         guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
         let ref = database.child("Users").child(userID)
@@ -49,22 +55,22 @@ extension DatabaseManager {
                 completion(false)
             }
         }
-//        database.child("Users").queryOrdered(byChild: userID).observeSingleEvent(of: .childAdded) { (snapshot) in
-//            guard snapshot.value as? String != nil else {
-//                print("user does not exists")
-//                completion(false)
-//                return
-//            }
-//            print(snapshot.value ?? "no value")
-//            print("user exists")
-//            completion(true)
-//        }
+        //        database.child("Users").queryOrdered(byChild: userID).observeSingleEvent(of: .childAdded) { (snapshot) in
+        //            guard snapshot.value as? String != nil else {
+        //                print("user does not exists")
+        //                completion(false)
+        //                return
+        //            }
+        //            print(snapshot.value ?? "no value")
+        //            print("user exists")
+        //            completion(true)
+        //        }
     }
     
     
-//    insert methods
+    //    insert methods
     
-/// insert new user account user
+    /// insert new user account user
     public func insertUser(with user: UserAccount) {
         guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
         database.child("Users").child(userID).setValue([
@@ -73,14 +79,14 @@ extension DatabaseManager {
             "email": user.email,
             "image": user.image,
             "lang": user.language
-            ])
-     }
+        ])
+    }
     
     
     
-
     
-//    update methods
+    
+    //    update methods
     
     
     public func insertPreferences(image: String, language: String) {
@@ -108,12 +114,12 @@ extension DatabaseManager {
         database.child("Users").child(userID).updateChildValues(["image": image])
     }
     
-//    deletion methods
+    //    deletion methods
     
     
     
     
-//    query methods
+    //    query methods
     
     public func getUserDetails(completion: @escaping (Result<[String], Error>) -> Void) {
         guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else { return }
@@ -180,7 +186,7 @@ extension DatabaseManager {
             break
         default: break
         }
-//        let randomID = database.childByAutoId().key!
+        //        let randomID = database.childByAutoId().key!
         database.child("Messages").child(userID).child(otherUser).child(randomID).setValue([
             "from": userID,
             "id": randomID,
@@ -213,7 +219,7 @@ extension DatabaseManager {
     }
     
     
-//    query methods
+    //    query methods
     public func getUserIdFromEmail(email: String, completion: @escaping (Result<String, Error>) -> Void) {
         database.child("Users").queryOrdered(byChild: "email").queryEqual(toValue: email).observeSingleEvent(of: .childAdded) { (snapshot) in
             completion(.success(snapshot.key))
@@ -287,11 +293,19 @@ extension DatabaseManager {
     }
     
     public func getLastMessage(with user: String, completion: @escaping(Result<String, Error>) -> Void) {
+        let dispatchGroup = DispatchGroup()
+        SwiftGoogleTranslate.shared.start(with: "AIzaSyCXYq1aabFAVJsxxF-ksC_1cl5oqsW0ZcE")
+        let userLang = UserDefaults.standard.object(forKey: "language") as! String
+        
         guard let userID = FirebaseAuth.Auth.auth().currentUser?.uid else {
             completion(.failure(DatabaseErrors.failedToFetchData))
             return
         }
-        database.child("Messages").child(userID).child(user).queryLimited(toLast: 1).observe(.childAdded, with: { (msg) in
+        database.child("Messages").child(userID).child(user).queryLimited(toLast: 1).observe(.childAdded, with: { [weak self] (msg) in
+            guard let strongSelf = self else {
+                completion(.failure(DatabaseErrors.referenceError))
+                return
+            }
             guard let message = msg.value as? [String: String] else {
                 completion(.failure(DatabaseErrors.failedToFetchData))
                 return
@@ -299,19 +313,30 @@ extension DatabaseManager {
             
             switch(message["type"]) {
             case "text":
-                completion(.success(message["text"]!))
-                return
+                var lastText = message["text"]!
+                dispatchGroup.enter()
+                SwiftGoogleTranslate.shared.translate(message["text"]!, strongSelf.langCodes[userLang]!, strongSelf.langCodes[message["lang"]!]!) { (text, error) in
+                    
+                    if let t = text {
+                        lastText = t
+                    }
+                    dispatchGroup.leave()
+                }
+                dispatchGroup.notify(queue: DispatchQueue.main) {
+                    completion(.success(lastText))
+                }
+                
             case "image":
                 completion(.success("Image"))
-                return
+                
             case "video":
                 completion(.success("Video"))
-                return
+                
             case "location":
                 completion(.success("Location shared"))
-                return
+                
             default: completion(.failure(DatabaseErrors.failedToFetchData))
-                return
+                
             }
         })
     }
@@ -330,7 +355,15 @@ extension DatabaseManager {
     
     public func getAllMessagesForConversation(user: Sender, with: Sender, completion: @escaping(Result<[Message], Error>) -> Void) {
         var msgs = [Message]()
-        database.child("Messages").child(user.senderId).child(with.senderId).observeSingleEvent(of: .value) { (snapshot) in
+        let dispatchGroup = DispatchGroup()
+        SwiftGoogleTranslate.shared.start(with: "AIzaSyCXYq1aabFAVJsxxF-ksC_1cl5oqsW0ZcE")
+        let userLang = UserDefaults.standard.object(forKey: "language") as! String
+        
+        database.child("Messages").child(user.senderId).child(with.senderId).observeSingleEvent(of: .value) { [weak self] (snapshot) in
+            guard let strongSelf = self else {
+                completion(.failure(DatabaseErrors.referenceError))
+                return
+            }
             for case let message as DataSnapshot in snapshot.children {
                 guard let item = message.value as? [String: String] else {
                     completion(.failure(DatabaseErrors.failedToFetchData))
@@ -341,17 +374,40 @@ extension DatabaseManager {
                     sender = user
                 }
                 if item["type"]! == "text" {
-                    let message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .text(item["text"]!))
-                    msgs.append(message)
+                    var message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .text(item["text"]!), language: item["lang"]!)
+                    if userLang != item["lang"]! {
+                        dispatchGroup.enter()
+                        SwiftGoogleTranslate.shared.translate(item["text"]!, strongSelf.langCodes[userLang]!, strongSelf.langCodes[item["lang"]!]!) { (text, error) in
+                            
+                            if let t = text {
+                                print(t)
+                                message.kind = .text(t)
+                                print(message)
+                            }
+                            msgs.append(message)
+                            dispatchGroup.leave()
+                        }
+                    }
+                    else {
+                        msgs.append(message)
+                    }
+                    
                 }
                 if item["type"]! == "image" {
                     let media = Media(url: URL(string: item["link"]!), image: nil, placeholderImage: UIImage(systemName: "info")!, size: CGSize(width: 300, height: 300))
-                    let message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .photo(media))
+                    let message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .photo(media), language: item["lang"]!)
                     msgs.append(message)
                 }
                 
             }
-            completion(.success(msgs))
+            //            sorts on basis of time and then sends list
+            dispatchGroup.notify(queue: DispatchQueue.main) {
+                print(msgs)
+                msgs.sort { (mOne, mTwo) -> Bool in
+                    return mOne.sentDate < mTwo.sentDate
+                }
+                completion(.success(msgs))
+            }
         }
     }
     

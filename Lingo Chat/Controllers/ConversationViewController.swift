@@ -10,12 +10,14 @@ import UIKit
 import MessageKit
 import InputBarAccessoryView
 import SDWebImage
+import SwiftGoogleTranslate
 
 struct Message: MessageType {
     var sender: SenderType
     var messageId: String
     var sentDate: Date
     var kind: MessageKind
+    var language: String
 }
 
 extension MessageKind {
@@ -51,6 +53,8 @@ struct Media: MediaItem {
 }
 
 class ConversationViewController: MessagesViewController {
+    
+    
     
     private var messages = [Message]()
     private var selfSender: Sender? {
@@ -335,7 +339,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         guard let sender = selfSender else {
             return
         }
-        let message = Message(sender: sender, messageId: id, sentDate: Date(), kind: .photo(Media(url: URL(string: with), image: nil, placeholderImage: UIImage(named: "user")!, size: .zero)))
+        let message = Message(sender: sender, messageId: id, sentDate: Date(), kind: .photo(Media(url: URL(string: with), image: nil, placeholderImage: UIImage(named: "user")!, size: .zero)), language: "")
         
         DatabaseManager.shared.sendMesage(to: talkingToSender.senderId, message: message, randomID: id) { (success) in
             if success {
@@ -362,7 +366,7 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
         guard !text.replacingOccurrences(of: " ", with: "").isEmpty else {
             return
         }
-        let message = Message(sender: selfSender!, messageId: "messageId", sentDate: Date(), kind: .text(text))
+        let message = Message(sender: selfSender!, messageId: "messageId", sentDate: Date(), kind: .text(text), language: "")
         inputBar.inputTextView.text = ""
         let id = DatabaseManager.shared.generateRandomId()
         DatabaseManager.shared.sendMesage(to: talkingToSender.senderId, message: message, randomID: id) { (success) in

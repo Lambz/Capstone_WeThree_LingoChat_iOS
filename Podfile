@@ -19,5 +19,7 @@ pod 'JGProgressHUD'
 pod 'RealmSwift'
 pod 'SDWebImage'
 
+#GoogleTranslate
+pod 'SwiftGoogleTranslate'
 
 end

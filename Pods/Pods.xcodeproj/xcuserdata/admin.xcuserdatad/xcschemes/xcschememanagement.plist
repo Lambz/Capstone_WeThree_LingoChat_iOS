@@ -186,6 +186,13 @@
 			<key>orderHint</key>
 			<integer>27</integer>
 		</dict>
+		<key>SwiftGoogleTranslate.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>28</integer>
+		</dict>
 		<key>leveldb-library.xcscheme</key>
 		<dict>
 			<key>isShown</key>
