@@ -1,3 +1,11 @@
+/* 
+  Localizable.strings
+  Lingo Chat
+
+  Created by Chetan on 2020-08-23.
+  Copyright © 2020 Chetan. All rights reserved.
+*/
+
 //Login:
 
 "Ly8-2z-QVW.text" = "Willkommen zurück!";
@@ -12,8 +20,16 @@
 
 "kFV-V3-2yd.title" = "Anmelden";
 
+
+"Okay" = "Okay";
+
+"SignInError" = "Error signing in user. Please try again later.";
+
 //————————
 //Signup:
+
+"UserCreationError" = "Error creating user. Please try again later.";
+
 
 "01t-nk-yAY.text" = "Lass uns anfangen!";
 
@@ -63,8 +79,12 @@
 "yJU-XS-a1W.text" = "Wählen Sie Ihre Chat-Sprache";
 
 
-//English, French, German, Spanish, Hindi   language selection bar
-//RZ8-ZD-iPy
+"English" = "Englisch";
+"French" = "Französisch";
+"German" = "Deutsche";
+"Spanish" = "Spanisch";
+"Hindi" = "Hindi";
+
 
 "qDc-uG-olW.text" = "Sie können diesen Schritt auch überspringen. Die Standardsprache für den Chat ist Englisch. Sie können Ihre Einstellungen später in den Einstellungen ändern";
 
@@ -88,8 +108,6 @@
 //—————————
 //Chats screen
 
-"uY8-h2-hu9.title" = "Chats";
-
 
 "pWs-h6-O3R.text" = "Noch keine Gespräche zu zeigen. Starten Sie jetzt einen neuen Chat!😀";
 
@@ -98,6 +116,39 @@
 //Settings screen
 
 "186-Ug-MkN.title" = "die Einstellungen";
+
+
+"ProfileSettings" = "Profileinstellungen";
+"ChangeLanguage" = "Sprache ändern";
+"AboutLingoChat" = "Über LingoChat";
+"SignOut" = "Ausloggen";
+
+"InfoTitle" = "Willkommen bei LingoChat!";
+"InfoMessage" = "LingoChat ist eine App, die entwickelt wurde, um die interlinguistische Kommunikation zwischen Menschen zu erleichtern. Ziel dieser App ist es, die Art und Weise zu verbessern, wie Menschen sich verbinden.";
+
+"LogoutTitle" = "Willst du dich abmelden?";
+"LogoutMessage" = "Sie werden abgemeldet";
+"Oops" = "Hoppla";
+"LogOut" = "Ausloggen";
+"UnableLogOut" = "Sie können sich nicht abmelden";
+
+"languageAlertTitle" = "Ändere deine Sprache";
+"LanguageAlertOptions" =  "0: Englisch, 1: Französisch, 2: Deutsch, 3: Spanisch, 4.Hindi";
+"Save" = "Sparen";
+"languagePlaceholder" = "Sprachcode eingeben";
+"InvalidInput!" = "Ungültige Eingabe!";
+"EmptyFieldsAlert" = "Felder dürfen nicht leer sein";
+"Sorry!" = "Es tut uns leid!";
+"Cancel" = "Stornieren";
+
+"UpdateProfileTitle" = "Aktualisiere dein Profil";
+"UpdateProfileMessage" = "Text eingeben, um Werte zu aktualisieren";
+
+
+"SelectSource" = "Quellentyp auswählen";
+"Camera" = "Kamera";
+"PhotoLibrary" = "Fotobibliothek";
+
 
 
 //——————————————
@@ -117,5 +168,21 @@
 
 "9As-mD-FEF.title" = "Senden";
 
+
+//---------------
+//Conversation Screen
+
+"SendMedia" = "Medien senden";
+"SendMediaMessage" = "Was möchten Sie senden?";
+"Photo" = "Foto";
+"Video" = "Video";
+"Location" = "Ort";
+
+"SentBy" = "Gesendet von";
+
+"DeleteMessage?" = "Nachricht löschen?";
+"DeleteMsg" = "Nachricht löschen für";
+"OnlyMe" = "Nur ich";
+"Everyone" = "Jeder";
 
 

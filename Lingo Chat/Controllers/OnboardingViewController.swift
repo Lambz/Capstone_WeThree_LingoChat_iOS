@@ -11,6 +11,13 @@ import FirebaseAuth
 
 class OnboardingViewController: UIViewController {
     
+    @IBOutlet weak var skipButton: UIButton!
+    @IBOutlet weak var setPreferenceButton: UIButton!
+    @IBOutlet weak var skipLabel: UILabel!
+    @IBOutlet weak var chatLanguageLabel: UILabel!
+    @IBOutlet weak var selectPicLabel: UILabel!
+    @IBOutlet weak var completeStepsLabel: UILabel!
+    @IBOutlet weak var hithereLabel: UILabel!
     @IBOutlet weak var languageSelector: UISegmentedControl!
     @IBOutlet weak var profilePhotoButton: UIButton!
     private var imagePickerController: UIImagePickerController?
@@ -34,7 +41,34 @@ class OnboardingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupButton()
+        setupLocalizedText()
         checkIfProfilePicExists()
+    }
+    
+    
+    private func setupButton() {
+        let button = setPreferenceButton
+        button!.layer.shadowColor = #colorLiteral(red: 0.03921568627, green: 0.5176470588, blue: 1, alpha: 1)
+        button!.layer.shadowOffset = CGSize(width: 0, height: 0)
+        button!.layer.shadowRadius = 8
+        button!.layer.shadowOpacity = 0.2
+    }
+    
+    
+    private func setupLocalizedText() {
+        skipLabel.text = NSLocalizedString("qDc-uG-olW.text", comment: "")
+        setPreferenceButton.setTitle(NSLocalizedString("osL-6e-TYe.title", comment: ""), for: .normal)
+        skipButton.setTitle(NSLocalizedString("TOY-yo-NWj.title", comment: ""), for: .normal)
+        hithereLabel.text = NSLocalizedString("CP9-1f-85Z.text", comment: "")
+        completeStepsLabel.text = NSLocalizedString("qtY-sd-0IF.text", comment: "")
+        selectPicLabel.text = NSLocalizedString("tL3-eJ-iKn.text", comment: "")
+        chatLanguageLabel.text = NSLocalizedString("yJU-XS-a1W.text", comment: "")
+        languageSelector.setTitle(NSLocalizedString("English", comment: ""), forSegmentAt: 0)
+        languageSelector.setTitle(NSLocalizedString("French", comment: ""), forSegmentAt: 1)
+        languageSelector.setTitle(NSLocalizedString("German", comment: ""), forSegmentAt: 2)
+        languageSelector.setTitle(NSLocalizedString("Spanish", comment: ""), forSegmentAt: 3)
+        languageSelector.setTitle(NSLocalizedString("Hindi", comment: ""), forSegmentAt: 4)
     }
     
     private func checkIfProfilePicExists() {

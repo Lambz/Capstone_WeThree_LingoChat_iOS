@@ -101,6 +101,11 @@ class ConversationViewController: MessagesViewController {
         view.endEditing(true)
     }
     
+    @IBAction func unwindFromMap(segue: UIStoryboardSegue) {
+        
+    }
+    
+    
     private func setupDelegates() {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
@@ -112,7 +117,7 @@ class ConversationViewController: MessagesViewController {
     private func setupMessageBarView() {
         let button = InputBarButtonItem()
         button.setSize(CGSize(width: 35, height: 35), animated: false)
-        button.setImage(UIImage(systemName: "photo"), for: .normal)
+        button.setImage(UIImage(systemName: "link"), for: .normal)
         button.onTouchUpInside { [weak self] (_) in
             self?.mediaButtonTapped()
         }
@@ -121,15 +126,22 @@ class ConversationViewController: MessagesViewController {
     }
     
     private func mediaButtonTapped() {
-        let actionSheet = UIAlertController(title: "Send media", message: "What would you like to send", preferredStyle: .actionSheet)
-        actionSheet.addAction(UIAlertAction(title: "Photo", style: .default, handler: { [weak self] (action) in
+        let actionSheet = UIAlertController(title: NSLocalizedString("SendMedia", comment: ""), message: NSLocalizedString("SendMediaMessage", comment: ""), preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("Photo", comment: ""), style: .default, handler: { [weak self] (action) in
             self?.presentPhotoActionSheet()
         }))
-        actionSheet.addAction(UIAlertAction(title: "Video", style: .default, handler: { (action) in
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("Video", comment: ""), style: .default, handler: { (action) in
             
         }))
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("Location", comment: ""), style: .default, handler: { [weak self] (action) in
+            self?.presentLocationPicker()
+        }))
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         present(actionSheet, animated: true)
+    }
+    
+    private func presentLocationPicker() {
+        self.performSegue(withIdentifier: "gotoMapScreen", sender: self)
     }
     
     private func fetchOtherUserIdAndSetupSender(completion: @escaping(Bool) -> Void) {
@@ -187,8 +199,14 @@ class ConversationViewController: MessagesViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is PhotoViewController {
             if let destVC = segue.destination as? PhotoViewController {
-                destVC.title = "Sent by \(talkingToSender.displayName)"
+                destVC.title = NSLocalizedString("SentBy", comment: "") + " \(talkingToSender.displayName)"
                 destVC.imageUrl = imageUrl
+            }
+        }
+        
+        if segue.destination is LocationViewController {
+            if let destVC = segue.destination as? LocationViewController {
+                
             }
         }
         
@@ -214,14 +232,14 @@ class ConversationViewController: MessagesViewController {
     }
     
     private func showDeleteAlert(index: Int) {
-        let alert = UIAlertController(title: "Delete message", message: "Delete mesage for?", preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Only me", style: .default, handler: { [weak self] (_) in
+        let alert = UIAlertController(title: NSLocalizedString("DeleteMessage?", comment: ""), message: NSLocalizedString("DeleteMsg", comment: ""), preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OnlyMe", comment: ""), style: .default, handler: { [weak self] (_) in
             self?.deleteMessageForUser(index: index)
         }))
-        alert.addAction(UIAlertAction(title: "Everyone", style: .default, handler: { [weak self] (_) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Everyone", comment: ""), style: .default, handler: { [weak self] (_) in
             self?.deleteMessageForEveryone(index: index)
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         present(alert, animated: true)
     }
     
@@ -253,21 +271,21 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         
         self.imagePickerController = UIImagePickerController.init()
         
-        let alert = UIAlertController.init(title: "Select Source Type", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController.init(title: NSLocalizedString("SelectSource", comment: ""), message: nil, preferredStyle: .actionSheet)
         
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            alert.addAction(UIAlertAction.init(title: "Camera", style: .default, handler: { (_) in
+            alert.addAction(UIAlertAction.init(title: NSLocalizedString("Camera", comment: ""), style: .default, handler: { (_) in
                 self.showCamera()
             }))
         }
         
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            alert.addAction(UIAlertAction.init(title: "Photo Library", style: .default, handler: { (_) in
+            alert.addAction(UIAlertAction.init(title: NSLocalizedString("PhotoLibrary", comment: ""), style: .default, handler: { (_) in
                 self.showGallery()
             }))
         }
         
-        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction.init(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
         
         self.present(alert, animated: true)
     }

@@ -22,6 +22,8 @@ struct Chat {
 
 class ChatsViewController: UIViewController {
 
+    
+    @IBOutlet weak var chats: UINavigationItem!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyChatsLabel: UILabel!
     private let spinner = JGProgressHUD(style: .light)
@@ -32,6 +34,7 @@ class ChatsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupLocalizationText()
         setupInitialView()
         setupTableView()
         fetchUserDetails()
@@ -103,6 +106,12 @@ class ChatsViewController: UIViewController {
 }
 
 extension ChatsViewController {
+    
+    private func setupLocalizationText() {
+        chats.title = NSLocalizedString("wgz-o6-ZPJ.title", comment: "")
+        emptyChatsLabel.text = NSLocalizedString("pWs-h6-O3R.text", comment: "")
+    }
+    
     private func setupInitialView() {
         tableView.isHidden = true
         emptyChatsLabel.isHidden = false
@@ -132,6 +141,7 @@ extension ChatsViewController {
                     for item in list {
                         let chat = Chat(otherPersonId: item.id, otherPersonName: item.name, otherPersonImage: item.image, otherPersonLastMessage: "Loading...", otherPersonEmail: item.email, otherPersonLanguage: item.language)
                         strongSelf.previousChats.insert(chat, at: i)
+                        print("here before crashing")
                         strongSelf.fetchLastMessages(index: i, completion: { (_) in
                             strongSelf.tableView.reloadData()
                         })
@@ -253,12 +263,8 @@ extension ChatsViewController: UITableViewDelegate, UITableViewDataSource {
         if editingStyle == .delete {
             tableView.beginUpdates()
             
-            DatabaseManager.shared.deleteChat(with: previousChats[indexPath.row].otherPersonId) { [weak self] (success) in
-                if success {
-                    self?.previousChats.remove(at: indexPath.row)
-                    self?.images.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .left)
-                    }
+            DatabaseManager.shared.deleteChat(with: previousChats[indexPath.row].otherPersonId) { (_) in
+                
                 }
             tableView.endUpdates()
             if previousChats.isEmpty {

@@ -101,57 +101,32 @@
                                         <edgeInsets key="layoutMargins" top="8" left="22" bottom="8" right="22"/>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uTt-3a-r7I">
-                                        <rect key="frame" x="0.0" y="596.5" width="414" height="110.5"/>
+                                        <rect key="frame" x="0.0" y="596.5" width="414" height="80"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="ZGr-OH-UEr">
-                                                <rect key="frame" x="132" y="15" width="150" height="80.5"/>
-                                                <subviews>
-                                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oP0-LC-rVh">
-                                                        <rect key="frame" x="0.0" y="15.5" width="50" height="50"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="50" id="CkY-ac-9e1"/>
-                                                            <constraint firstAttribute="height" constant="50" id="QEH-Fx-FMz"/>
-                                                        </constraints>
-                                                        <size key="titleShadowOffset" width="2" height="2"/>
-                                                        <state key="normal" image="fb">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                <integer key="value" value="25"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                        <connections>
-                                                            <action selector="facebookLoginTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gbR-NQ-qJw"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8i-l0-OEF">
-                                                        <rect key="frame" x="100" y="15.5" width="50" height="50"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="9d3-jd-gI6"/>
-                                                            <constraint firstAttribute="width" constant="50" id="RpC-z4-VvD"/>
-                                                        </constraints>
-                                                        <state key="normal" image="gmail">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                <integer key="value" value="25"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                        <connections>
-                                                            <action selector="gmailLoginTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="U8a-T1-tMa"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8i-l0-OEF">
+                                                <rect key="frame" x="182" y="15" width="50" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="9d3-jd-gI6"/>
+                                                    <constraint firstAttribute="width" constant="50" id="RpC-z4-VvD"/>
+                                                </constraints>
+                                                <state key="normal" image="gmail">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <integer key="value" value="25"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="gmailLoginTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="U8a-T1-tMa"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <edgeInsets key="layoutMargins" top="15" left="8" bottom="15" right="8"/>
                                     </stackView>
                                     <view contentMode="scaleToFill" verticalHuggingPriority="200" translatesAutoresizingMaskIntoConstraints="NO" id="a98-Vw-hPc">
-                                        <rect key="frame" x="0.0" y="715" width="414" height="50"/>
+                                        <rect key="frame" x="0.0" y="684.5" width="414" height="80.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="lEb-Zd-P0O">
@@ -194,12 +169,15 @@
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="bmK-Eg-QLh"/>
                     <connections>
+                        <outlet property="NotUserLabel" destination="qub-fp-c51" id="C2j-ga-cZf"/>
                         <outlet property="emailField" destination="Iy0-QD-Kxh" id="j0n-Ex-sKD"/>
-                        <outlet property="facebookButton" destination="oP0-LC-rVh" id="hlW-wP-oFI"/>
+                        <outlet property="forgotPassword" destination="08N-7V-tGM" id="133-vC-yUu"/>
                         <outlet property="gmailButton" destination="s8i-l0-OEF" id="bE2-GM-V2e"/>
                         <outlet property="loginButton" destination="5qb-h4-vmt" id="5NQ-0B-GqA"/>
                         <outlet property="passwordField" destination="sHe-DZ-Vgq" id="Zvz-r5-s5T"/>
                         <outlet property="passwordLengthError" destination="16F-d6-whL" id="khB-by-HvM"/>
+                        <outlet property="signupButton" destination="kFV-V3-2yd" id="M1w-Ff-kQK"/>
+                        <outlet property="welcomeLabel" destination="Ly8-2z-QVW" id="lJo-UW-n5v"/>
                         <segue destination="RzG-uw-9vb" kind="showDetail" identifier="gotoSignupScreen" id="XoB-an-DIL"/>
                         <segue destination="5zr-Of-1xq" kind="showDetail" identifier="gotoLoggedInScreen" id="cb2-r1-0xP"/>
                         <segue destination="mig-jC-89y" kind="show" identifier="gotoOnboardingScreen" id="PWu-Pf-peb"/>
@@ -363,6 +341,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Settings" largeTitleDisplayMode="always" id="186-Ug-MkN"/>
                     <connections>
+                        <outlet property="settingsTitle" destination="186-Ug-MkN" id="WOy-0r-and"/>
                         <outlet property="tableView" destination="TAy-ah-Yzo" id="uGl-8x-xuo"/>
                         <outlet property="userImageButton" destination="eqf-uC-MN3" id="MUh-Ml-jo6"/>
                         <outlet property="userNameLabel" destination="V9F-Ij-lIH" id="Ors-Uz-Gzg"/>
@@ -381,33 +360,36 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="xwO-Ne-9bt">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kUJ-O7-gXW">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kUJ-O7-gXW">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
-                                        <subviews>
-                                            <searchBar contentMode="redraw" placeholder="Search Contacts" translatesAutoresizingMaskIntoConstraints="NO" id="zWJ-Wc-7vS">
-                                                <rect key="frame" x="0.0" y="0.0" width="366" height="56"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </searchBar>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R65-9X-KKN">
-                                                <rect key="frame" x="366" y="0.0" width="48" height="56"/>
-                                                <state key="normal" title="Cancel"/>
-                                                <connections>
-                                                    <action selector="cancelButtonTapped:" destination="oLa-ME-gdX" eventType="touchUpInside" id="0vJ-rj-70g"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
+                                    <searchBar contentMode="redraw" placeholder="Search Contacts" translatesAutoresizingMaskIntoConstraints="NO" id="zWJ-Wc-7vS">
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="60"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R65-9X-KKN">
+                                        <rect key="frame" x="366" y="0.0" width="48" height="60"/>
+                                        <state key="normal" title="Cancel"/>
+                                        <connections>
+                                            <action selector="cancelButtonTapped:" destination="oLa-ME-gdX" eventType="touchUpInside" id="0vJ-rj-70g"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="uWR-07-4wk"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="xwO-Ne-9bt">
+                                <rect key="frame" x="0.0" y="60" width="414" height="748"/>
+                                <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No contacts to show yet 😀" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXC-6H-hip">
-                                        <rect key="frame" x="0.0" y="66" width="414" height="26.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="26.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
                                         <color key="textColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ulh-nl-nee">
-                                        <rect key="frame" x="0.0" y="102.5" width="414" height="705.5"/>
+                                        <rect key="frame" x="0.0" y="36.5" width="414" height="711.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="contactCell" id="IZZ-Sl-4gk" customClass="ContactsTableViewCell" customModule="Lingo_Chat" customModuleProvider="target">
@@ -461,13 +443,17 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="xwO-Ne-9bt" firstAttribute="leading" secondItem="5ep-ks-vsu" secondAttribute="leading" id="6Gk-3R-sXp"/>
+                            <constraint firstItem="kUJ-O7-gXW" firstAttribute="trailing" secondItem="KQo-9B-iFy" secondAttribute="trailing" id="Ecd-nC-42d"/>
                             <constraint firstItem="KQo-9B-iFy" firstAttribute="bottom" secondItem="xwO-Ne-9bt" secondAttribute="bottom" id="QUn-PH-MS8"/>
-                            <constraint firstItem="xwO-Ne-9bt" firstAttribute="top" secondItem="KQo-9B-iFy" secondAttribute="top" id="QiC-Fs-dZf"/>
+                            <constraint firstItem="kUJ-O7-gXW" firstAttribute="leading" secondItem="KQo-9B-iFy" secondAttribute="leading" id="Xih-pU-giE"/>
                             <constraint firstItem="KQo-9B-iFy" firstAttribute="trailing" secondItem="xwO-Ne-9bt" secondAttribute="trailing" id="aVV-K4-Hzc"/>
+                            <constraint firstItem="kUJ-O7-gXW" firstAttribute="top" secondItem="KQo-9B-iFy" secondAttribute="top" id="jo1-lt-d65"/>
+                            <constraint firstItem="xwO-Ne-9bt" firstAttribute="top" secondItem="kUJ-O7-gXW" secondAttribute="bottom" id="lIf-YY-6xJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KQo-9B-iFy"/>
                     </view>
                     <connections>
+                        <outlet property="cancelButton" destination="R65-9X-KKN" id="eqb-2P-Vfa"/>
                         <outlet property="noContactsLabel" destination="HXC-6H-hip" id="rxy-EE-e8b"/>
                         <outlet property="searchBar" destination="zWJ-Wc-7vS" id="CIr-K5-kBf"/>
                         <outlet property="tableView" destination="ulh-nl-nee" id="zq6-Nu-Qzl"/>
@@ -595,13 +581,14 @@
                         <viewLayoutGuide key="safeArea" id="Avh-23-WcP"/>
                     </view>
                     <navigationItem key="navigationItem" title="Chats" largeTitleDisplayMode="always" id="uY8-h2-hu9">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="8N8-Nt-CdN">
+                        <barButtonItem key="rightBarButtonItem" image="plus.bubble" catalog="system" id="8N8-Nt-CdN">
                             <connections>
                                 <action selector="addChatButtonTapped:" destination="ook-is-CVB" id="JKg-FV-Bd4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="chats" destination="uY8-h2-hu9" id="PNw-ny-H6X"/>
                         <outlet property="emptyChatsLabel" destination="pWs-h6-O3R" id="6ME-Uh-aLL"/>
                         <outlet property="tableView" destination="sHS-0j-NVU" id="w1R-7d-UtR"/>
                         <segue destination="cRq-t3-qq8" kind="show" identifier="gotoConversationScreen" id="INJ-5v-j3w"/>
@@ -625,6 +612,7 @@
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="4Lv-b4-V27"/>
                     <connections>
                         <segue destination="KV8-9m-GXk" kind="show" identifier="gotoPhotoScreen" id="UIb-yx-Kjh"/>
+                        <segue destination="Okz-Np-hTE" kind="show" identifier="showMapScreen" id="Y1a-BU-DGF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kqu-i8-qtc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -660,6 +648,50 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ksu-Jm-zhC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5325" y="-533"/>
+        </scene>
+        <!--Location View Controller-->
+        <scene sceneID="AeK-DO-lv6">
+            <objects>
+                <viewController id="Okz-Np-hTE" customClass="LocationViewController" customModule="Lingo_Chat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ogQ-wm-EMS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="y67-TQ-0aw">
+                                <rect key="frame" x="0.0" y="56" width="414" height="703"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9As-mD-FEF">
+                                <rect key="frame" x="342" y="76" width="52" height="39"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                <state key="normal" title="Send">
+                                    <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendButtonTapped:" destination="Okz-Np-hTE" eventType="touchUpInside" id="Iu7-4r-5YN"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="y67-TQ-0aw" firstAttribute="leading" secondItem="odG-aA-a1g" secondAttribute="leading" id="03H-sD-1YC"/>
+                            <constraint firstItem="odG-aA-a1g" firstAttribute="bottom" secondItem="y67-TQ-0aw" secondAttribute="bottom" id="5QY-HZ-ns4"/>
+                            <constraint firstItem="y67-TQ-0aw" firstAttribute="top" secondItem="odG-aA-a1g" secondAttribute="top" id="EHw-dn-xYS"/>
+                            <constraint firstItem="odG-aA-a1g" firstAttribute="trailing" secondItem="y67-TQ-0aw" secondAttribute="trailing" id="bqW-83-q0q"/>
+                            <constraint firstItem="9As-mD-FEF" firstAttribute="top" secondItem="odG-aA-a1g" secondAttribute="top" constant="20" id="huM-C7-H21"/>
+                            <constraint firstItem="odG-aA-a1g" firstAttribute="trailing" secondItem="9As-mD-FEF" secondAttribute="trailing" constant="20" id="y5v-BA-0nI"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="odG-aA-a1g"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ewZ-aU-CRb"/>
+                    <connections>
+                        <outlet property="mapView" destination="y67-TQ-0aw" id="uKn-ib-uEI"/>
+                        <segue destination="69A-0p-zUw" kind="unwind" unwindAction="unwindFromMapWithSegue:" id="R2k-PN-O0f"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="foq-Pd-VEx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="69A-0p-zUw" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="6165" y="-278"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="v3r-17-09e">
@@ -720,7 +752,7 @@
                                         <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="and start connecting with friends" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Cw-Ue-6b7">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="and connect with friends" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Cw-Ue-6b7">
                                         <rect key="frame" x="0.0" y="71.5" width="414" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -838,13 +870,16 @@
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="x7k-zb-dVl"/>
                     <connections>
                         <outlet property="confirmPasswordField" destination="J46-Hw-VFp" id="wVa-B4-uhv"/>
+                        <outlet property="connectLabel" destination="0Cw-Ue-6b7" id="T6S-LL-njI"/>
                         <outlet property="emailField" destination="gNa-IK-hlg" id="VZB-wZ-mRT"/>
                         <outlet property="firstNameField" destination="0HL-bT-ob3" id="A7N-Mi-Pis"/>
+                        <outlet property="getStartedLabel" destination="01t-nk-yAY" id="Wav-8y-KMx"/>
                         <outlet property="lastNameField" destination="piS-CH-Mby" id="y6l-0o-pQ8"/>
                         <outlet property="passwordField" destination="JD0-7g-XrC" id="I99-Kh-Utp"/>
                         <outlet property="passwordLengthError" destination="ouY-VB-Ddp" id="tPf-Ti-xFE"/>
-                        <outlet property="passwordMismatchError" destination="cIV-VY-q5i" id="UgQ-Xh-6Kj"/>
+                        <outlet property="passwordMismatchError" destination="cIV-VY-q5i" id="egV-Wc-dR7"/>
                         <outlet property="signupButton" destination="ZyS-tg-8Ym" id="kEA-j4-TEz"/>
+                        <outlet property="termsLabel" destination="R7t-s6-Aph" id="1bT-9p-70a"/>
                         <segue destination="mig-jC-89y" kind="showDetail" identifier="gotoOnboardingScreen" id="x5L-eS-9LN"/>
                     </connections>
                 </viewController>
@@ -926,7 +961,7 @@
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qDc-uG-olW">
                                         <rect key="frame" x="8" y="372" width="398" height="61"/>
-                                        <string key="text">You can also choose to skip this step. The default langusge for chat will be English. You can change your preferences in settings later.</string>
+                                        <string key="text">You can also choose to skip this step. The default language for chat will be English. You can change your preferences in settings later</string>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -981,8 +1016,15 @@
                     </view>
                     <navigationItem key="navigationItem" id="pll-WH-GyJ"/>
                     <connections>
+                        <outlet property="chatLanguageLabel" destination="yJU-XS-a1W" id="yhd-yt-GyZ"/>
+                        <outlet property="completeStepsLabel" destination="qtY-sd-0IF" id="Y26-Wy-GJa"/>
+                        <outlet property="hithereLabel" destination="CP9-1f-85Z" id="LWC-xF-ivX"/>
                         <outlet property="languageSelector" destination="RZ8-ZD-iPy" id="aGU-9Z-CtX"/>
                         <outlet property="profilePhotoButton" destination="RQI-Xx-xqa" id="3cA-oo-uky"/>
+                        <outlet property="selectPicLabel" destination="tL3-eJ-iKn" id="d9M-Ha-wff"/>
+                        <outlet property="setPreferenceButton" destination="osL-6e-TYe" id="gE7-jL-2TS"/>
+                        <outlet property="skipButton" destination="TOY-yo-NWj" id="KxX-aR-GaN"/>
+                        <outlet property="skipLabel" destination="qDc-uG-olW" id="di6-WA-BH3"/>
                         <segue destination="5zr-Of-1xq" kind="showDetail" identifier="gotoLoggedInScreen" id="oMO-eC-OVd"/>
                     </connections>
                 </viewController>
@@ -998,11 +1040,11 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowshape.turn.up.left.fill" catalog="system" width="128" height="106"/>
-        <image name="fb" width="128" height="128"/>
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="gmail" width="128" height="128"/>
         <image name="loginLogo" width="820" height="464"/>
         <image name="message" catalog="system" width="128" height="113"/>
+        <image name="plus.bubble" catalog="system" width="128" height="110"/>
         <image name="user" width="128" height="128"/>
     </resources>
 </document>

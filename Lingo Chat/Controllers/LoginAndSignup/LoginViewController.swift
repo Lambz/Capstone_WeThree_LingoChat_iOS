@@ -16,10 +16,12 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordLengthError: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var gmailButton: UIButton!
-    @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var emailField: UITextField!
-    
+    @IBOutlet weak var forgotPassword: UIButton!
+    @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var NotUserLabel: UILabel!
     
     private var googleSignInButton = GIDSignInButton()
     private var googleSignInObserver: NSObjectProtocol?
@@ -59,6 +61,7 @@ class LoginViewController: UIViewController {
     }
     
     private func setupViews() {
+        setupTextForLocalization()
         setupFieldLines()
         setupFieldIcons()
         setupButtonsShadow()
@@ -70,6 +73,17 @@ class LoginViewController: UIViewController {
             NotificationCenter.default.removeObserver(observer)
         }
     }
+    
+    private func setupTextForLocalization() {
+        welcomeLabel.text = NSLocalizedString("Ly8-2z-QVW.text", comment: "")
+        emailField.placeholder = NSLocalizedString("Iy0-QD-Kxh.placeholder", comment: "")
+        passwordField.placeholder = NSLocalizedString("sHe-DZ-Vgq.placeholder", comment: "")
+//        passwordLengthError.text =
+        loginButton.setTitle(NSLocalizedString("5qb-h4-vmt.title", comment: ""), for: .normal)
+        signupButton.setTitle(NSLocalizedString("kFV-V3-2yd.title", comment: ""), for: .normal)
+        NotUserLabel.text = NSLocalizedString("qub-fp-c51.text", comment: "")      
+    }
+    
 
 }
 
@@ -80,10 +94,6 @@ extension LoginViewController {
     }
     
     @IBAction func forgotPasswordTapped(_ sender: Any) {
-    }
-    
-    @IBAction func facebookLoginTapped(_ sender: Any) {
-        
     }
     
     @IBAction func gmailLoginTapped(_ sender: Any) {
@@ -101,7 +111,7 @@ extension LoginViewController {
     private func checkCredentialsAndLogin() {
 //        checks fields not empty
         guard let email = emailField.text, !email.isEmpty, let password = passwordField.text, !password.isEmpty else {
-            showErrorAlert(message: "Fields can't be empty.")
+            showErrorAlert(message: NSLocalizedString("EmptyFieldsAlert", comment: ""))
             return
         }
         
@@ -117,7 +127,7 @@ extension LoginViewController {
                 }
                 guard authResult != nil, error == nil else {
                     DispatchQueue.main.async {
-                        strongSelf.showErrorAlert(message: "Error signing in user. Please try again later.")
+                        strongSelf.showErrorAlert(message: NSLocalizedString("SignInError", comment: ""))
                     }
                     return
                 }
@@ -127,8 +137,8 @@ extension LoginViewController {
     }
     
     private func showErrorAlert(message: String) {
-        let alert = UIAlertController(title: "Oops!", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+        let alert = UIAlertController(title: NSLocalizedString("Oops", comment: ""), message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Okay", comment: ""), style: .cancel, handler: nil))
         self.present(alert, animated: true)
     }
     
@@ -157,7 +167,6 @@ extension LoginViewController {
     }
     
     private func setupButtonsShadow() {
-        setButtonShadow(button: facebookButton)
         setButtonShadow(button: gmailButton)
         setButtonShadow(button: loginButton)
     }

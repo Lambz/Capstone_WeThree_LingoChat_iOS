@@ -1,4 +1,11 @@
-//Login:
+/* 
+  Localizable.strings
+  Lingo Chat
+
+  Created by Chetan on 2020-08-23.
+  Copyright © 2020 Chetan. All rights reserved.
+*/
+///Login:
 
 "Ly8-2z-QVW.text" = "Welcome Back!";
 
@@ -12,8 +19,15 @@
 
 "kFV-V3-2yd.title" = "Sign up";
 
+"Okay" = "Okay";
+
+"SignInError" = "Error signing in user. Please try again later.";
+
 //————————
 //Signup:
+
+"UserCreationError" = "Error creating user. Please try again later.";
+
 
 "01t-nk-yAY.text" = "Let’s get started!";
 
@@ -63,8 +77,12 @@
 "yJU-XS-a1W.text" = "Choose your chat language";
 
 
-//English, French, German, Spanish, Hindi   language selection bar
-//RZ8-ZD-iPy
+"English" = "English";
+"French" = "French";
+"German" = "German";
+"Spanish" = "Spanish";
+"Hindi" = "Hindi";
+
 
 "qDc-uG-olW.text" = "You can also choose to skip this step. The default language for chat will be English. You can change your preferences in settings later.";
 
@@ -88,8 +106,6 @@
 //—————————
 //Chats screen
 
-"uY8-h2-hu9.title" = "Chats navigation item";
-
 
 "pWs-h6-O3R.text" = "No conversations to show yet. Start a new chat now!😀";
 
@@ -98,6 +114,39 @@
 //Settings screen
 
 "186-Ug-MkN.title" = "Settings";
+
+"ProfileSettings" = "Profile Settings";
+"ChangeLanguage" = "Change Language";
+"AboutLingoChat" = "About LingoChat";
+"SignOut" = "Sign out";
+
+"InfoTitle" = "Welcome to LingoChat!";
+"InfoMessage" = "LingoChat is an app created for facilitating inter-lingustic communication between people. The aim of this app is to improve the way peple connect.";
+
+"LogoutTitle" = "Want to log out?";
+"LogoutMessage" = "You will be logged out";
+"Oops" = "Oops";
+"LogOut" = "Log out";
+"UnableLogOut" = "Unable to log you out";
+
+"languageAlertTitle" = "Change your language";
+"LanguageAlertOptions" =  "0: English, 1: French, 2:German, 3:Spanish, 4.Hindi";
+"Save" = "Save";
+"languagePlaceholder" = "Enter language code";
+"InvalidInput!" = "Invalid input!";
+"EmptyFieldsAlert" = "Fields can't be empty";
+"Sorry!" = "Sorry!";
+"Cancel" = "Cancel";
+
+
+"UpdateProfileTitle" = "Update your profile";
+"UpdateProfileMessage" = "Enter text to update values";
+
+
+
+"SelectSource" = "Select Source Type";
+"Camera" = "Camera";
+"PhotoLibrary" = "Photo Library";
 
 
 //——————————————
@@ -117,4 +166,20 @@
 
 "9As-mD-FEF.title" = "Send";
 
+
+//---------------
+//Conversation Screen
+
+"SendMedia" = "Send media";
+"SendMediaMessage" = "What would you like to send";
+"Photo" = "Photo";
+"Video" = "Video";
+"Location" = "Location";
+
+"SentBy" = "Sent by";
+
+"DeleteMessage?" = "Delete message?";
+"DeleteMsg" = "Delete mesage for";
+"OnlyMe" = "Only me";
+"Everyone" = "Everyone";
 

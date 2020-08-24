@@ -14,6 +14,7 @@ class ContactsViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
     
+    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,6 +27,7 @@ class ContactsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupLocalizationText()
         setupDelegates()
         setupContactsData { [weak self] (success) in
             if success {
@@ -34,6 +36,12 @@ class ContactsViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func setupLocalizationText() {
+        searchBar.placeholder = NSLocalizedString("zWJ-Wc-7vS.placeholder", comment: "")
+        noContactsLabel.text = NSLocalizedString("HXC-6H-hip.text", comment: "")
+        cancelButton.setTitle(NSLocalizedString("R65-9X-KKN.title", comment: ""), for: .normal)
     }
     
     private func setupDelegates() {
@@ -48,7 +56,6 @@ class ContactsViewController: UIViewController {
     private func setupContactsData(completion: @escaping(Bool) -> Void) {
         personalContacts = ContactsHelper.fetchContacts()
         if !personalContacts.isEmpty {
-            print("Phone contacts fetched")
             spinner.show(in: view)
             personalContacts = personalContacts.map{$0.lowercased()}
             fetchContacts { [weak self] (result) in
@@ -72,8 +79,13 @@ class ContactsViewController: UIViewController {
                     }
                 case .failure(let error):
                     print("Failed to fetch contacts: \(error)")
+                    strongSelf.spinner.dismiss()
+                    strongSelf.noContactsLabel.isHidden = false
                 }
             }
+        }
+        else {
+           noContactsLabel.isHidden = false
         }
     }
     

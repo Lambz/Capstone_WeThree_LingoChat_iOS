@@ -1,3 +1,10 @@
+/* 
+  Localizable.strings
+  Lingo Chat
+
+  Created by Chetan on 2020-08-23.
+  Copyright © 2020 Chetan. All rights reserved.
+*/
 //Login:
 
 "Ly8-2z-QVW.text" = "Nous saluons le retour!";
@@ -12,8 +19,15 @@
 
 "kFV-V3-2yd.title" = "S'inscrire";
 
+"Okay" = "D'accord";
+
+"SignInError" = "Erreur lors de la connexion de l'utilisateur. Veuillez réessayer plus tard.";
+
 //————————
 //Signup:
+
+"UserCreationError" = "Erreur lors de la création de l'utilisateur. Veuillez réessayer plus tard.";
+
 
 "01t-nk-yAY.text" = "Commençons!";
 
@@ -63,8 +77,12 @@
 "yJU-XS-a1W.text" = "Choisissez votre langue de chat";
 
 
-//English, French, German, Spanish, Hindi   language selection bar
-//RZ8-ZD-iPy
+"English" = "Anglais";
+"French" = "Français";
+"German" = "Allemand";
+"Spanish" = "Espagnol";
+"Hindi" = "Hindi";
+
 
 "qDc-uG-olW.text" = "Vous pouvez également choisir d'ignorer cette étape. La langue par défaut pour le chat sera l'anglais. Vous pouvez modifier vos préférences dans les paramètres ultérieurement";
 
@@ -82,13 +100,11 @@
 "wgz-o6-ZPJ.title" = "Chattes";
 
 
-"xyY-XY-dhu.title" = "Paramètres";
+"xyY-XY-dhu.title" = "Settings";
 
 
 //—————————
 //Chats screen
-
-"uY8-h2-hu9.title" = "Chattess";
 
 
 "pWs-h6-O3R.text" = "Aucune conversation à afficher pour le moment. Démarrez un nouveau chat maintenant!😀";
@@ -98,6 +114,40 @@
 //Settings screen
 
 "186-Ug-MkN.title" = "Paramètres";
+
+
+"ProfileSettings" = "Paramètres de profil";
+"ChangeLanguage" = "Changer de langue";
+"AboutLingoChat" = "À propos de LingoChat";
+"SignOut" = "Déconnexion";
+
+"InfoTitle" = "Bienvenue sur LingoChat!";
+"InfoMessage" = "LingoChat est une application créée pour faciliter la communication inter-lingustique entre les gens. Le but de cette application est d'améliorer la façon dont peple se connecte.";
+
+"LogoutTitle" = "Vous voulez vous déconnecter?";
+"LogoutMessage" = "Vous serez déconnecté";
+"Oops" = "Oups";
+"LogOut" = "Se déconnecter";
+"UnableLogOut" = "Impossible de vous déconnecter";
+
+"languageAlertTitle" = "Changez votre langue";
+"LanguageAlertOptions" =  "0: anglais, 1: français, 2: allemand, 3: espagnol, 4.Hindi";
+"Save" = "Sauver";
+"languagePlaceholder" = "Entrez le code de langue";
+"InvalidInput!" = "Entrée invalide!";
+"EmptyFieldsAlert" = "Les champs ne peuvent pas être vides";
+"Sorry!" = "Désolé!";
+"Cancel" = "Annuler";
+
+"UpdateProfileTitle" = "Mettre à jour votre profil";
+"UpdateProfileMessage" = "Entrez le texte pour mettre à jour les valeurs";
+
+
+
+"SelectSource" = "Sélectionnez le type de source";
+"Camera" = "Caméra";
+"PhotoLibrary" = "Galerie de photos";
+
 
 
 //——————————————
@@ -116,6 +166,23 @@
 //Maps screen
 
 "9As-mD-FEF.title" = "Envoyer";
+
+
+//---------------
+//Conversation Screen
+
+"SendMedia" = "Envoyer un média";
+"SendMediaMessage" = "Qu'aimeriez-vous envoyer";
+"Photo" = "Photo";
+"Video" = "Vidéo";
+"Location" = "Emplacement";
+
+"SentBy" = "Envoyée par";
+
+"DeleteMessage?" = "Supprimer le message?";
+"DeleteMsg" = "Supprimer le message pour";
+"OnlyMe" = "Seulement moi";
+"Everyone" = "Toutes les personnes";
 
 
 

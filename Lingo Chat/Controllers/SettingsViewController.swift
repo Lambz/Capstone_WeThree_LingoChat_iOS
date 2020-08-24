@@ -12,12 +12,13 @@ import GoogleSignIn
 import SDWebImage
 
 class SettingsViewController: UIViewController {
-
+    @IBOutlet weak var settingsTitle: UINavigationItem!
+    
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var userNameLabel: UILabel!
     
     @IBOutlet weak var userImageButton: UIButton!
-    private final let settings = ["Profile Settings", "Change Language", "About LingoChat", "Sign out"]
+    private final let settings = [NSLocalizedString("ProfileSettings", comment: ""), NSLocalizedString("ChangeLanguage", comment: ""), NSLocalizedString("AboutLingoChat", comment: ""), NSLocalizedString("SignOut", comment: "")]
     private final let images = [UIImage(systemName: "person.fill"), UIImage(systemName: "textformat.abc"), UIImage(systemName: "info.circle"), UIImage(systemName: "arrowshape.turn.up.left.fill")]
     
     private var imagePickerController: UIImagePickerController?
@@ -48,6 +49,7 @@ class SettingsViewController: UIViewController {
     }
     
     private func setupViews() {
+        settingsTitle.title = NSLocalizedString("186-Ug-MkN.title", comment: "")
         guard let url = UserDefaults.standard.object(forKey: "image") as? String else {
             print("data fetch error in settings")
             return
@@ -55,21 +57,6 @@ class SettingsViewController: UIViewController {
         DispatchQueue.main.async {
             self.userImageButton.sd_setImage(with: URL(string: url)!, for: .normal, completed: nil)
         }
-        
-//        DispatchQueue.global(qos: .background).async {
-//            do
-//            {
-//                let data = try Data.init(contentsOf: URL(string: url)!)
-//                DispatchQueue.main.async {
-//                    print("data converted")
-//                    self.userImageButton.setImage(UIImage(data: data), for: .normal)
-//                }
-//            }
-//            catch {
-//                print("image data could not be downloaded in settings")
-//            }
-//        }
-//
         updateUserName()
         
     }
@@ -119,9 +106,9 @@ extension SettingsViewController {
     }
     
     private func showConfirmationAlert() {
-        let alert = UIAlertController(title: "Want to log out?", message: "You will be logged out", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Oops", style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Log out", style: .default) { (action) in
+        let alert = UIAlertController(title: NSLocalizedString("LogoutTitle", comment: ""), message: NSLocalizedString("LogoutMessage", comment: ""), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Oops", comment: ""), style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("LogOut", comment: ""), style: .default) { (action) in
             
             GIDSignIn.sharedInstance()?.signOut()
             
@@ -129,7 +116,7 @@ extension SettingsViewController {
                 try FirebaseAuth.Auth.auth().signOut()
                 self.performSegue(withIdentifier: "logoutUser", sender: self)
             } catch {
-                self.showErrorAlert(title: "Oops!", message: "Unable to log you out.")
+                self.showErrorAlert(title: NSLocalizedString("Oops", comment: ""), message: NSLocalizedString("UnableLogOut", comment: ""))
             }
             
         })
@@ -137,20 +124,20 @@ extension SettingsViewController {
     }
     
     private func showProfileSettingsAlert() {
-        let alert = UIAlertController(title: "Change your profile", message: "Enter text to update values", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("UpdateProfileTitle", comment: ""), message: NSLocalizedString("UpdateProfileMessage", comment: ""), preferredStyle: .alert)
         
         alert.addTextField { (textField) in
             textField.text = UserDefaults.standard.object(forKey: "first_name") as? String
             textField.layoutMargins = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
-            textField.placeholder = "First Name"
+            textField.placeholder = NSLocalizedString("0HL-bT-ob3.placeholder", comment: "")
         }
         alert.addTextField { (textField) in
             textField.text = UserDefaults.standard.object(forKey: "last_name") as? String
             textField.layoutMargins = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
-            textField.placeholder = "Last Name"
+            textField.placeholder = NSLocalizedString("piS-CH-Mby.placeholder", comment: "")
         }
 
-        alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Save", comment: ""), style: .default, handler: { [weak alert] (_) in
             let firstName = alert?.textFields![0].text
             let lastName = alert?.textFields![1].text
             if !firstName!.isEmpty && !lastName!.isEmpty {
@@ -160,29 +147,29 @@ extension SettingsViewController {
                 self.updateUserName()
             }
             else {
-                self.showErrorAlert(title: "Invalid input", message: "Fields can't be empty")
+                self.showErrorAlert(title: NSLocalizedString("InvalidInput!", comment: ""), message: NSLocalizedString("EmptyFieldsAlert", comment: ""))
             }
         }))
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         
         self.present(alert, animated: true, completion: nil)
     }
     
     private func showLanguageSettingAlert() {
-        let alert = UIAlertController(title: "Change your language", message: "0: English, 1: French, 2:German, 3:Spanish, 4.Hindi", preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("languageAlertTitle", comment: ""), message: NSLocalizedString("LanguageAlertOptions", comment: ""), preferredStyle: .alert)
         
         alert.addTextField { (textField) in
             textField.text = UserDefaults.standard.object(forKey: "language") as? String
             textField.layoutMargins = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
-            textField.placeholder = "Enter language code"
+            textField.placeholder = NSLocalizedString("languagePlaceholder", comment: "")
         }
        
-        alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Save", comment: ""), style: .default, handler: { [weak alert] (_) in
             let code = alert?.textFields![0].text
         
             guard code != nil else {
-                self.showErrorAlert(title: "Invalid input!", message: "Fields can't be empty")
+                self.showErrorAlert(title: NSLocalizedString("InvalidInput!", comment: ""), message: NSLocalizedString("EmptyFieldsAlert", comment: ""))
                 return
             }
             if !code!.isEmpty {
@@ -201,18 +188,18 @@ extension SettingsViewController {
                 }
             }
             else {
-                self.showErrorAlert(title: "Sorry", message: "Fields can't be empty")
+                self.showErrorAlert(title: NSLocalizedString("Sorry!", comment: ""), message: NSLocalizedString("EmptyFieldsAlert", comment: ""))
             }
         }))
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         
         self.present(alert, animated: true, completion: nil)
     }
     
     private func showAboutInfoAlert() {
-        let title = "Welcome to LingoChat!"
-        let message = "LingoChat is an app created for facilitating inter-lingustic communication between people. The aim of this app is to improve the way peple connect."
+        let title = NSLocalizedString("InfoTitle", comment: "")
+        let message = NSLocalizedString("InfoMessage", comment: "")
         showErrorAlert(title: title, message: message)
     }
 }
@@ -228,21 +215,21 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
         
         self.imagePickerController = UIImagePickerController.init()
         
-        let alert = UIAlertController.init(title: "Select Source Type", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController.init(title: NSLocalizedString("SelectSource", comment: ""), message: nil, preferredStyle: .actionSheet)
         
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            alert.addAction(UIAlertAction.init(title: "Camera", style: .default, handler: { (_) in
+            alert.addAction(UIAlertAction.init(title: NSLocalizedString("Camera", comment: ""), style: .default, handler: { (_) in
                 self.showCamera()
             }))
         }
         
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            alert.addAction(UIAlertAction.init(title: "Photo Library", style: .default, handler: { (_) in
+            alert.addAction(UIAlertAction.init(title: NSLocalizedString("PhotoLibrary", comment: ""), style: .default, handler: { (_) in
                 self.showGallery()
             }))
         }
         
-        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction.init(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
         
         self.present(alert, animated: true)
     }

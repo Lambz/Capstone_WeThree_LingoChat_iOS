@@ -11,6 +11,9 @@ import FirebaseAuth
 
 class SignupViewController: UIViewController {
 
+    @IBOutlet weak var termsLabel: UILabel!
+    @IBOutlet weak var connectLabel: UILabel!
+    @IBOutlet weak var getStartedLabel: UILabel!
     @IBOutlet weak var passwordMismatchError: UILabel!
     @IBOutlet weak var passwordLengthError: UILabel!
     @IBOutlet weak var confirmPasswordField: UITextField!
@@ -35,10 +38,25 @@ class SignupViewController: UIViewController {
     }
     
     private func setupViews() {
+        setupLocalizationText()
         setupFieldLines()
         setButtonShadow(button: signupButton)
         signupButton.addTarget(self, action: #selector(signupButtonPressed), for: .touchUpInside)
         hideLabels()
+    }
+    
+    private func setupLocalizationText() {
+        getStartedLabel.text = NSLocalizedString("01t-nk-yAY.text", comment: "")
+        connectLabel.text = NSLocalizedString("0Cw-Ue-6b7.text", comment: "")
+        firstNameField.placeholder = NSLocalizedString("0HL-bT-ob3.placeholder", comment: "")
+        lastNameField.placeholder = NSLocalizedString("piS-CH-Mby.placeholder", comment: "")
+        emailField.placeholder = NSLocalizedString("gNa-IK-hlg.placeholder", comment: "")
+        passwordField.placeholder = NSLocalizedString("JD0-7g-XrC.placeholder", comment: "")
+        confirmPasswordField.placeholder = NSLocalizedString("J46-Hw-VFp.placeholder", comment: "")
+        passwordLengthError.text = NSLocalizedString("ouY-VB-Ddp.text", comment: "")
+        passwordMismatchError.text = NSLocalizedString("cIV-VY-q5i.text", comment: "")
+        termsLabel.text = "R7t-s6-Aph.text"
+        signupButton.setTitle(NSLocalizedString("ZyS-tg-8Ym.title", comment: ""), for: .normal)
     }
 }
 
@@ -56,12 +74,13 @@ extension SignupViewController {
 //                    return
 //                }
 //                guard !exists else {
-//                    strongSelf.showErrorAlert(message: "User with same email address already exists.")
+//                    strongSelf.showErrorAlert(message: NSLocalizedString("UserExistsError", comment: ""))
 //                    return
 //                }
 //                strongSelf.doLoginUsingFirebase()
 //            })
 //        }
+        
     }
     
     private func validateFieldsForNonEmptyAndPasswordMatch() {
@@ -71,7 +90,7 @@ extension SignupViewController {
             let password = passwordField.text, !password.isEmpty,
             let confirmedPassword = confirmPasswordField.text, !confirmedPassword.isEmpty
         else {
-            showErrorAlert(message: "Fields can't be empty.")
+            showErrorAlert(message: NSLocalizedString("EmptyFieldsAlert", comment: ""))
             return
         }
         doLoginUsingFirebase()
@@ -84,7 +103,7 @@ extension SignupViewController {
             }
             guard let _ = authResult, error == nil else {
                 DispatchQueue.main.async {
-                    strongSelf.showErrorAlert(message: "Error creating user. Please try again later.")
+                    strongSelf.showErrorAlert(message: NSLocalizedString("UserCreationError", comment: ""))
                 }
                 return
             }

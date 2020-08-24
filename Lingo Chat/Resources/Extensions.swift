@@ -41,6 +41,3 @@ extension UITextField {
 extension Notification.Name {
     static let didGoogleSigninNotification = Notification.Name("SignIn")
 }
-
-
-
