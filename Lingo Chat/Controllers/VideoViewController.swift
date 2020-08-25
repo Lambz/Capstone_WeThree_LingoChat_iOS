@@ -7,24 +7,17 @@
 //
 
 import UIKit
+import AVFoundation
+import AVKit
 
-class VideoViewController: UIViewController {
+class VideoViewController: AVPlayerViewController {
 
+    public var videoUrl: URL!
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        player = AVPlayer(url: videoUrl)
+        player?.play()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

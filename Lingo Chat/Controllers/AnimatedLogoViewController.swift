@@ -16,7 +16,7 @@ class AnimatedLogoViewController: UIViewController {
                                                  y: 0,
                                                  width: 200,
                                                  height: 200))
-        logoView.image = UIImage(named: "user")
+        logoView.image = UIImage(named: "cover")
         return logoView
     }()
     

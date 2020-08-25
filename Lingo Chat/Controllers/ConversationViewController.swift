@@ -74,6 +74,7 @@ class ConversationViewController: MessagesViewController {
     private var talkingToSender: Sender!
     private var imagePickerController: UIImagePickerController?
     private var imageUrl: URL!
+    private var videoUrl: URL!
     
 //    values to be passed through segues
     public var isNewConversation = false
@@ -150,8 +151,8 @@ class ConversationViewController: MessagesViewController {
         actionSheet.addAction(UIAlertAction(title: NSLocalizedString("Photo", comment: ""), style: .default, handler: { [weak self] (action) in
             self?.presentPhotoActionSheet()
         }))
-        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("Video", comment: ""), style: .default, handler: { (action) in
-            
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("Video", comment: ""), style: .default, handler: { [weak self] (action) in
+            self?.presentVideoActionSheet()
         }))
         actionSheet.addAction(UIAlertAction(title: NSLocalizedString("Location", comment: ""), style: .default, handler: { [weak self] (action) in
             self?.presentLocationPicker()
@@ -233,6 +234,14 @@ class ConversationViewController: MessagesViewController {
             }
         }
         
+        if segue.destination is VideoViewController {
+            if let destVC = segue.destination as? VideoViewController {
+                destVC.title = NSLocalizedString("SentBy", comment: "") + " \(talkingToSender.displayName)"
+                destVC.videoUrl = videoUrl
+            }
+            
+        }
+        
     }
 
     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
@@ -306,13 +315,13 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             alert.addAction(UIAlertAction.init(title: NSLocalizedString("Camera", comment: ""), style: .default, handler: { (_) in
-                self.showCamera()
+                self.showCamera(video: false)
             }))
         }
         
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             alert.addAction(UIAlertAction.init(title: NSLocalizedString("PhotoLibrary", comment: ""), style: .default, handler: { (_) in
-                self.showGallery()
+                self.showGallery(video: false)
             }))
         }
         
@@ -321,45 +330,100 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         self.present(alert, animated: true)
     }
     
-    func showCamera() {
+    private func presentVideoActionSheet() {
+        if self.imagePickerController != nil {
+            self.imagePickerController?.delegate = nil
+            self.imagePickerController = nil
+        }
+        
+        self.imagePickerController = UIImagePickerController.init()
+        
+        let alert = UIAlertController.init(title: NSLocalizedString("SelectSource", comment: ""), message: nil, preferredStyle: .actionSheet)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alert.addAction(UIAlertAction.init(title: NSLocalizedString("Camera", comment: ""), style: .default, handler: { (_) in
+                self.showCamera(video: true)
+            }))
+        }
+        
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            alert.addAction(UIAlertAction.init(title: NSLocalizedString("VideoLibrary", comment: ""), style: .default, handler: { (_) in
+                self.showGallery(video: true)
+            }))
+        }
+        
+        alert.addAction(UIAlertAction.init(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
+        
+        self.present(alert, animated: true)
+    }
+    
+    
+    
+    func showCamera(video: Bool) {
         imagePickerController = UIImagePickerController()
         imagePickerController!.sourceType = .camera
         imagePickerController!.delegate = self
         imagePickerController!.allowsEditing = true
+        if video {
+            imagePickerController!.mediaTypes = ["public.movie"]
+            imagePickerController!.videoQuality = .typeMedium
+        }
         self.present(imagePickerController!, animated: true)
     }
     
-    func showGallery() {
+    func showGallery(video: Bool) {
         imagePickerController = UIImagePickerController()
         imagePickerController!.sourceType = .photoLibrary
         imagePickerController!.delegate = self
         imagePickerController!.allowsEditing = true
+        if video {
+            imagePickerController!.mediaTypes = ["public.movie"]
+            imagePickerController!.videoQuality = .typeMedium
+        }
         self.present(imagePickerController!, animated: true)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
-        guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
-            return
-        }
-        guard let data = selectedImage.jpegData(compressionQuality: 1.0) else {
-            return
-        }
+        print("function called")
         let randomId = DatabaseManager.shared.generateRandomId()
-        let fileName = "\(randomId).jpeg"
-        StorageManager.shared.uploadMessagePicture(with: data, fileName: fileName) { [weak self](result) in
-            switch result {
-            case .failure(let error):
-                print("Storage manager insertion error: \(error)")
-            case .success(let url):
-                self?.sendMessageWithImage(with: url, id: randomId)
+        if let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage, let data = selectedImage.jpegData(compressionQuality: 1.0) {
+            let fileName = "\(randomId).jpeg"
+            StorageManager.shared.uploadMessagePicture(with: data, fileName: fileName) { [weak self](result) in
+                switch result {
+                case .failure(let error):
+                    print("Storage manager insertion error: \(error)")
+                case .success(let url):
+                    self?.sendMessageWithImage(with: url, id: randomId)
+                }
+            }
+            
+            picker.dismiss(animated: true) {
+                picker.delegate = nil
+                self.imagePickerController = nil
             }
         }
-        
-        picker.dismiss(animated: true) {
-            picker.delegate = nil
-            self.imagePickerController = nil
+        else if let videoUrl = info[.mediaURL] as? URL {
+            print("Reched before saving")
+            let fileName = "\(randomId).mov"
+            StorageManager.shared.uploadMessageVideo(with: videoUrl, fileName: fileName) { [weak self](result) in
+                print("Insertion done")
+                switch result {
+                case .failure(let error):
+                    print("Storage manager insertion error: \(error)")
+                case .success(let url):
+                    self?.sendMessageWithVideo(with: url, id: randomId)
+                }
+            }
+            
+            picker.dismiss(animated: true) {
+                picker.delegate = nil
+                self.imagePickerController = nil
+            }
         }
+    
+        
+        
     }
     
     private func sendMessageWithImage(with: String, id: String) {
@@ -377,6 +441,22 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             }
         }
     }
+    
+    private func sendMessageWithVideo(with: String, id: String) {
+           guard let sender = selfSender else {
+               return
+           }
+           let message = Message(sender: sender, messageId: id, sentDate: Date(), kind: .video(Media(url: URL(string: with), image: nil, placeholderImage: UIImage(named: "user")!, size: .zero)), language: "")
+           
+           DatabaseManager.shared.sendMesage(to: talkingToSender.senderId, message: message, randomID: id) { (success) in
+               if success {
+                   print("Video sent")
+               }
+               else {
+                   print("Error sending video")
+               }
+           }
+       }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true) {
@@ -477,6 +557,12 @@ extension ConversationViewController: MessageCellDelegate {
             }
             imageUrl = media.url
             self.performSegue(withIdentifier: "gotoPhotoScreen", sender: self)
+        case .video(let media):
+            guard media.url != nil else {
+                return
+            }
+            videoUrl = media.url
+            self.performSegue(withIdentifier: "gotoVideoScreen", sender: self)
         default: break
         }
     }

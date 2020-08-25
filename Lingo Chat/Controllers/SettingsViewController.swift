@@ -58,7 +58,7 @@ class SettingsViewController: UIViewController {
             self.userImageButton.sd_setImage(with: URL(string: url)!, for: .normal, completed: nil)
         }
         updateUserName()
-        
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
     private func updateUserName() {

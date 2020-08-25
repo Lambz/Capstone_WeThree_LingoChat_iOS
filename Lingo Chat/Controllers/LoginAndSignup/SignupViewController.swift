@@ -55,7 +55,7 @@ class SignupViewController: UIViewController {
         confirmPasswordField.placeholder = NSLocalizedString("J46-Hw-VFp.placeholder", comment: "")
         passwordLengthError.text = NSLocalizedString("ouY-VB-Ddp.text", comment: "")
         passwordMismatchError.text = NSLocalizedString("cIV-VY-q5i.text", comment: "")
-        termsLabel.text = "R7t-s6-Aph.text"
+        termsLabel.text = NSLocalizedString("R7t-s6-Aph.text", comment: "")
         signupButton.setTitle(NSLocalizedString("ZyS-tg-8Ym.title", comment: ""), for: .normal)
     }
 }

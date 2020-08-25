@@ -51,6 +51,7 @@ class ContactsViewController: UIViewController {
         searchBar.becomeFirstResponder()
         tableView.isHidden = true
         noContactsLabel.isHidden = true
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
     private func setupContactsData(completion: @escaping(Bool) -> Void) {

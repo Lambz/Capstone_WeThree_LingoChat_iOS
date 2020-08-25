@@ -233,6 +233,7 @@ extension ChatsViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
 }
 

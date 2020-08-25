@@ -27,15 +27,24 @@ final class DatabaseManager {
                      "2":"de",
                      "3":"es",
                      "4":"hi"]
+    let images = ["0":"Image",
+                  "1":"Image",
+                  "2":"Bild",
+                  "3":"Imagen",
+                  "4":"तस्वीर"]
+    let videos = ["0":"Video",
+                  "1":"Vidéo",
+                  "2":"Video",
+                  "3":"Video",
+                  "4":"वीडियो"]
+    let locations = ["0":"Location",
+                     "1":"Emplacement",
+                     "2":"Ort",
+                     "3":"Ubicación",
+                     "4":"स्थान"]
+    
     static let shared = DatabaseManager()
     private let database = Database.database().reference()
-    public static let dateformatter: DateFormatter = {
-        let dateformatter = DateFormatter()
-        dateformatter.dateStyle = .medium
-        dateformatter.timeStyle = .long
-        dateformatter.locale = .current
-        return dateformatter
-    }()
 }
 
 //MARK: Transcation menthods for user details (login/logut/user data) implemented
@@ -56,16 +65,6 @@ extension DatabaseManager {
                 completion(false)
             }
         }
-        //        database.child("Users").queryOrdered(byChild: userID).observeSingleEvent(of: .childAdded) { (snapshot) in
-        //            guard snapshot.value as? String != nil else {
-        //                print("user does not exists")
-        //                completion(false)
-        //                return
-        //            }
-        //            print(snapshot.value ?? "no value")
-        //            print("user exists")
-        //            completion(true)
-        //        }
     }
     
     
@@ -181,8 +180,10 @@ extension DatabaseManager {
             if let url = media.url?.absoluteString {
                 link = url
             }
-        case .video(_):
-            break
+        case .video(let media):
+            if let url = media.url?.absoluteString {
+                link = url
+            }
         case .location(let location):
             lat = "\(location.location.coordinate.latitude)"
             lng = "\(location.location.coordinate.longitude)"
@@ -333,13 +334,13 @@ extension DatabaseManager {
                 }
                 
             case "image":
-                completion(.success(NSLocalizedString("Image", comment: "")))
+                completion(.success(strongSelf.images[userLang]!))
                 
             case "video":
-                completion(.success(NSLocalizedString("Video", comment: "")))
+                completion(.success(strongSelf.videos[userLang]!))
                 
             case "location":
-                completion(.success(NSLocalizedString("Location", comment: "")))
+                completion(.success(strongSelf.locations[userLang]!))
                 
             default: completion(.failure(DatabaseErrors.failedToFetchData))
                 
@@ -425,6 +426,12 @@ extension DatabaseManager {
                     let long = Double(item["lng"]!)
                     let location = Location(location: CLLocation(latitude: lat!, longitude: long!), size: CGSize(width: 300, height: 300))
                     let message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .location(location), language: item["lang"]!)
+                    msgs.append(message)
+                }
+                
+                if item["type"]! == "video" {
+                    let media = Media(url: URL(string: item["link"]!), image: nil, placeholderImage: UIImage(named: "video_placeholder")!, size: CGSize(width: 300, height: 300))
+                    let message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .video(media), language: item["lang"]!)
                     msgs.append(message)
                 }
                 

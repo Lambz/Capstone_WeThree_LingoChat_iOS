@@ -12,6 +12,8 @@ import MapKit
 
 class LocationViewController: UIViewController {
     
+   
+    @IBOutlet weak var locationTitle: UINavigationItem!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var sendButton: UIBarButtonItem!
     
@@ -24,6 +26,7 @@ class LocationViewController: UIViewController {
         
         setupViews()
         self.tabBarController?.tabBar.isHidden = true
+//        locationTitle.title = NSLocalizedString(<#T##key: String##String#>, comment: <#T##String#>)
         sendButton.title = NSLocalizedString("9As-mD-FEF.title", comment: "")
         sendButton.isEnabled = true
         if selectedLocation != nil {
