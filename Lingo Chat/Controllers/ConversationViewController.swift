@@ -10,7 +10,7 @@ import UIKit
 import MessageKit
 import InputBarAccessoryView
 import SDWebImage
-import SwiftGoogleTranslate
+import CoreLocation
 
 struct Message: MessageType {
     var sender: SenderType
@@ -52,9 +52,16 @@ struct Media: MediaItem {
     var size: CGSize
 }
 
+struct Location: LocationItem {
+    var location: CLLocation
+    var size: CGSize
+}
+
 class ConversationViewController: MessagesViewController {
     
-    
+    public var latitude: Double!
+    public var longitude: Double!
+    private var isOldLocation = false
     
     private var messages = [Message]()
     private var selfSender: Sender? {
@@ -106,6 +113,15 @@ class ConversationViewController: MessagesViewController {
     }
     
     @IBAction func unwindFromMap(segue: UIStoryboardSegue) {
+        guard let sender = selfSender else {
+            return
+        }
+        let location = Location(location: CLLocation(latitude: latitude, longitude: longitude), size: .zero)
+        let id = DatabaseManager.shared.generateRandomId()
+        let message = Message(sender: sender, messageId: id, sentDate: Date(), kind: .location(location), language: sender.language)
+        DatabaseManager.shared.sendMesage(to: talkingToSender.senderId, message: message, randomID: id) { (_) in
+            
+        }
         
     }
     
@@ -145,7 +161,7 @@ class ConversationViewController: MessagesViewController {
     }
     
     private func presentLocationPicker() {
-        self.performSegue(withIdentifier: "gotoMapScreen", sender: self)
+        self.performSegue(withIdentifier: "showMapScreen", sender: self)
     }
     
     private func fetchOtherUserIdAndSetupSender(completion: @escaping(Bool) -> Void) {
@@ -209,8 +225,11 @@ class ConversationViewController: MessagesViewController {
         }
         
         if segue.destination is LocationViewController {
-            if let destVC = segue.destination as? LocationViewController {
-                
+            if isOldLocation {
+                isOldLocation = false
+                if let destVC = segue.destination as? LocationViewController {
+                    destVC.selectedLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                }
             }
         }
         
@@ -229,20 +248,28 @@ class ConversationViewController: MessagesViewController {
         
         if action == NSSelectorFromString("delete:") {
             let index = messages.count - indexPath.row - 1
-            showDeleteAlert(index: index)
+            let message = messageForItem(at: indexPath, in: messagesCollectionView)
+            if message.sender.senderId == selfSender?.senderId {
+                showDeleteAlert(index: index, show: true)
+            }
+            else {
+                showDeleteAlert(index: index, show: false)
+            }
         } else {
             super.collectionView(collectionView, performAction: action, forItemAt: indexPath, withSender: sender)
         }
     }
     
-    private func showDeleteAlert(index: Int) {
+    private func showDeleteAlert(index: Int, show: Bool) {
         let alert = UIAlertController(title: NSLocalizedString("DeleteMessage?", comment: ""), message: NSLocalizedString("DeleteMsg", comment: ""), preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OnlyMe", comment: ""), style: .default, handler: { [weak self] (_) in
             self?.deleteMessageForUser(index: index)
         }))
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Everyone", comment: ""), style: .default, handler: { [weak self] (_) in
-            self?.deleteMessageForEveryone(index: index)
-        }))
+        if show {
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Everyone", comment: ""), style: .default, handler: { [weak self] (_) in
+                self?.deleteMessageForEveryone(index: index)
+            }))
+        }
         alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         present(alert, animated: true)
     }
@@ -410,6 +437,30 @@ extension ConversationViewController: MessagesDataSource, MessagesLayoutDelegate
         }
     }
     
+    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        if message.sender.senderId == selfSender?.senderId {
+            return .systemBlue
+        }
+        return .secondarySystemBackground
+    }
+    
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        if message.sender.senderId == self.selfSender?.senderId {
+            let url = URL(string: UserDefaults.standard.object(forKey: "image") as! String)
+            avatarView.sd_setImage(with: url, completed: nil)
+        }
+        else {
+            DatabaseManager.shared.fetchImageUrlFromId(id: talkingToSender.senderId) { (result) in
+                switch result {
+                    case .success(let url):
+                        avatarView.sd_setImage(with: URL(string: url), completed: nil)
+                case .failure(_):
+                    print("Error fetching image")
+                }
+            }
+        }
+    }
+    
 }
 
 extension ConversationViewController: MessageCellDelegate {
@@ -426,6 +477,24 @@ extension ConversationViewController: MessageCellDelegate {
             }
             imageUrl = media.url
             self.performSegue(withIdentifier: "gotoPhotoScreen", sender: self)
+        default: break
+        }
+    }
+    
+    func didTapMessage(in cell: MessageCollectionViewCell) {
+        guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
+            return
+        }
+        let message = messages[indexPath.section]
+        switch message.kind {
+        case .location(let location):
+            guard location.location != nil else {
+                return
+            }
+            latitude = location.location.coordinate.latitude
+            longitude = location.location.coordinate.longitude
+            isOldLocation = true
+            self.performSegue(withIdentifier: "showMapScreen", sender: self)
         default: break
         }
     }

@@ -10,6 +10,7 @@ import Foundation
 import FirebaseDatabase
 import FirebaseAuth
 import SwiftGoogleTranslate
+import CoreLocation
 
 struct ChatListData {
     let name: String
@@ -172,7 +173,7 @@ extension DatabaseManager {
             completion(false)
             return
         }
-        var link = "", text = ""
+        var link = "", text = "", lat = "", lng = ""
         switch message.kind {
         case .text(let message):
             text = message
@@ -182,14 +183,17 @@ extension DatabaseManager {
             }
         case .video(_):
             break
-        case .location(_):
-            break
+        case .location(let location):
+            lat = "\(location.location.coordinate.latitude)"
+            lng = "\(location.location.coordinate.longitude)"
         default: break
         }
         //        let randomID = database.childByAutoId().key!
         database.child("Messages").child(userID).child(otherUser).child(randomID).setValue([
             "from": userID,
             "id": randomID,
+            "lat": lat,
+            "lng": lng,
             "lang": UserDefaults.standard.object(forKey: "language") as! String,
             "link": link,
             "text": text,
@@ -203,6 +207,8 @@ extension DatabaseManager {
                 strongSelf.database.child("Messages").child(otherUser).child(userID).child(randomID).setValue([
                     "from": userID,
                     "id": randomID,
+                    "lat": lat,
+                    "lng": lng,
                     "lang": UserDefaults.standard.object(forKey: "language") as! String,
                     "link": link,
                     "text": text,
@@ -327,13 +333,13 @@ extension DatabaseManager {
                 }
                 
             case "image":
-                completion(.success("Image"))
+                completion(.success(NSLocalizedString("Image", comment: "")))
                 
             case "video":
-                completion(.success("Video"))
+                completion(.success(NSLocalizedString("Video", comment: "")))
                 
             case "location":
-                completion(.success("Location shared"))
+                completion(.success(NSLocalizedString("Location", comment: "")))
                 
             default: completion(.failure(DatabaseErrors.failedToFetchData))
                 
@@ -349,6 +355,21 @@ extension DatabaseManager {
             }
             else {
                 completion(false)
+            }
+        }
+    }
+    
+    public func fetchImageUrlFromId(id: String, completion: @escaping(Result<String, Error>) -> Void) {
+        database.child("Users").child(id).observeSingleEvent(of: .value) { (snapshot) in
+            guard let values = snapshot.value as? [String:String] else {
+                completion(.failure(DatabaseErrors.failedToFetchData))
+                return
+            }
+            if let url = values["image"] {
+                completion(.success(url))
+            }
+            else {
+                completion(.failure(DatabaseErrors.failedToFetchData))
             }
         }
     }
@@ -396,6 +417,14 @@ extension DatabaseManager {
                 if item["type"]! == "image" {
                     let media = Media(url: URL(string: item["link"]!), image: nil, placeholderImage: UIImage(systemName: "info")!, size: CGSize(width: 300, height: 300))
                     let message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .photo(media), language: item["lang"]!)
+                    msgs.append(message)
+                }
+                
+                if item["type"]! == "location" {
+                    let lat = Double(item["lat"]!)
+                    let long = Double(item["lng"]!)
+                    let location = Location(location: CLLocation(latitude: lat!, longitude: long!), size: CGSize(width: 300, height: 300))
+                    let message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .location(location), language: item["lang"]!)
                     msgs.append(message)
                 }
                 

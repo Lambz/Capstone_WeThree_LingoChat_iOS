@@ -649,7 +649,7 @@
             </objects>
             <point key="canvasLocation" x="5325" y="-533"/>
         </scene>
-        <!--Location View Controller-->
+        <!--Location Share-->
         <scene sceneID="AeK-DO-lv6">
             <objects>
                 <viewController id="Okz-Np-hTE" customClass="LocationViewController" customModule="Lingo_Chat" customModuleProvider="target" sceneMemberID="viewController">
@@ -659,17 +659,11 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="y67-TQ-0aw">
                                 <rect key="frame" x="0.0" y="56" width="414" height="703"/>
-                            </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9As-mD-FEF">
-                                <rect key="frame" x="342" y="76" width="52" height="39"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                <state key="normal" title="Send">
-                                    <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </state>
+                                <gestureRecognizers/>
                                 <connections>
-                                    <action selector="sendButtonTapped:" destination="Okz-Np-hTE" eventType="touchUpInside" id="Iu7-4r-5YN"/>
+                                    <outletCollection property="gestureRecognizers" destination="OAl-Kr-4Yu" appends="YES" id="W7G-6a-un6"/>
                                 </connections>
-                            </button>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -677,19 +671,26 @@
                             <constraint firstItem="odG-aA-a1g" firstAttribute="bottom" secondItem="y67-TQ-0aw" secondAttribute="bottom" id="5QY-HZ-ns4"/>
                             <constraint firstItem="y67-TQ-0aw" firstAttribute="top" secondItem="odG-aA-a1g" secondAttribute="top" id="EHw-dn-xYS"/>
                             <constraint firstItem="odG-aA-a1g" firstAttribute="trailing" secondItem="y67-TQ-0aw" secondAttribute="trailing" id="bqW-83-q0q"/>
-                            <constraint firstItem="9As-mD-FEF" firstAttribute="top" secondItem="odG-aA-a1g" secondAttribute="top" constant="20" id="huM-C7-H21"/>
-                            <constraint firstItem="odG-aA-a1g" firstAttribute="trailing" secondItem="9As-mD-FEF" secondAttribute="trailing" constant="20" id="y5v-BA-0nI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="odG-aA-a1g"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ewZ-aU-CRb"/>
+                    <navigationItem key="navigationItem" title="Location Share" id="1uF-gC-cF5">
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="UKK-WH-LEC">
+                            <connections>
+                                <action selector="sendButtonTapped:" destination="Okz-Np-hTE" id="cGc-Ta-VfQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="longPressGesture" destination="OAl-Kr-4Yu" id="Hki-mY-PWr"/>
                         <outlet property="mapView" destination="y67-TQ-0aw" id="uKn-ib-uEI"/>
-                        <segue destination="69A-0p-zUw" kind="unwind" unwindAction="unwindFromMapWithSegue:" id="R2k-PN-O0f"/>
+                        <outlet property="sendButton" destination="UKK-WH-LEC" id="Ojf-3K-Sga"/>
+                        <segue destination="69A-0p-zUw" kind="unwind" identifier="showConversationScreen" unwindAction="unwindFromMapWithSegue:" id="R2k-PN-O0f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="foq-Pd-VEx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="69A-0p-zUw" userLabel="Exit" sceneMemberID="exit"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="OAl-Kr-4Yu"/>
             </objects>
             <point key="canvasLocation" x="6165" y="-278"/>
         </scene>
