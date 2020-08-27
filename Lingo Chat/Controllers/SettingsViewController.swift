@@ -108,19 +108,31 @@ extension SettingsViewController {
     private func showConfirmationAlert() {
         let alert = UIAlertController(title: NSLocalizedString("LogoutTitle", comment: ""), message: NSLocalizedString("LogoutMessage", comment: ""), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("Oops", comment: ""), style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: NSLocalizedString("LogOut", comment: ""), style: .default) { (action) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("LogOut", comment: ""), style: .default) { [weak self] (action) in
+            guard let strongSelf = self else {
+                return
+            }
             
             GIDSignIn.sharedInstance()?.signOut()
             
             do {
                 try FirebaseAuth.Auth.auth().signOut()
-                self.performSegue(withIdentifier: "logoutUser", sender: self)
+                strongSelf.clearUserDefaults()
+                strongSelf.performSegue(withIdentifier: "logoutUser", sender: self)
             } catch {
-                self.showErrorAlert(title: NSLocalizedString("Oops", comment: ""), message: NSLocalizedString("UnableLogOut", comment: ""))
+                strongSelf.showErrorAlert(title: NSLocalizedString("Oops", comment: ""), message: NSLocalizedString("UnableLogOut", comment: ""))
             }
             
         })
         self.present(alert, animated: true)
+    }
+    
+    private func clearUserDefaults() {
+        UserDefaults.standard.removeObject(forKey: "first_name")
+        UserDefaults.standard.removeObject(forKey: "last_name")
+        UserDefaults.standard.removeObject(forKey: "image")
+        UserDefaults.standard.removeObject(forKey: "language")
+        UserDefaults.standard.removeObject(forKey: "user_id")
     }
     
     private func showProfileSettingsAlert() {

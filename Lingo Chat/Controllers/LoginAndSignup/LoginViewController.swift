@@ -65,6 +65,7 @@ class LoginViewController: UIViewController {
         setupFieldLines()
         setupFieldIcons()
         setupButtonsShadow()
+        setupFieldDelegates()
         passwordLengthError.isHidden = true
         forgotPassword.isHidden = true
     }
@@ -201,5 +202,23 @@ extension LoginViewController {
         sender.layer.masksToBounds = true
     }
     
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    
+    func setupFieldDelegates() {
+        passwordField.delegate = self
+        emailField.delegate = self
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailField {
+            passwordField.becomeFirstResponder()
+        }
+        else {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
 }
 

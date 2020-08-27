@@ -113,8 +113,7 @@ class ConversationViewController: MessagesViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-        messageInputBar.inputTextView.resignFirstResponder()
+        self.view.endEditing(true)
     }
     
     @IBAction func unwindFromMap(segue: UIStoryboardSegue) {
@@ -499,7 +498,7 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
                 inputBar.inputTextView.text = text
             }
         }
-        
+        messageInputBar.inputTextView.resignFirstResponder()
     }
 }
 
@@ -604,6 +603,7 @@ extension ConversationViewController: MessagesDataSource, MessagesLayoutDelegate
 extension ConversationViewController: MessageCellDelegate {
     
     func didTapImage(in cell: MessageCollectionViewCell) {
+        messageInputBar.inputTextView.resignFirstResponder()
         guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
             return
         }
@@ -626,6 +626,7 @@ extension ConversationViewController: MessageCellDelegate {
     }
     
     func didTapMessage(in cell: MessageCollectionViewCell) {
+        messageInputBar.inputTextView.resignFirstResponder()
         guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
             return
         }
@@ -642,9 +643,9 @@ extension ConversationViewController: MessageCellDelegate {
         default: break
         }
     }
-    
-    
+
 }
+
 
 extension MessageCollectionViewCell {
 

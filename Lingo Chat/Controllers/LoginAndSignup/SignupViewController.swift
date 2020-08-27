@@ -40,6 +40,7 @@ class SignupViewController: UIViewController {
     private func setupViews() {
         setupLocalizationText()
         setupFieldLines()
+        setupFieldDelegates()
         setButtonShadow(button: signupButton)
         signupButton.addTarget(self, action: #selector(signupButtonPressed), for: .touchUpInside)
         hideLabels()
@@ -219,5 +220,34 @@ extension SignupViewController {
     private func hideLabels() {
         passwordLengthError.isHidden = true
         passwordMismatchError.isHidden = true
+    }
+}
+
+extension SignupViewController: UITextFieldDelegate {
+    func setupFieldDelegates() {
+        passwordField.delegate = self
+        emailField.delegate = self
+        firstNameField.delegate = self
+        lastNameField.delegate = self
+        confirmPasswordField.delegate = self
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == firstNameField {
+            lastNameField.becomeFirstResponder()
+        }
+        else if textField == lastNameField {
+            emailField.becomeFirstResponder()
+        }
+        else if textField == emailField {
+            passwordField.becomeFirstResponder()
+        }
+        else if textField == passwordField {
+            confirmPasswordField.becomeFirstResponder()
+        }
+        else {
+            textField.resignFirstResponder()
+        }
+        return true
     }
 }
