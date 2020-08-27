@@ -43,6 +43,12 @@ final class DatabaseManager {
                      "3":"Ubicación",
                      "4":"स्थान"]
     
+    let documents = ["0":"Document",
+    "1":"Document",
+    "2":"Dokument",
+    "3":"Documento",
+    "4":"दस्तावेज़"]
+    
     static let shared = DatabaseManager()
     private let database = Database.database().reference()
 }
@@ -187,6 +193,8 @@ extension DatabaseManager {
         case .location(let location):
             lat = "\(location.location.coordinate.latitude)"
             lng = "\(location.location.coordinate.longitude)"
+        case .attributedText(let message):
+            link = message.string
         default: break
         }
         //        let randomID = database.childByAutoId().key!
@@ -342,6 +350,9 @@ extension DatabaseManager {
             case "location":
                 completion(.success(strongSelf.locations[userLang]!))
                 
+            case "pdf":
+                completion(.success(strongSelf.documents[userLang]!))
+                
             default: completion(.failure(DatabaseErrors.failedToFetchData))
                 
             }
@@ -432,6 +443,12 @@ extension DatabaseManager {
                 if item["type"]! == "video" {
                     let media = Media(url: URL(string: item["link"]!), image: nil, placeholderImage: UIImage(named: "video_placeholder")!, size: CGSize(width: 300, height: 300))
                     let message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .video(media), language: item["lang"]!)
+                    msgs.append(message)
+                }
+                
+                if item["type"]! == "pdf" {
+                    let text = NSAttributedString(string: item["link"]!)
+                    let message = Message(sender: sender, messageId: item["id"]!, sentDate: Date(), kind: .attributedText(text), language: item["lang"]!)
                     msgs.append(message)
                 }
                 

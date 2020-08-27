@@ -26,7 +26,7 @@ class LocationViewController: UIViewController {
         
         setupViews()
         self.tabBarController?.tabBar.isHidden = true
-//        locationTitle.title = NSLocalizedString(<#T##key: String##String#>, comment: <#T##String#>)
+        locationTitle.title = NSLocalizedString("LocationShare", comment: "")
         sendButton.title = NSLocalizedString("9As-mD-FEF.title", comment: "")
         sendButton.isEnabled = true
         if selectedLocation != nil {

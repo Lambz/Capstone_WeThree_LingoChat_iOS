@@ -11,6 +11,8 @@ import MessageKit
 import InputBarAccessoryView
 import SDWebImage
 import CoreLocation
+import MobileCoreServices
+import SafariServices
 
 struct Message: MessageType {
     var sender: SenderType
@@ -31,9 +33,9 @@ extension MessageKind {
             return "video"
         case .location(_):
             return "location"
-        case .audio(_):
-            return "audio"
-        default: return "other"
+        case .attributedText(_):
+            return "pdf"
+        default: return "default"
         }
     }
 }
@@ -75,6 +77,7 @@ class ConversationViewController: MessagesViewController {
     private var imagePickerController: UIImagePickerController?
     private var imageUrl: URL!
     private var videoUrl: URL!
+    private var documentUrl: URL!
     
 //    values to be passed through segues
     public var isNewConversation = false
@@ -82,7 +85,7 @@ class ConversationViewController: MessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.tabBarController?.tabBar.isHidden = true
         setupDelegates()
         setupMessageBarView()
         fetchOtherUserIdAndSetupSender { [weak self] (success) in
@@ -111,6 +114,7 @@ class ConversationViewController: MessagesViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+        messageInputBar.inputTextView.resignFirstResponder()
     }
     
     @IBAction func unwindFromMap(segue: UIStoryboardSegue) {
@@ -123,6 +127,10 @@ class ConversationViewController: MessagesViewController {
         DatabaseManager.shared.sendMesage(to: talkingToSender.senderId, message: message, randomID: id) { (_) in
             
         }
+        
+    }
+    
+     @IBAction func unwindFromFileScreen(segue: UIStoryboardSegue) {
         
     }
     
@@ -156,6 +164,9 @@ class ConversationViewController: MessagesViewController {
         }))
         actionSheet.addAction(UIAlertAction(title: NSLocalizedString("Location", comment: ""), style: .default, handler: { [weak self] (action) in
             self?.presentLocationPicker()
+        }))
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("Document", comment: ""), style: .default, handler: { [weak self] (action) in
+            self?.presentDocumentPicker()
         }))
         actionSheet.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         present(actionSheet, animated: true)
@@ -220,7 +231,7 @@ class ConversationViewController: MessagesViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is PhotoViewController {
             if let destVC = segue.destination as? PhotoViewController {
-                destVC.title = NSLocalizedString("SentBy", comment: "") + " \(talkingToSender.displayName)"
+                destVC.title = NSLocalizedString("ChatWith", comment: "") + " \(talkingToSender.displayName)"
                 destVC.imageUrl = imageUrl
             }
         }
@@ -236,10 +247,17 @@ class ConversationViewController: MessagesViewController {
         
         if segue.destination is VideoViewController {
             if let destVC = segue.destination as? VideoViewController {
-                destVC.title = NSLocalizedString("SentBy", comment: "") + " \(talkingToSender.displayName)"
+                destVC.title = NSLocalizedString("ChatWith", comment: "") + " \(talkingToSender.displayName)"
                 destVC.videoUrl = videoUrl
             }
             
+        }
+        
+        if segue.destination is FileViewController {
+            if let destVC = segue.destination as? FileViewController {
+                destVC.title = NSLocalizedString("Document", comment: "")
+                destVC.documentUrl = documentUrl
+            }
         }
         
     }
@@ -486,6 +504,46 @@ extension ConversationViewController: InputBarAccessoryViewDelegate {
 }
 
 
+extension ConversationViewController: UIDocumentPickerDelegate {
+    
+    private func presentDocumentPicker() {
+           let types = [kUTTypePDF]
+           let importMenu = UIDocumentPickerViewController(documentTypes: types as [String], in: .import)
+//           importMenu.allowsMultipleSelection = true
+           importMenu.delegate = self
+//           importMenu.modalPresentationStyle = .formSheet
+
+           present(importMenu, animated: true)
+       }
+        
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+//        viewModel.attachDocuments(at: urls)
+        let id = DatabaseManager.shared.generateRandomId()
+        let fileName = "\(id).pdf"
+        StorageManager.shared.uploadMessageFile(with: urls[0], fileName: fileName) { [weak self] (result) in
+            guard let strongSelf = self else {
+                return
+            }
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let url):
+                let message = Message(sender: strongSelf.selfSender!, messageId: id, sentDate: Date(), kind: .attributedText(NSAttributedString(string: url)), language: strongSelf.selfSender!.language)
+                DatabaseManager.shared.sendMesage(to: strongSelf.talkingToSender.senderId, message: message, randomID: id) { (_) in
+                    
+                }
+            }
+        }
+        
+    }
+
+     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+       
+}
+
+
 //MARK: message list view methods implemented
 extension ConversationViewController: MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate {
     func currentSender() -> SenderType {
@@ -574,13 +632,13 @@ extension ConversationViewController: MessageCellDelegate {
         let message = messages[indexPath.section]
         switch message.kind {
         case .location(let location):
-            guard location.location != nil else {
-                return
-            }
             latitude = location.location.coordinate.latitude
             longitude = location.location.coordinate.longitude
             isOldLocation = true
             self.performSegue(withIdentifier: "showMapScreen", sender: self)
+        case .attributedText(let string):
+            documentUrl = URL(string: string.string)
+            performSegue(withIdentifier: "showFileScreen", sender: self)
         default: break
         }
     }

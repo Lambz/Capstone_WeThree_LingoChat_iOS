@@ -15,7 +15,7 @@ class VideoViewController: AVPlayerViewController {
     public var videoUrl: URL!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.tabBarController?.tabBar.isHidden = true
         player = AVPlayer(url: videoUrl)
         player?.play()
     }

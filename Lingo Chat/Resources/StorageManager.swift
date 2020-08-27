@@ -114,14 +114,42 @@ final class StorageManager {
             }
             guard error == nil else {
                 print("Failed to upload profile picture")
-                completion(.failure(StorageErrors.failedToUploadProfilePicture))
+                completion(.failure(StorageErrors.failedToUploadMessageVideo))
                 return
             }
             
             strongSelf.storage.child("Videos").child(fileName).downloadURL { (url, error) in
                 guard let url = url else {
                     print("Failed to fetch profile picture URL")
-                    completion(.failure(StorageErrors.failedToFetchProfilePictureURL))
+                    completion(.failure(StorageErrors.failedToUploadMessageVideoURL))
+                    return
+                }
+                
+                let urlString = url.absoluteString
+                print("Download string returned: \(urlString)")
+                completion(.success(urlString))
+                
+            }
+        }
+        
+    }
+    
+    /// uploads file to firebase storage and returns url to download
+    public func uploadMessageFile(with url: URL, fileName: String, completion: @escaping UploadPictureCompletion) {
+        storage.child("Documents").child(fileName).putFile(from: url, metadata: nil){ [weak self] (metadata, error) in
+            guard let strongSelf = self else {
+                return
+            }
+            guard error == nil else {
+                print("Failed to upload profile picture")
+                completion(.failure(StorageErrors.failedToUploadMessageDocument))
+                return
+            }
+            
+            strongSelf.storage.child("Documents").child(fileName).downloadURL { (url, error) in
+                guard let url = url else {
+                    print("Failed to fetch profile picture URL")
+                    completion(.failure(StorageErrors.failedToUploadMessageDocumentURL))
                     return
                 }
                 
@@ -140,5 +168,9 @@ final class StorageManager {
         case failedToUploadProfilePicture
         case failedToFetchProfilePictureURL
         case failedToDeleteOldPicture
+        case failedToUploadMessageVideo
+        case failedToUploadMessageVideoURL
+        case failedToUploadMessageDocument
+        case failedToUploadMessageDocumentURL
     }
 }

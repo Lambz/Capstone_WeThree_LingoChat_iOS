@@ -14,8 +14,8 @@ class ContactsViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
     
+    @IBOutlet weak var searchField: UITextField!
     @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var noContactsLabel: UILabel!
@@ -24,11 +24,14 @@ class ContactsViewController: UIViewController {
     public var selectedContact: UserAccount!
     private var hasFetched = false
     private var images: [UIImage] = []
+    private var searchContacts: [UserAccount] = []
+    private var searchImages = [UIImage]()
+    private var filtered = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLocalizationText()
-        setupDelegates()
+        setupViews()
+        
         setupContactsData { [weak self] (success) in
             if success {
                 self?.downloadImages { (_) in
@@ -38,8 +41,40 @@ class ContactsViewController: UIViewController {
         }
     }
     
+    private func setupViews() {
+        setupLocalizationText()
+        setupDelegates()
+        searchField.setBottomBorder()
+        searchField.addTarget(self, action: #selector(didbegin(_:)), for: .editingDidBegin)
+        searchField.addTarget(self, action: #selector(endediting(_:)), for: .editingDidEnd)
+        let icon = UIImage(systemName: "magnifyingglass")
+        searchField.setLeftIcon(icon!)
+    }
+    
+    @objc func didbegin(_ sender: UITextField) {
+        let border = CALayer()
+        let width = CGFloat(0.5)
+        border.borderColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        border.frame = CGRect(x: 0, y: sender.frame.size.height - width, width:  sender.frame.size.width, height: sender.frame.size.height)
+
+        border.borderWidth = width
+        sender.layer.addSublayer(border)
+        sender.layer.masksToBounds = true
+    }
+    
+    @objc func endediting(_ sender: AnyObject) {
+        let border = CALayer()
+        let width = CGFloat(0.5)
+        border.borderColor = UIColor.black.cgColor
+        border.frame = CGRect(x: 0, y: sender.frame.size.height - width, width:  sender.frame.size.width, height: sender.frame.size.height)
+
+        border.borderWidth = width
+        sender.layer.addSublayer(border)
+        sender.layer.masksToBounds = true
+    }
+    
     private func setupLocalizationText() {
-        searchBar.placeholder = NSLocalizedString("zWJ-Wc-7vS.placeholder", comment: "")
+        searchField.placeholder = NSLocalizedString("zWJ-Wc-7vS.placeholder", comment: "")
         noContactsLabel.text = NSLocalizedString("HXC-6H-hip.text", comment: "")
         cancelButton.setTitle(NSLocalizedString("R65-9X-KKN.title", comment: ""), for: .normal)
     }
@@ -47,8 +82,7 @@ class ContactsViewController: UIViewController {
     private func setupDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
-        searchBar.delegate = self
-        searchBar.becomeFirstResponder()
+        searchField.delegate = self
         tableView.isHidden = true
         noContactsLabel.isHidden = true
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
@@ -122,13 +156,13 @@ class ContactsViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         tableView.reloadData()
         view.endEditing(true)
-        
+        view.resignFirstResponder()
     }
     
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        self.resignFirstResponder()
+        searchField.resignFirstResponder()
     }
     
 
@@ -136,6 +170,41 @@ class ContactsViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+}
+
+
+extension ContactsViewController: UITextFieldDelegate {
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        searchContacts.removeAll()
+        searchImages.removeAll()
+        tableView.reloadData()
+        return true
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let text = textField.text {
+            let query = text + string
+            filterText(query)
+        }
+        return true
+    }
+    
+    func filterText(_ query: String) {
+        filtered = false
+        searchContacts.removeAll()
+        searchImages.removeAll()
+        let text = query.lowercased()
+        for i in 0..<contactsToShow.count {
+            if contactsToShow[i].firstName.lowercased().contains(text) || contactsToShow[i].lastName.lowercased().contains(text) {
+                searchContacts.append(contactsToShow[i])
+                searchImages.append(images[i])
+            }
+            else {
+                filtered = true
+            }
+        }
+        tableView.reloadData()
+    }
 }
 
 
@@ -168,42 +237,37 @@ extension ContactsViewController {
     }
 }
 
-
-extension ContactsViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text, !text.replacingOccurrences(of: " ", with: "").isEmpty else {
-            return
-        }
-
-        searchBar.resignFirstResponder()
-        spinner.show(in: view)
-        searchUsers(query: text)
-    }
-    
-    
-    func searchUsers(query: String) {
-        
-    }
-    
-}
-
 extension ContactsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contactsToShow.count
+        if !searchContacts.isEmpty {
+            return searchContacts.count
+        }
+        return filtered ? 0 : contactsToShow.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print(indexPath.row)
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ContactsTableViewCell
         let index = indexPath.row
-        let name = contactsToShow[index].firstName + " " + contactsToShow[index].lastName
-        cell.createCell(with: ContactCell(name: name, image: images[index]))
+        if !searchContacts.isEmpty {
+            let name = searchContacts[index].firstName + " " + searchContacts[index].lastName
+            cell.createCell(with: ContactCell(name: name, image: searchImages[index]))
+        }
+        else {
+            let name = contactsToShow[index].firstName + " " + contactsToShow[index].lastName
+            cell.createCell(with: ContactCell(name: name, image: images[index]))
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        set variable for contact head and id
-        selectedContact = contactsToShow[indexPath.row]
+        if !searchContacts.isEmpty {
+            selectedContact = searchContacts[indexPath.row]
+        }
+        else {
+           selectedContact = contactsToShow[indexPath.row]
+        }
         performSegue(withIdentifier: "goBackToChatsScreen", sender: self)
     }
 }

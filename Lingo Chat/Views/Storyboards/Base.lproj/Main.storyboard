@@ -364,11 +364,13 @@
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kUJ-O7-gXW">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                 <subviews>
-                                    <searchBar contentMode="redraw" placeholder="Search Contacts" translatesAutoresizingMaskIntoConstraints="NO" id="zWJ-Wc-7vS">
+                                    <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w6W-YO-9oY">
                                         <rect key="frame" x="0.0" y="0.0" width="366" height="60"/>
+                                        <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <textInputTraits key="textInputTraits"/>
-                                    </searchBar>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R65-9X-KKN">
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R65-9X-KKN">
                                         <rect key="frame" x="366" y="0.0" width="48" height="60"/>
                                         <state key="normal" title="Cancel"/>
                                         <connections>
@@ -381,7 +383,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="xwO-Ne-9bt">
-                                <rect key="frame" x="0.0" y="60" width="414" height="748"/>
+                                <rect key="frame" x="0.0" y="82" width="414" height="726"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No contacts to show yet 😀" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXC-6H-hip">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="26.5"/>
@@ -390,7 +392,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ulh-nl-nee">
-                                        <rect key="frame" x="0.0" y="36.5" width="414" height="711.5"/>
+                                        <rect key="frame" x="0.0" y="36.5" width="414" height="689.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="contactCell" id="IZZ-Sl-4gk" customClass="ContactsTableViewCell" customModule="Lingo_Chat" customModuleProvider="target">
@@ -449,14 +451,14 @@
                             <constraint firstItem="kUJ-O7-gXW" firstAttribute="leading" secondItem="KQo-9B-iFy" secondAttribute="leading" id="Xih-pU-giE"/>
                             <constraint firstItem="KQo-9B-iFy" firstAttribute="trailing" secondItem="xwO-Ne-9bt" secondAttribute="trailing" id="aVV-K4-Hzc"/>
                             <constraint firstItem="kUJ-O7-gXW" firstAttribute="top" secondItem="KQo-9B-iFy" secondAttribute="top" id="jo1-lt-d65"/>
-                            <constraint firstItem="xwO-Ne-9bt" firstAttribute="top" secondItem="kUJ-O7-gXW" secondAttribute="bottom" id="lIf-YY-6xJ"/>
+                            <constraint firstItem="xwO-Ne-9bt" firstAttribute="top" secondItem="kUJ-O7-gXW" secondAttribute="bottom" constant="22" id="lIf-YY-6xJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KQo-9B-iFy"/>
                     </view>
                     <connections>
                         <outlet property="cancelButton" destination="R65-9X-KKN" id="eqb-2P-Vfa"/>
                         <outlet property="noContactsLabel" destination="HXC-6H-hip" id="rxy-EE-e8b"/>
-                        <outlet property="searchBar" destination="zWJ-Wc-7vS" id="CIr-K5-kBf"/>
+                        <outlet property="searchField" destination="w6W-YO-9oY" id="dg8-6K-2Vt"/>
                         <outlet property="tableView" destination="ulh-nl-nee" id="zq6-Nu-Qzl"/>
                         <segue destination="SyW-k7-PoM" kind="unwind" identifier="goBackToChatsScreen" customClass="UIStoryboardSegueWithCompletion" customModule="Lingo_Chat" customModuleProvider="target" unwindAction="unwindFromSettingsWithSegue:" id="MvO-Hq-1Nn"/>
                     </connections>
@@ -473,25 +475,46 @@
                     <view key="view" contentMode="scaleToFill" id="pNS-Lu-5qJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ptA-7U-Htg">
-                                <rect key="frame" x="0.0" y="218" width="414" height="128"/>
-                            </imageView>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="ptA-7U-Htg" firstAttribute="centerX" secondItem="pNS-Lu-5qJ" secondAttribute="centerX" id="Dgw-MX-JjJ"/>
-                            <constraint firstItem="ptA-7U-Htg" firstAttribute="centerY" secondItem="pNS-Lu-5qJ" secondAttribute="centerY" id="XUY-Rn-ooy"/>
-                            <constraint firstItem="ptA-7U-Htg" firstAttribute="leading" secondItem="jXo-Vo-Vhm" secondAttribute="leading" id="dbK-gM-Wqz"/>
-                            <constraint firstItem="jXo-Vo-Vhm" firstAttribute="trailing" secondItem="ptA-7U-Htg" secondAttribute="trailing" id="hly-ae-uKD"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="jXo-Vo-Vhm"/>
                     </view>
                     <navigationItem key="navigationItem" id="ZEQ-f4-jCL"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p88-Kw-8s8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5332" y="118"/>
+            <point key="canvasLocation" x="5216" y="408"/>
+        </scene>
+        <!--File View Controller-->
+        <scene sceneID="Vxg-4M-3sj">
+            <objects>
+                <viewController id="Gf2-jc-ej8" customClass="FileViewController" customModule="Lingo_Chat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kAv-wX-6et">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ahj-F0-p8o">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="ahj-F0-p8o" firstAttribute="top" secondItem="Uai-hv-Txv" secondAttribute="top" id="1Kg-v0-Wqz"/>
+                            <constraint firstItem="Uai-hv-Txv" firstAttribute="trailing" secondItem="ahj-F0-p8o" secondAttribute="trailing" id="AXQ-c0-Jnv"/>
+                            <constraint firstItem="Uai-hv-Txv" firstAttribute="bottom" secondItem="ahj-F0-p8o" secondAttribute="bottom" id="IN0-na-mRW"/>
+                            <constraint firstItem="ahj-F0-p8o" firstAttribute="leading" secondItem="Uai-hv-Txv" secondAttribute="leading" id="NQG-UO-i5I"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Uai-hv-Txv"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="hRj-YG-JLk"/>
+                    <connections>
+                        <segue destination="xxX-dc-GoP" kind="unwind" identifier="showConversationScreen" unwindAction="unwindFromFileScreenWithSegue:" id="pfZ-Bb-F6E"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yzf-Iq-gp9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="xxX-dc-GoP" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="6012" y="199"/>
         </scene>
         <!--Chats-->
         <scene sceneID="heP-X7-lUH">
@@ -641,6 +664,7 @@
                         <segue destination="KV8-9m-GXk" kind="show" identifier="gotoPhotoScreen" id="UIb-yx-Kjh"/>
                         <segue destination="Okz-Np-hTE" kind="show" identifier="showMapScreen" id="Y1a-BU-DGF"/>
                         <segue destination="x0J-Of-e1K" kind="show" identifier="gotoVideoScreen" id="r5g-cn-jhR"/>
+                        <segue destination="Gf2-jc-ej8" kind="show" identifier="showFileScreen" id="PuQ-7q-yFo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kqu-i8-qtc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -721,7 +745,7 @@
                 <exit id="69A-0p-zUw" userLabel="Exit" sceneMemberID="exit"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="OAl-Kr-4Yu"/>
             </objects>
-            <point key="canvasLocation" x="6165" y="-278"/>
+            <point key="canvasLocation" x="6012" y="-467"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="v3r-17-09e">

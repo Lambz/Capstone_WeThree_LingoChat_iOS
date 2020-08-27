@@ -66,6 +66,7 @@ class LoginViewController: UIViewController {
         setupFieldIcons()
         setupButtonsShadow()
         passwordLengthError.isHidden = true
+        forgotPassword.isHidden = true
     }
     
     deinit {

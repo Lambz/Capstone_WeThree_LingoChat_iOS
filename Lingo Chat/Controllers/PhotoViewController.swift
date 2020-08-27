@@ -18,5 +18,6 @@ class PhotoViewController: UIViewController {
         super.viewDidLoad()
         imageViewer.sd_setImage(with: imageUrl, completed: nil)
         self.tabBarController?.tabBar.isHidden = true
+        view.backgroundColor = .black
     }
 }
