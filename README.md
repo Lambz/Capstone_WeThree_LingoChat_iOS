@@ -1,10 +1,11 @@
 # Capstone_WeThree_LingoChat_iOS
 iOS application of LingoChat for Capstone project
-
+Developed using: Swift, UiKit, Firebase
 ### LingoChat: Get messages translated in your language real time
-Also share photos, media, location and files.
-Localization supported.
-Languages: English, Hindi, Spanish, German, French
+- Also share photos, media, location and files.
+- Localization supported.
+- Google Sign In
+- Languages: English, Hindi, Spanish, German, French
 
 - ### Login Screen
 ![Simulator Screen Shot - iPhone 11 - 2020-09-10 at 15 14 25](https://user-images.githubusercontent.com/60823789/92790387-bdda1580-f379-11ea-9063-390433bce609.png)
