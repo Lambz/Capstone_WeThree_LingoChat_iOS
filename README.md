@@ -15,10 +15,6 @@ Also share photos, media, location and files.
 ![Simulator Screen Shot - iPhone 11 - 2020-09-10 at 15 14 53](https://user-images.githubusercontent.com/60823789/92790391-bdda1580-f379-11ea-9f42-68c389d34b29.png)
 - ### Contact List Screen
 ![Simulator Screen Shot - iPhone 11 - 2020-09-10 at 15 15 10](https://user-images.githubusercontent.com/60823789/92790392-be72ac00-f379-11ea-8347-824e11568116.png)
-- ### Video send Screen
-![Simulator Screen Shot - iPhone 11 - 2020-09-10 at 15 21 40](https://user-images.githubusercontent.com/60823789/92790406-bfa3d900-f379-11ea-9381-3501cc0d4e05.png)
-- ### Location share Screen
-![Simulator Screen Shot - iPhone 11 - 2020-09-10 at 15 22 13](https://user-images.githubusercontent.com/60823789/92790408-bfa3d900-f379-11ea-9c83-74e576ff8f3f.png)
 - ### Onboarding Screen
 ![Simulator Screen Shot - iPhone 11 Pro - 2020-09-10 at 15 18 19](https://user-images.githubusercontent.com/60823789/92790415-c03c6f80-f379-11ea-8ca6-10c345a30a72.png)
 - ### Conversation Screen
@@ -28,6 +24,10 @@ Also share photos, media, location and files.
 ![Simulator Screen Shot - iPhone 11 - 2020-09-10 at 15 19 57](https://user-images.githubusercontent.com/60823789/92793628-9173c880-f37c-11ea-9f81-95a997f53ce7.png)
 - ### Video Screen
 ![Simulator Screen Shot - iPhone 11 Pro - 2020-09-10 at 15 21 46](https://user-images.githubusercontent.com/60823789/92790419-c0d50600-f379-11ea-9f26-fe0bbcb1b302.png)
+- ### Video send Screen
+![Simulator Screen Shot - iPhone 11 - 2020-09-10 at 15 21 40](https://user-images.githubusercontent.com/60823789/92790406-bfa3d900-f379-11ea-9381-3501cc0d4e05.png)
+- ### Location share Screen
+![Simulator Screen Shot - iPhone 11 - 2020-09-10 at 15 22 13](https://user-images.githubusercontent.com/60823789/92790408-bfa3d900-f379-11ea-9c83-74e576ff8f3f.png)
 - ### Location Screen
 ![Simulator Screen Shot - iPhone 11 Pro - 2020-09-10 at 15 22 08](https://user-images.githubusercontent.com/60823789/92790421-c0d50600-f379-11ea-8d46-843a8adfad0b.png)
 
