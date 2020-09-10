@@ -3,6 +3,8 @@ iOS application of LingoChat for Capstone project
 
 ### LingoChat: Get messages translated in your language real time
 Also share photos, media, location and files.
+Localization supported.
+Languages: English, Hindi, Spanish, German, French
 
 - ### Login Screen
 ![Simulator Screen Shot - iPhone 11 - 2020-09-10 at 15 14 25](https://user-images.githubusercontent.com/60823789/92790387-bdda1580-f379-11ea-9063-390433bce609.png)
@@ -13,6 +15,8 @@ Also share photos, media, location and files.
 ![Simulator Screen Shot - iPhone 11 - 2020-09-10 at 15 14 49](https://user-images.githubusercontent.com/60823789/92790389-bdda1580-f379-11ea-870f-42564bed1bdd.png)
 - ### Settings Screen
 ![Simulator Screen Shot - iPhone 11 - 2020-09-10 at 15 14 53](https://user-images.githubusercontent.com/60823789/92790391-bdda1580-f379-11ea-9f42-68c389d34b29.png)
+- ### Localization
+![Simulator Screen Shot - iPhone 11 Pro - 2020-09-10 at 16 05 04](https://user-images.githubusercontent.com/60823789/92796855-8b331b80-f37f-11ea-8db6-1f2a9f397620.png)
 - ### Contact List Screen
 ![Simulator Screen Shot - iPhone 11 - 2020-09-10 at 15 15 10](https://user-images.githubusercontent.com/60823789/92790392-be72ac00-f379-11ea-8347-824e11568116.png)
 - ### Onboarding Screen
