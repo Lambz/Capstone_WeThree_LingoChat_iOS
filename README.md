@@ -1,4 +1,7 @@
-# Capstone_WeThree_LingoChat_iOS
+# LingoChat - iOS
+Android Version: [link](https://github.com/Lambz/Capstone_WeThree_LingoChat_Android)
+<br/>Website Version: [link](https://github.com/Lambz/Capstone_WeThree_LingoChat-Web)
+<br/>
 iOS application of LingoChat for Capstone project
 Developed using: Swift, UiKit, Firebase
 ### LingoChat: Get messages translated in your language real time
