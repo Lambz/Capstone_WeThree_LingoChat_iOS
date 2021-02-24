@@ -13,6 +13,17 @@ Android Version: [link](https://github.com/Lambz/Capstone_WeThree_LingoChat_Andr
 
 # Demo
 
+## Login Demo
+<image src="./readme_res/userlogin.gif" />
+
+## Message Sending Demo
+<image src="./readme_res/message.gif" />
+
+## Photo Sending Demo
+<image src="./readme_res/sendPhoto.gif" />
+
+## Language Change Demo
+<image src="./readme_res/chaneLanguage.gif" />
 
 # Screenshots
 
