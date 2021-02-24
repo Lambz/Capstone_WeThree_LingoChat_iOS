@@ -18,15 +18,20 @@ Android Version: [link](https://github.com/Lambz/Capstone_WeThree_LingoChat_Andr
 
 ## Login Screen
 <image src="./readme_res/login.png" width="300" />
+
 ## Signup Screen
 <image src="./readme_res/signup.png" width="300" />
+
 ## Chat List Screen
 <image src="./readme_res/chatlist.png" width="300" />
+
 ## Settings Screen
 <image src="./readme_res/settings.png" width="300" />
-<image src="./readme_res/translatedsettings.png" width="300" />
+<image src="./readme_res/translatedSettings.png" width="300" />
+
 ## Conversation Screen
 <image src="./readme_res/message.png" width="300" />
+
 ## Location share Screen
-<image src="./readme_res/login.png" width="300" />
+<image src="./readme_res/location.png" width="300" />
 
